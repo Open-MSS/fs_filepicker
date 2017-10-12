@@ -1,0 +1,12 @@
+include README
+include LICENSE
+
+recursive-include fslib *
+recursive-include *
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.orig
+global-exclude *.rej
+global-exclude *.sample
+global-exclude *.ui
+global-exclude .gitignore

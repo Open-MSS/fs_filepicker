@@ -1,0 +1,9 @@
+fs_filepicker
+~~~~~~~~~~~~~
+
+
+Syntax::
+  from fs_filepicker import filepicker
+  filename = filepicker(fs_name=u'~/', file_pattern=u'*.*')
+ 
+ 
