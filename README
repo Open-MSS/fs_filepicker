@@ -3,7 +3,8 @@ fs_filepicker
 
 
 Syntax::
-  from fs_filepicker import filepicker
-  filename = filepicker(fs_name=u'~/', file_pattern=u'*.*')
+  from fslib.fs_filepicker import filepicker
+  filename = filepicker(parent=None, fs_name=u'~/', file_pattern=u'*.*')
+  print(filename)
  
  
