@@ -72,7 +72,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.close()
 
 
-def fs_filepicker(parent=None, fs_name=u'~/.config', file_pattern=u'*.*', title=u'FS File Picker'):
+def fs_filepicker(parent=None, fs_name=u'~/', file_pattern=u'*.*', title=u'FS File Picker'):
     if parent is None:
         app = QtWidgets.QApplication(sys.argv)
     form = FilePicker(parent, fs_name, file_pattern, title=title)
