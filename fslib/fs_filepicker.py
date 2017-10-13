@@ -31,11 +31,11 @@ from fslib import fs_filedialog
 
 
 class FilePicker(QtWidgets.QMainWindow, fs_filedialog.Ui_MainWindow):
-    def __init__(self, parent=None, fs_name=u"~/", file_pattern=u'*.*'):
+    def __init__(self, parent=None, fs_name=u"~/", file_pattern=u'*.*', title=u'FS File Picker'):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
         self.filename = None
-        self.setWindowTitle("FS File Picker")
+        self.setWindowTitle(title)
         self.fs_name = fs_name
         self.home_fs = None
         self.last_index = 0
@@ -73,14 +73,16 @@ class FilePicker(QtWidgets.QMainWindow, fs_filedialog.Ui_MainWindow):
         self.close()
 
 
-def fs_filepicker(parent=None, fs_name=u'~/', file_pattern=u'*.*'):
+def fs_filepicker(parent=None, fs_name=u'~/.config', file_pattern=u'*.*', title=u'FS File Picker'):
     if parent is None:
         app = QtWidgets.QApplication(sys.argv)
-    form = FilePicker(parent, fs_name, file_pattern)
+    form = FilePicker(parent, fs_name, file_pattern, title=title)
     form.show()
     if parent is None:
         app.exec_()
-    return path.combine(form.fs_name, form.filename)
+
+    fs_path = path.combine(form.fs_name, form.filename)
+    return fs_path
 
 if __name__ == '__main__':
     print(fs_filepicker())
