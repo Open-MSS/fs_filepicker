@@ -25,7 +25,7 @@
 """
 import sys
 
-from fs import open_fs
+from fs import open_fs, path
 from PyQt5 import QtWidgets
 from fslib import fs_filedialog
 
@@ -73,13 +73,15 @@ class FilePicker(QtWidgets.QMainWindow, fs_filedialog.Ui_MainWindow):
         self.close()
 
 
-def filepicker(parent=None, fs_name=u'~/', file_pattern=u'*.*'):
-    app = QtWidgets.QApplication(sys.argv)
+def fs_filepicker(parent=None, fs_name=u'~/', file_pattern=u'*.*'):
+    if parent is None:
+        app = QtWidgets.QApplication(sys.argv)
     form = FilePicker(parent, fs_name, file_pattern)
     form.show()
-    app.exec_()
-    return form.filename
+    if parent is None:
+        app.exec_()
+    return path.combine(form.fs_name, form.filename)
 
 if __name__ == '__main__':
-    print(filepicker())
+    print(fs_filepicker())
 
