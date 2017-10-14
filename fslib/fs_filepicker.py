@@ -30,12 +30,12 @@ from PyQt5 import QtWidgets
 from fslib import ui_filepicker
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
-    def __init__(self, parent=None, fs_name=u"~/", file_pattern=u'*.*', title=u'FS File Picker'):
+    def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker'):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
         self.filename = None
         self.setWindowTitle(title)
-        self.fs_name = fs_name
+        self.fs_url = fs_url
         self.home_fs = None
         self.last_index = 0
         self.file_pattern = file_pattern
@@ -47,7 +47,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def browse_folder(self):
         self.DirList.clear()
-        self.home_fs = open_fs(self.fs_name)
+        self.home_fs = open_fs(self.fs_url)
         for dir_path in self.home_fs.walk.dirs():
             self.DirList.addItem(dir_path)
         self.selection_directory(0)
@@ -72,15 +72,15 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.close()
 
 
-def fs_filepicker(parent=None, fs_name=u'~/', file_pattern=u'*.*', title=u'FS File Picker'):
+def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS File Picker'):
     if parent is None:
         app = QtWidgets.QApplication(sys.argv)
-    form = FilePicker(parent, fs_name, file_pattern, title=title)
+    form = FilePicker(parent, fs_url, file_pattern, title=title)
     form.show()
     if parent is None:
         app.exec_()
 
-    fs_path = path.combine(form.fs_name, form.filename)
+    fs_path = path.combine(form.fs_url, form.filename)
     return fs_path
 
 if __name__ == '__main__':
