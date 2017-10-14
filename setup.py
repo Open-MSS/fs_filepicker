@@ -6,7 +6,7 @@
 
     setuptools script
 
-    This file is part of fslib.
+    This file is part of fs_filepicker.
 
     :copyright: Copyright 2017 Reimar Bauer
     :license: APACHE-2.0, see LICENSE for details.
@@ -28,7 +28,7 @@
 # it to generate your project's PyPI page.
 from past.builtins import execfile
 from setuptools import setup, find_packages
-long_description = open('README').read()
+long_description = open('README.rst').read()
 execfile('fslib/version.py')
 
 setup(

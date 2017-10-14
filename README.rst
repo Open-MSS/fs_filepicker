@@ -1,6 +1,7 @@
 fs_filepicker
 ~~~~~~~~~~~~~
 
+fs_filepicker is based on pyfilesysmte2
 
 Syntax::
   from fslib.fs_filepicker import fs_filepicker
