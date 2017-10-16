@@ -71,8 +71,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.close()
 
     def open(self):
-        self.filename = self.FileList.item(self.FileList.currentRow()).text()
-        self.close()
+        try:
+            self.filename = self.FileList.item(self.FileList.currentRow()).text()
+        except AttributeError:
+            pass
+        else:
+            self.close()
 
 
 def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS File Picker'):
