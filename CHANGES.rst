@@ -5,8 +5,10 @@ Changelog
 Version 0.0.3
 -------------
 
+ - selecting of files improved
  - filelist shows only files, matching by fnmatch
  - fs_url directory added
+ - on enter selection of a file is checked
  - renamed fs_name to fs_url
 
 

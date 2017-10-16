@@ -28,7 +28,7 @@ import sys
 from fs import open_fs, path
 from PyQt5 import QtWidgets, QtGui
 from fslib import ui_filepicker
-from utils import match_extension
+from fslib.utils import match_extension
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker'):
