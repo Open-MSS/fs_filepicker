@@ -26,7 +26,7 @@
 import sys
 
 from fs import open_fs, path
-from PyQt5 import QtWidgets, QtGui
+from PyQt5 import QtWidgets
 from fslib import ui_filepicker
 from fslib.utils import match_extension
 
@@ -47,6 +47,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.buttonBox.button(self.buttonBox.Open).clicked.connect(self.open)
 
     def browse_folder(self):
+        """
+        walks through all folders and selects first directory
+        """
         self.DirList.clear()
         self.home_fs = open_fs(self.fs_url)
         self.DirList.addItem(u'.')
@@ -56,24 +59,38 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.DirList.currentIndexChanged.connect(self.selection_directory)
 
     def selection_directory(self, i):
+        """
+        Fills the filenames based on file_type into a FileList
+
+        :param i: index of selelection
+        """
         self.last_index = i
         selected_dir = self.DirList.currentText()
         self.FileList.clear()
         file_type = self.file_type.text()
         for item in self.home_fs.listdir(selected_dir):
             if not self.home_fs.isdir(item) and match_extension(item, [file_type]):
-                    self.FileList.addItem(item)
+                self.FileList.addItem(item)
         if self.last_index == 0:
             self.FileList.setCurrentRow(0)
 
     def selection_file_type(self):
+        """
+        Action for line edit of file type
+        """
         self.selection_directory(self.last_index)
         self.FileList.setCurrentRow(-1)
 
     def cancel(self):
+        """
+        Action on cancel button
+        """
         self.close()
 
     def open(self):
+        """
+        Action on open button
+        """
         try:
             self.filename = self.FileList.item(self.FileList.currentRow()).text()
         except AttributeError:
@@ -83,6 +100,15 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
 
 def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS File Picker'):
+    """
+    Selects a file by FilePicker for a given pyfilesystem2 Url.
+
+    :param parent: parent Widget
+    :param fs_url: pyfilesystem2 url
+    :param file_pattern: filter pattern of pyfilesystem2
+    :param title: title of QtWidget
+    :return: selected filename
+    """
     if parent is None:
         app = QtWidgets.QApplication(sys.argv)
     form = FilePicker(parent, fs_url, file_pattern, title=title)

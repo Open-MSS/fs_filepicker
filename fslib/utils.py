@@ -26,6 +26,15 @@
 import fnmatch
 
 
-def match_extension(name,extensions=[u"*.*"]):
-  for pattern in extensions:
-    return fnmatch.fnmatch(name, pattern)
+def match_extension(name, extensions=None):
+    """
+    Determines if a file name matches an extension
+
+    :param name: filename to be examined
+    :param extensions: fnmatch file pattern
+    :return: boolean True, if match is successful
+    """
+    if extensions is None:
+        extensions = [u"*.*"]
+    for pattern in extensions:
+        return fnmatch.fnmatch(name, pattern)
