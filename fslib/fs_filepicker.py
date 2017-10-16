@@ -28,6 +28,7 @@ import sys
 from fs import open_fs, path
 from PyQt5 import QtWidgets
 from fslib import ui_filepicker
+from utils import match_extension
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker'):
@@ -59,8 +60,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         selected_dir = self.DirList.currentText()
         self.FileList.clear()
         file_type = self.file_type.text()
-        for files in self.home_fs.walk.files(selected_dir, filter=[unicode(file_type)]):
-            self.FileList.addItem(files)
+        for item in self.home_fs.listdir(selected_dir):
+            if not self.home_fs.isdir(item) and match_extension(item, [file_type]):
+                    self.FileList.addItem(item)
 
     def selection_file_type(self):
         self.selection_directory(self.last_index)
