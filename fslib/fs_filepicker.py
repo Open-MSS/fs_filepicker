@@ -26,7 +26,7 @@
 import sys
 
 from fs import open_fs, path
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui
 from fslib import ui_filepicker
 from utils import match_extension
 
@@ -63,9 +63,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         for item in self.home_fs.listdir(selected_dir):
             if not self.home_fs.isdir(item) and match_extension(item, [file_type]):
                     self.FileList.addItem(item)
+        if self.last_index == 0:
+            self.FileList.setCurrentRow(0)
 
     def selection_file_type(self):
         self.selection_directory(self.last_index)
+        self.FileList.setCurrentRow(-1)
 
     def cancel(self):
         self.close()
