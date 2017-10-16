@@ -110,18 +110,16 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
     :param title: title of QtWidget
     :return: selected filename
     """
-    if parent is None:
-        app = QtWidgets.QApplication(sys.argv)
-    form = FilePicker(parent, fs_url, file_pattern, title=title)
-    form.show()
-    if parent is None:
-        app.exec_()
+    fp = FilePicker(parent, fs_url, file_pattern, title=title)
+    fp.setModal(True)
+    fp.exec_()
+    filename = None
+    if fp.filename is not None:
+        filename = path.combine(fp.fs_url, path.join(fp.selected_dir, fp.filename))
+    return filename
 
-    fs_path = None
-    if form.filename is not None:
-        fs_path = path.combine(form.fs_url, path.join(form.selected_dir, form.filename))
-    return fs_path
 
 if __name__ == '__main__':
-    print(fs_filepicker())
+    app = QtWidgets.QApplication(sys.argv)
+    print(fs_filepicker(None))
 
