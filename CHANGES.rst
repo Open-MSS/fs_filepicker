@@ -5,6 +5,8 @@ Changelog
 Version 0.0.3
 -------------
 
+ - filelist shows only files, matching by fnmatch
+ - fs_url directory added
  - renamed fs_name to fs_url
 
 
