@@ -34,6 +34,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker'):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
+        self.selected_dir = None
         self.filename = None
         self.setWindowTitle(title)
         self.fs_url = fs_url
@@ -65,10 +66,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         :param i: index of selelection
         """
         self.last_index = i
-        selected_dir = self.DirList.currentText()
+        self.selected_dir = self.DirList.currentText()
         self.FileList.clear()
         file_type = self.file_type.text()
-        for item in sorted(self.home_fs.listdir(selected_dir)):
+        for item in sorted(self.home_fs.listdir(self.selected_dir)):
             if not self.home_fs.isdir(item) and match_extension(item, [file_type]):
                 self.FileList.addItem(item)
         if self.last_index == 0:
@@ -116,7 +117,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
     if parent is None:
         app.exec_()
 
-    fs_path = path.combine(form.fs_url, form.filename)
+    fs_path = path.combine(form.fs_url, path.join(form.selected_dir, form.filename))
     return fs_path
 
 if __name__ == '__main__':
