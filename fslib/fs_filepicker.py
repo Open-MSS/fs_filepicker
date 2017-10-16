@@ -117,7 +117,9 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
     if parent is None:
         app.exec_()
 
-    fs_path = path.combine(form.fs_url, path.join(form.selected_dir, form.filename))
+    fs_path = None
+    if form.filename is not None:
+        fs_path = path.combine(form.fs_url, path.join(form.selected_dir, form.filename))
     return fs_path
 
 if __name__ == '__main__':
