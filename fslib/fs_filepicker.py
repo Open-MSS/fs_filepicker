@@ -50,7 +50,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.DirList.clear()
         self.home_fs = open_fs(self.fs_url)
         self.DirList.addItem(u'.')
-        for dir_path in self.home_fs.walk.dirs():
+        for dir_path in self.home_fs.walk.dirs(ignore_errors=True):
             self.DirList.addItem(dir_path)
         self.selection_directory(0)
         self.DirList.currentIndexChanged.connect(self.selection_directory)
