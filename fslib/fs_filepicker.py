@@ -53,7 +53,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.DirList.clear()
         self.home_fs = open_fs(self.fs_url)
         self.DirList.addItem(u'.')
-        for dir_path in self.home_fs.walk.dirs(ignore_errors=True):
+        for dir_path in sorted(self.home_fs.walk.dirs(ignore_errors=True)):
             self.DirList.addItem(dir_path)
         self.selection_directory(0)
         self.DirList.currentIndexChanged.connect(self.selection_directory)
@@ -68,7 +68,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         selected_dir = self.DirList.currentText()
         self.FileList.clear()
         file_type = self.file_type.text()
-        for item in self.home_fs.listdir(selected_dir):
+        for item in sorted(self.home_fs.listdir(selected_dir)):
             if not self.home_fs.isdir(item) and match_extension(item, [file_type]):
                 self.FileList.addItem(item)
         if self.last_index == 0:
