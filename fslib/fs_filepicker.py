@@ -48,6 +48,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def browse_folder(self):
         self.DirList.clear()
         self.home_fs = open_fs(self.fs_url)
+        self.DirList.addItem(u'.')
         for dir_path in self.home_fs.walk.dirs():
             self.DirList.addItem(dir_path)
         self.selection_directory(0)
