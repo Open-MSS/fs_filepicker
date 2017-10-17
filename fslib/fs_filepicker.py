@@ -24,10 +24,11 @@
     limitations under the License.
 """
 import sys
+import argparse
 
 from fs import open_fs, path
 from PyQt5 import QtWidgets
-from fslib import ui_filepicker
+from fslib import ui_filepicker, __version__
 from fslib.utils import match_extension
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
@@ -118,8 +119,23 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
         filename = path.combine(fp.fs_url, path.join(fp.selected_dir, fp.filename))
     return filename
 
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--version", help="show version", action="store_true", default=False)
+    parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/")
+    parser.add_argument("-f", "--file_pattern", help="file pattern", default=u"*.*")
+    parser.add_argument("-t", "--title", help="title of window", default=u'FS File Picker')
+    args = parser.parse_args()
+    if args.version:
+        print("***********************************************************************")
+        print("\n            File Picker Version \n")
+        print("***********************************************************************")
+        print("Version:", __version__)
+        sys.exit()
+    app = QtWidgets.QApplication([])
+    fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern, title=args.title)
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication(sys.argv)
-    print(fs_filepicker(None))
+    print(main())
+
 
