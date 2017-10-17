@@ -1,5 +1,6 @@
 {% set name = "fs_filepicker" %}
-{% set version = "0.0.1" %}
+{% set version = load_setup_py_data().version %}
+
 
 package:
   name: {{ name }}
@@ -7,29 +8,33 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://github.com/ReimarBauer/fs_filepicker/archive/{{ version }}.tar.gz
   sha256: 
 
 build:
   noarch: python
   number: 0
+  entry_points:
+   - fs_filepicker = fslib.fs_filepicker:main
   script: python setup.py install --single-version-externally-managed --record record.txt
 
 requirements:
   build:
     - python
     - setuptools
+    - future
 
   run:
     - python
     - setuptools
     - pyqt
     - fs
-    - future
 
 test:
   imports:
     - fslib.fs_filepicker
+  commands:
+    - fs_filepicker -h
 
 about:
   home: https://github.com/ReimarBauer/fs_filepicker 

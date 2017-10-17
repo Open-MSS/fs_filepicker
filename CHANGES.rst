@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.0.4
+-------------
+
+ - commandline call added
+ - simplified loader function
+ - fixed return path
+ - sorted directores and files
+
 
 Version 0.0.3
 -------------
