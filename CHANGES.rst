@@ -1,6 +1,13 @@
 Changelog
 =========
 
+
+Version 0.0.5
+-------------
+
+ - name field added, shows selected name
+ - Save feature added
+
 Version 0.0.4
 -------------
 
