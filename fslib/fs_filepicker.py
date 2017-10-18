@@ -42,7 +42,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.home_fs = None
         self.last_index = 0
         self.file_pattern = file_pattern
-        self.show_action(show_save_action)
+        self.show_save_action = show_save_action
+        self.show_action()
         self.file_type.setText(self.file_pattern)
         self.browse_folder()
         self.file_type.returnPressed.connect(self.selection_file_type)
@@ -105,25 +106,29 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         self.close()
 
-    def show_action(self, show_save_action):
+    def show_action(self):
         """
         changes the Open Button into a Save Button
 
         :param show_save_action: True for showing the Save dialog
         """
-        if show_save_action:
+        if self.show_save_action:
             self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
 
     def action(self):
         """
-        Action on open button
+        Action on open / save button
         """
-        try:
-            self.filename = self.FileList.item(self.FileList.currentRow()).text()
-        except AttributeError:
-            pass
-        else:
+        if self.show_save_action:
+            self.filename = self.selected_name.text()
             self.close()
+        else:
+            try:
+                self.filename = self.FileList.item(self.FileList.currentRow()).text()
+            except AttributeError:
+                pass
+            else:
+                self.close()
 
 
 def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS File Picker', show_save_action=False):
