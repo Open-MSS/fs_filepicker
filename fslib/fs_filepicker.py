@@ -46,7 +46,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.browse_folder()
         self.file_type.returnPressed.connect(self.selection_file_type)
         self.buttonBox.button(self.buttonBox.Cancel).clicked.connect(self.cancel)
-        self.buttonBox.button(self.buttonBox.Open).clicked.connect(self.open)
+        self.buttonBox.button(self.buttonBox.Open).clicked.connect(self.action)
         self.FileList.itemClicked.connect(self.show_name)
 
     def browse_folder(self):
@@ -94,7 +94,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         self.close()
 
-    def open(self):
+    def action(self):
         """
         Action on open button
         """
@@ -127,7 +127,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", help="show version", action="store_true", default=False)
-    parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/.config/mss")
+    parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/")
     parser.add_argument("-f", "--file_pattern", help="file pattern", default=u"*.*")
     parser.add_argument("-t", "--title", help="title of window", default=u'FS File Picker')
     args = parser.parse_args()
@@ -138,7 +138,7 @@ def main():
         print("Version:", __version__)
         sys.exit()
     app = QtWidgets.QApplication([])
-    fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern, title=args.title)
+    return fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern, title=args.title)
 
 if __name__ == '__main__':
     print(main())
