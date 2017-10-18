@@ -46,20 +46,20 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.file_pattern = file_pattern
         self.show_save_action = show_save_action
         self.show_action()
-        self.file_type.setText(self.file_pattern)
+        self.ui_FileType.setText(self.file_pattern)
         self.browse_folder()
-        self.file_type.returnPressed.connect(self.selection_file_type)
-        self.buttonBox.button(self.buttonBox.Cancel).clicked.connect(self.cancel)
+        self.ui_FileType.returnPressed.connect(self.selection_file_type)
+        self.ui_ButtonBox.button(self.ui_ButtonBox.Cancel).clicked.connect(self.cancel)
         self.action_buttons()
-        self.FileList.itemClicked.connect(self.show_name)
+        self.ui_FileList.itemClicked.connect(self.show_name)
 
     def action_buttons(self):
         try:
-            self.buttonBox.button(self.buttonBox.Open).clicked.connect(self.action)
+            self.ui_ButtonBox.button(self.ui_ButtonBox.Open).clicked.connect(self.action)
         except AttributeError:
             pass
         try:
-            self.buttonBox.button(self.buttonBox.Save).clicked.connect(self.action)
+            self.ui_ButtonBox.button(self.ui_ButtonBox.Save).clicked.connect(self.action)
         except AttributeError:
             pass
 
@@ -67,13 +67,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         walks through all folders and selects first directory
         """
-        self.DirList.clear()
+        self.ui_DirList.clear()
         self.home_fs = open_fs(self.fs_url)
-        self.DirList.addItem(u'.')
+        self.ui_DirList.addItem(u'.')
         for dir_path in sorted(self.home_fs.walk.dirs(ignore_errors=True)):
-            self.DirList.addItem(dir_path)
+            self.ui_DirList.addItem(dir_path)
         self.selection_directory(0)
-        self.DirList.currentIndexChanged.connect(self.selection_directory)
+        self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
     def selection_directory(self, i):
         """
@@ -82,25 +82,25 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         :param i: index of selelection
         """
         self.last_index = i
-        self.selected_dir = self.DirList.currentText()
-        self.FileList.clear()
-        file_type = self.file_type.text()
+        self.selected_dir = self.ui_DirList.currentText()
+        self.ui_FileList.clear()
+        file_type = self.ui_FileType.text()
         for item in sorted(self.home_fs.listdir(self.selected_dir)):
             if not self.home_fs.isdir(item) and match_extension(item, [file_type]):
-                self.FileList.addItem(item)
+                self.ui_FileList.addItem(item)
         if self.last_index == 0:
-            self.FileList.setCurrentRow(0)
+            self.ui_FileList.setCurrentRow(0)
 
     def selection_file_type(self):
         """
         Action for line edit of file type
         """
         self.selection_directory(self.last_index)
-        self.FileList.setCurrentRow(-1)
+        self.ui_FileList.setCurrentRow(-1)
 
     def show_name(self):
-        self.filename = self.FileList.item(self.FileList.currentRow()).text()
-        self.selected_name.setText(self.filename)
+        self.filename = self.ui_FileList.item(self.ui_FileList.currentRow()).text()
+        self.ui_SelectedName.setText(self.filename)
 
     def cancel(self):
         """
@@ -115,20 +115,20 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         :param show_save_action: True for showing the Save dialog
         """
         if self.show_save_action:
-            self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
+            self.ui_ButtonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
             if self.default_filename is not None:
-                self.selected_name.setText(self.default_filename)
+                self.ui_SelectedName.setText(self.default_filename)
 
     def action(self):
         """
         Action on open / save button
         """
         if self.show_save_action:
-            self.filename = self.selected_name.text()
+            self.filename = self.ui_SelectedName.text()
             self.close()
         else:
             try:
-                self.filename = self.FileList.item(self.FileList.currentRow()).text()
+                self.filename = self.ui_FileList.item(self.ui_FileList.currentRow()).text()
             except AttributeError:
                 pass
             else:

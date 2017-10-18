@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QListWidget" name="FileList">
+  <widget class="QListWidget" name="ui_FileList">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -23,7 +23,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QComboBox" name="DirList">
+  <widget class="QComboBox" name="ui_DirList">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -59,7 +59,7 @@
     <string>Files of type:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="file_type">
+  <widget class="QLineEdit" name="ui_FileType">
    <property name="geometry">
     <rect>
      <x>110</x>
@@ -69,7 +69,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QDialogButtonBox" name="buttonBox">
+  <widget class="QDialogButtonBox" name="ui_ButtonBox">
    <property name="geometry">
     <rect>
      <x>480</x>
@@ -98,7 +98,7 @@
     <string>Name:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="selected_name">
+  <widget class="QLineEdit" name="ui_SelectedName">
    <property name="geometry">
     <rect>
      <x>100</x>
