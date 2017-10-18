@@ -32,7 +32,8 @@ from fslib import ui_filepicker, __version__
 from fslib.utils import match_extension
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
-    def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker', show_save_action=False):
+    def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker',
+                 default_filename=None, show_save_action=False):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
         self.selected_dir = None
@@ -41,6 +42,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.fs_url = fs_url
         self.home_fs = None
         self.last_index = 0
+        self.default_filename = default_filename
         self.file_pattern = file_pattern
         self.show_save_action = show_save_action
         self.show_action()
@@ -114,6 +116,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         if self.show_save_action:
             self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
+            if self.default_filename is not None:
+                self.selected_name.setText(self.default_filename)
 
     def action(self):
         """
@@ -131,7 +135,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.close()
 
 
-def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS File Picker', show_save_action=False):
+def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS File Picker',
+                  default_filename=None, show_save_action=False):
     """
     Selects a file by FilePicker for a given pyfilesystem2 Url.
 
@@ -141,7 +146,8 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
     :param title: title of QtWidget
     :return: selected filename
     """
-    fp = FilePicker(parent, fs_url, file_pattern, title=title, show_save_action=show_save_action)
+    fp = FilePicker(parent, fs_url, file_pattern, title=title,
+                    default_filename=default_filename, show_save_action=show_save_action)
     fp.setModal(True)
     fp.exec_()
     filename = None
@@ -153,6 +159,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", help="show version", action="store_true", default=False)
     parser.add_argument("-s", "--save", help="show save button", action="store_true", default=False)
+    parser.add_argument("-d", "--default_name", help="default name for saving", default=None)
     parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/")
     parser.add_argument("-f", "--file_pattern", help="file pattern", default=u"*.*")
     parser.add_argument("-t", "--title", help="title of window", default=u'FS File Picker')
@@ -166,7 +173,8 @@ def main():
         sys.exit()
     app = QtWidgets.QApplication([])
     return fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern,
-                         title=args.title, show_save_action=args.save)
+                         title=args.title, default_filename=args.default_name,
+                         show_save_action=args.save)
 
 if __name__ == '__main__':
     print(main())
