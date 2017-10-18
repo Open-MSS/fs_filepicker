@@ -47,6 +47,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.file_type.returnPressed.connect(self.selection_file_type)
         self.buttonBox.button(self.buttonBox.Cancel).clicked.connect(self.cancel)
         self.buttonBox.button(self.buttonBox.Open).clicked.connect(self.open)
+        self.FileList.itemClicked.connect(self.show_name)
 
     def browse_folder(self):
         """
@@ -82,6 +83,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         self.selection_directory(self.last_index)
         self.FileList.setCurrentRow(-1)
+
+    def show_name(self):
+        self.filename = self.FileList.item(self.FileList.currentRow()).text()
+        self.selected_name.setText(self.filename)
 
     def cancel(self):
         """
@@ -122,7 +127,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", help="show version", action="store_true", default=False)
-    parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/")
+    parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/.config/mss")
     parser.add_argument("-f", "--file_pattern", help="file pattern", default=u"*.*")
     parser.add_argument("-t", "--title", help="title of window", default=u'FS File Picker')
     args = parser.parse_args()
