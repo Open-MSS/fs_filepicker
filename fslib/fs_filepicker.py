@@ -40,7 +40,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.filename = None
         self.setWindowTitle(title)
         self.fs_url = fs_url
-        self.home_fs = None
+        self.fs = None
         self.last_index = 0
         self.default_filename = default_filename
         self.file_pattern = file_pattern
@@ -68,9 +68,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         walks through all folders and selects first directory
         """
         self.ui_DirList.clear()
-        self.home_fs = open_fs(self.fs_url)
+        self.fs = open_fs(self.fs_url)
         self.ui_DirList.addItem(u'.')
-        for dir_path in sorted(self.home_fs.walk.dirs(ignore_errors=True)):
+        for dir_path in sorted(self.fs.walk.dirs(ignore_errors=True)):
             self.ui_DirList.addItem(dir_path)
         self.selection_directory(0)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
@@ -85,8 +85,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.selected_dir = self.ui_DirList.currentText()
         self.ui_FileList.clear()
         file_type = self.ui_FileType.text()
-        for item in sorted(self.home_fs.listdir(self.selected_dir)):
-            if not self.home_fs.isdir(item) and match_extension(item, [file_type]):
+        for item in sorted(self.fs.listdir(self.selected_dir)):
+            if not self.fs.isdir(item) and match_extension(item, [file_type]):
                 self.ui_FileList.addItem(item)
         if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.setCurrentRow(0)
@@ -130,7 +130,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
-            if self.home_fs.exists(self.filename):
+            if self.fs.exists(self.filename):
                 sel = QtWidgets.QMessageBox.question(
                     self, "Replace Filename",
                     "This will replace the filename: {0}. Continue?".format(self.filename),
