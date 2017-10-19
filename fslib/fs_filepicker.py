@@ -26,7 +26,7 @@
 import sys
 import argparse
 
-from fs import open_fs, path
+import fs
 from PyQt5 import QtWidgets, QtCore
 from fslib import ui_filepicker, __version__
 from fslib.utils import match_extension
@@ -39,7 +39,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.selected_dir = None
         self.filename = None
         self.setWindowTitle(title)
-        self.fs_url = fs_url
+        self.fs_url = unicode(fs_url)
         self.fs = None
         self.last_index = 0
         self.default_filename = default_filename
@@ -68,10 +68,11 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         walks through all folders and selects first directory
         """
         self.ui_DirList.clear()
-        self.fs = open_fs(self.fs_url)
+        self.fs = fs.open_fs(self.fs_url)
         self.ui_DirList.addItem(u'.')
-        for dir_path in sorted(self.fs.walk.dirs(ignore_errors=True)):
-            self.ui_DirList.addItem(dir_path)
+        for dir_path in sorted(self.fs.listdir(u'.')):
+            if self.fs.isdir(dir_path):
+                self.ui_DirList.addItem(dir_path)
         self.selection_directory(0)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
@@ -166,7 +167,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
     fp.exec_()
     filename = None
     if fp.filename is not None:
-        filename = path.combine(fp.fs_url, path.join(fp.selected_dir, fp.filename))
+        filename = fs.path.combine(fp.fs_url, fs.path.join(fp.selected_dir, fp.filename))
     return filename
 
 def main():
