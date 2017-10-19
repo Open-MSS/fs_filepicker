@@ -115,6 +115,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         :param show_save_action: True for showing the Save dialog
         """
         if self.show_save_action:
+            self.ui_SelectedName.setEnabled(True)
             self.ui_ButtonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
             if self.default_filename is not None:
                 self.ui_SelectedName.setText(self.default_filename)

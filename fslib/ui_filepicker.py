@@ -36,6 +36,7 @@ class Ui_Dialog(object):
         self.SaveName.setGeometry(QtCore.QRect(10, 10, 67, 17))
         self.SaveName.setObjectName("SaveName")
         self.ui_SelectedName = QtWidgets.QLineEdit(Dialog)
+        self.ui_SelectedName.setEnabled(False)
         self.ui_SelectedName.setGeometry(QtCore.QRect(100, 10, 461, 25))
         self.ui_SelectedName.setObjectName("ui_SelectedName")
 

@@ -99,6 +99,9 @@
    </property>
   </widget>
   <widget class="QLineEdit" name="ui_SelectedName">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>100</x>
