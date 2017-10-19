@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.0.6
+-------------
+
+ - default filename for storage added
+ - refactoring of internal names
+ - enabled SelectedName only for save
+ - on save action first element of ui_FileList not highlighted
+ - confirmation needed if a file should be replaced
 
 Version 0.0.5
 -------------
