@@ -128,7 +128,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         if self.show_save_action:
             self.filename = self.ui_SelectedName.text()
-            if self.ui_FileList.findItems(self.filename, QtCore.Qt.MatchContains):
+            if self.filename == u"":
+                return
+            if self.home_fs.exists(self.filename):
                 sel = QtWidgets.QMessageBox.question(
                     self, "Replace Filename",
                     "This will replace the filename: {0}. Continue?".format(self.filename),
