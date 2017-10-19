@@ -90,7 +90,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.ui_FileList.addItem(item)
         if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.setCurrentRow(0)
-            self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
+            if self.ui_FileList.currentItem() is not None:
+                self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
 
 
     def selection_file_type(self):
