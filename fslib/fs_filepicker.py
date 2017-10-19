@@ -88,7 +88,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         for item in sorted(self.home_fs.listdir(self.selected_dir)):
             if not self.home_fs.isdir(item) and match_extension(item, [file_type]):
                 self.ui_FileList.addItem(item)
-        if self.last_index == 0:
+        if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.setCurrentRow(0)
 
     def selection_file_type(self):
