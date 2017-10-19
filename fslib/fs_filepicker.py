@@ -27,7 +27,7 @@ import sys
 import argparse
 
 from fs import open_fs, path
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtCore
 from fslib import ui_filepicker, __version__
 from fslib.utils import match_extension
 
@@ -128,7 +128,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         if self.show_save_action:
             self.filename = self.ui_SelectedName.text()
-            self.close()
+            if self.ui_FileList.findItems(self.filename, QtCore.Qt.MatchContains):
+                sel = QtWidgets.QMessageBox.question(
+                    self, "Replace Filename",
+                    "This will replace the filename: {0}. Continue?".format(self.filename),
+                    QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+                if sel == QtWidgets.QMessageBox.Yes:
+                    self.close()
         else:
             try:
                 self.filename = self.ui_FileList.item(self.ui_FileList.currentRow()).text()
