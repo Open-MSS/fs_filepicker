@@ -135,6 +135,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                     QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
                 if sel == QtWidgets.QMessageBox.Yes:
                     self.close()
+            else:
+                self.close()
         else:
             try:
                 self.filename = self.ui_FileList.item(self.ui_FileList.currentRow()).text()
