@@ -1,6 +1,15 @@
 Changelog
 =========
 
+
+
+Version 0.0.7
+-------------
+
+  - fixed if file list is empty
+  - replaced walk by listdir
+  - module level import of fs because of extensions
+
 Version 0.0.6
 -------------
 
