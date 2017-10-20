@@ -36,5 +36,7 @@ def match_extension(name, extensions=None):
     """
     if extensions is None:
         extensions = [u"*.*"]
+    state = []
     for pattern in extensions:
-        return fnmatch.fnmatch(name, pattern)
+        state.append(fnmatch.fnmatch(name, pattern))
+    return True in state
