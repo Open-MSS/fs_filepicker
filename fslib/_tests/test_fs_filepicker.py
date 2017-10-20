@@ -54,7 +54,7 @@ class Test_Open_FilePicker(object):
         assert self.window.filename is None
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QDialogButtonBox.Open",
-                return_value=u"example.txt")
+                return_value=u"example.csv")
     def test_fs_filepicker_ok(self, mockopen):
         pytest.skip("not finished")
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
