@@ -28,6 +28,7 @@ import fs
 
 from conftest import ROOT_FS, ROOT_DIR, TESTDATA_DIR
 
+
 class TestTestdata(object):
     def test_data_available(self):
         assert ROOT_FS.exists(u'.')

@@ -93,7 +93,7 @@ if not on_rtd:  # only import and set the theme if we're building docs locally
     html_theme = 'alabaster'
 else:
     html_context = {
-        'display_github': False, 
+        'display_github': False,
         'last_updated': True,
         'commit': False,
         'css_files': [
@@ -185,6 +185,3 @@ texinfo_documents = [
      author, 'fs_filepicker', 'One line description of project.',
      'Miscellaneous'),
 ]
-
-
-

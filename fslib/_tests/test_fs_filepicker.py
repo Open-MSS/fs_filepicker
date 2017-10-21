@@ -33,8 +33,6 @@ from conftest import ROOT_FS, TESTDATA_DIR, ROOT_DIR
 from fslib import fs_filepicker
 
 
-
-
 class Test_Open_FilePicker(object):
     def setup(self):
         self.application = QtWidgets.QApplication([])
@@ -77,8 +75,6 @@ class Test_Open_FilePicker(object):
         self.window.close()
         assert self.window.filename == u"example.csv"
 
-
-
     def test_selection_file_type(self):
         self.window.file_pattern = u"*.never"
         self.window.ui_FileType.setText(u"*.never")
@@ -89,7 +85,7 @@ class Test_Open_FilePicker(object):
         self.window.browse_folder()
         self.window.selection_directory(0)
         QtWidgets.QApplication.processEvents()
-        assert self.window.filename == None
+        assert self.window.filename is None
         pytest.skip("not finished")
         self.window.ui_FileType.setText(u"*.txt")
         QtWidgets.QApplication.processEvents()

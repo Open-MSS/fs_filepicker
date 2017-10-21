@@ -26,12 +26,12 @@
 
 from fslib.utils import match_extension
 
+
 def test_match_extensions():
     data = [(u"example.csv", [u"*.csv"], True),
             (u"example.csv", [u"*.txt"], False),
             (u"example.csv", [u"*.txt", u"*.csv"], True),
             (u"example.csv", [u"*.csv", u"*.txt"], True),
-            (u"example.csv", [u"*.txt", u"*.png"], False)
-           ]
+            (u"example.csv", [u"*.txt", u"*.png"], False)]
     for name, pattern, state in data:
         assert match_extension(name, pattern) is state

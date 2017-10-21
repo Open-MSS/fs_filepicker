@@ -31,6 +31,7 @@ from PyQt5 import QtWidgets, QtCore
 from fslib import ui_filepicker, __version__
 from fslib.utils import match_extension
 
+
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker',
                  default_filename=None, show_save_action=False):
@@ -92,8 +93,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.setCurrentRow(0)
             if self.ui_FileList.currentItem() is not None:
-               self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
-
+                self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
 
     def selection_file_type(self):
         """
@@ -122,7 +122,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         if self.show_save_action:
             self.ui_SelectedName.setEnabled(True)
-            self.ui_ButtonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Save)
+            self.ui_ButtonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Save)
             if self.default_filename is not None:
                 self.ui_SelectedName.setText(self.default_filename)
 
@@ -172,6 +172,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
         filename = fs.path.combine(fp.fs_url, fs.path.join(fp.selected_dir, fp.filename))
     return filename
 
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", help="show version", action="store_true", default=False)
@@ -195,5 +196,3 @@ def main():
 
 if __name__ == '__main__':
     print(main())
-
-

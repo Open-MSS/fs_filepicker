@@ -25,8 +25,6 @@
 """
 from __future__ import print_function
 
-
-
 import pytest
 import fs
 from fs.tempfs import TempFS
@@ -48,7 +46,8 @@ ROOT_FS = TempFS(identifier=u"fs_filepicker_{}".format(SHA))
 ROOT_DIR = ROOT_FS.root_path
 TESTDATA_DIR = u'testdata'
 SUB_DIRS = [u'testdata/foo', u'testdata/bar']
-    
+
+
 def setup_testdata():
     for dir in SUB_DIRS:
         if not ROOT_FS.exists(dir):
@@ -66,6 +65,7 @@ def setup_testdata():
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR,  dir))
         with data_fs.open(u'foo.txt', 'w') as file_object:
             file_object.write(u'testdata')
+
 
 @pytest.fixture(scope="session", autouse=True)
 def configure_testsetup(request):
