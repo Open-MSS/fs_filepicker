@@ -1,7 +1,13 @@
 Changelog
 =========
 
-
+Version 0.0.8
+-------------
+  - fix clear selected name if file_type is changed and not save action
+  - sphinx documentation introduced
+  - py.test tests introduced
+  - fix match_extensions to handle many extensions
+  - check on save with selected dir and filename
 
 Version 0.0.7
 -------------
