@@ -101,7 +101,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         self.selection_directory(self.last_index)
         self.ui_FileList.setCurrentRow(-1)
-        self.ui_SelectedName.setText(None)
+        if not self.show_save_action:
+            self.ui_SelectedName.setText(None)
 
     def show_name(self):
         self.filename = self.ui_FileList.item(self.ui_FileList.currentRow()).text()
