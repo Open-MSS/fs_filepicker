@@ -24,11 +24,11 @@
     limitations under the License.
 """
 
-import mock
+
 import fs
 import pytest
 
-from PyQt5 import QtWidgets, QtTest
+from PyQt5 import QtCore, QtWidgets, QtTest
 from conftest import ROOT_FS, TESTDATA_DIR, ROOT_DIR
 from fslib import fs_filepicker
 
@@ -48,20 +48,57 @@ class Test_Open_FilePicker(object):
     def teardown(self):
         self.application.quit()
 
-    @mock.patch("fslib.fs_filepicker.QtWidgets.QDialogButtonBox.Cancel",
-                 return_value=None)
-    def test_fs_filepicker_cancel(self, mockcancel):
-        assert self.window.filename is None
+    def test_fs_filepicker_cancel(self):
+        self.window.cancel()
+        filename = self.window.filename
+        self.window.close()
+        assert filename is None
 
-    @mock.patch("fslib.fs_filepicker.QtWidgets.QDialogButtonBox.Open",
-                return_value=u"example.csv")
-    def test_fs_filepicker_ok(self, mockopen):
-        pytest.skip("not finished")
+    def test_fs_filepicker_ok(self):
+        self.window.action()
+        filename = self.window.filename
+        self.window.close()
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
         files = []
-        for item in data_fs.listdir(u'.'):
+        for item in sorted(data_fs.listdir(u'.')):
             if data_fs.isfile(item):
                 files.append(item)
-        assert self.window.filename == files[0]
+        assert filename == files[0]
+
+    def test_selection_directory(self):
+        self.window.ui_DirList.setCurrentIndex(1)
+        self.window.selection_directory(0)
+        QtWidgets.QApplication.processEvents()
+        self.window.close()
+        assert self.window.ui_FileList.currentItem().text() == u"foo.txt"
+
+    def test_showname(self):
+        self.window.show_name()
+        self.window.close()
+        assert self.window.filename == u"example.csv"
 
 
+
+    def test_selection_file_type(self):
+        self.window.file_pattern = u"*.never"
+        self.window.ui_FileType.setText(u"*.never")
+        QtWidgets.QApplication.processEvents()
+        self.window.selection_file_type()
+        QtWidgets.QApplication.processEvents()
+        QtWidgets.QApplication.processEvents()
+        self.window.browse_folder()
+        self.window.selection_directory(0)
+        QtWidgets.QApplication.processEvents()
+        assert self.window.filename == None
+        pytest.skip("not finished")
+        self.window.ui_FileType.setText(u"*.txt")
+        QtWidgets.QApplication.processEvents()
+        self.window.selection_file_type()
+        QtWidgets.QApplication.processEvents()
+        self.window.ui_FileList.setFocus()
+        QtWidgets.QApplication.processEvents()
+        self.window.ui_FileList.AnyKeyPressed
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        QtWidgets.QApplication.processEvents()
+        assert self.window.filename == u"example.txt"

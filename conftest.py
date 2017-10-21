@@ -62,6 +62,10 @@ def setup_testdata():
     with data_fs.open(u'foo.txt', 'w') as file_object:
         file_object.write(u'testdata')
 
+    for dir in SUB_DIRS:
+        data_fs = fs.open_fs(fs.path.join(ROOT_DIR,  dir))
+        with data_fs.open(u'foo.txt', 'w') as file_object:
+            file_object.write(u'testdata')
 
 @pytest.fixture(scope="session", autouse=True)
 def configure_testsetup(request):
