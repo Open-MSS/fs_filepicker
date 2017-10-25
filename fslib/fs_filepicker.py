@@ -145,12 +145,14 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         shows the make dir dialog und creates a new directory
         """
-        new_dir, ok = QtWidgets.QInputDialog.getText(self, "New Folder","Enter a new folder name:",
+        new_dir, ok = QtWidgets.QInputDialog.getText(self, u"New Folder","Enter a new folder name:",
                                                   QtWidgets.QLineEdit.Normal, "")
         if ok:
-            if not self.fs.isdir(new_dir):
+            if not u"/" in new_dir and not self.fs.isdir(new_dir):
                 self.fs.makedir(new_dir)
                 self.browse_folder()
+            else:
+                ok = QtWidgets.QMessageBox.warning(self, "New Folder", "Can't create this Folder: {}".format(new_dir))
 
     def action(self):
         """
