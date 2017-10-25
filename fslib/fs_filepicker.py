@@ -57,7 +57,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.itemClicked.connect(self.show_name)
         self.ui_mkdir.clicked.connect(self.make_dir)
 
-
     def action_buttons(self):
         try:
             self.ui_Action.clicked.connect(self.action)
@@ -85,15 +84,25 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         self.last_index = i
         self.selected_dir = self.ui_DirList.currentText()
-        self.ui_FileList.clear()
+        self.ui_FileList.clearContents()
         file_type = self.ui_FileType.text()
         self.file_list_items = []
+        self.ui_FileList.setColumnCount(1)
+        self.ui_FileList.setRowCount(len(self.file_list_items))
+        self.ui_FileList.verticalHeader().setVisible(False)
+        self.ui_FileList.horizontalHeader().setVisible(False)
+        self.ui_FileList.setShowGrid(False)
+
         for item in sorted(self.fs.listdir(self.selected_dir)):
             if not self.fs.isdir(item) and match_extension(item, [file_type]):
-                self.ui_FileList.addItem(item)
                 self.file_list_items.append(item)
+        self.ui_FileList.setRowCount(len(self.file_list_items))
+        index = 0
+        for item in self.file_list_items:
+            self.ui_FileList.setItem(index, 0,  QtWidgets.QTableWidgetItem(item))
+            index = index + 1
         if self.last_index == 0 and not self.show_save_action:
-            self.ui_FileList.setCurrentRow(-1)
+            self.ui_FileList.clearSelection()
             if self.ui_FileList.currentItem() is not None:
                 self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
 
@@ -102,22 +111,29 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Action for line edit of file type
         """
         self.selection_directory(self.last_index)
-        self.ui_FileList.setCurrentRow(-1)
+        self.ui_FileList.clearSelection()
         if not self.show_save_action:
             self.ui_SelectedName.setText(None)
 
     def selection_name(self):
         self.filename = self.ui_SelectedName.text()
-        if self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir, self.filename)):
+        if (self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir, self.filename)) and \
+                        self.filename in self.file_list_items):
             self.ui_Action.setEnabled(True)
-            index = self.file_list_items.index(self.filename)
-            self.ui_FileList.setCurrentRow(index)
+            item = self.ui_FileList.findItems(self.filename, QtCore.Qt.MatchExactly)
+            try:
+                self.ui_FileList.selectRow(self.file_list_items.index(self.filename))
+            except TypeError:
+                pass
         else:
             self.ui_Action.setEnabled(False)
-            self.ui_FileList.setCurrentRow(-1)
+            self.ui_FileList.clearSelection()
 
     def show_name(self):
-        self.filename = self.ui_FileList.item(self.ui_FileList.currentRow()).text()
+        try:
+            self.filename = self.ui_FileList.currentItem().text()
+        except AttributeError:
+            self.filename = None
         self.ui_SelectedName.setText(self.filename)
         if self.fs.exists(fs.path.join(self.selected_dir, self.filename)):
             self.ui_Action.setEnabled(True)
@@ -173,7 +189,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.close()
         else:
             try:
-                self.filename = self.ui_FileList.item(self.ui_FileList.currentRow()).text()
+                self.filename = self.ui_FileList.currentItem().text()
             except AttributeError:
                 pass
             else:

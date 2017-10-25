@@ -6,23 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>577</width>
+    <width>573</width>
     <height>304</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QListWidget" name="ui_FileList">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>40</y>
-     <width>561</width>
-     <height>192</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QComboBox" name="ui_DirList">
    <property name="geometry">
     <rect>
@@ -138,6 +128,16 @@
    </property>
    <property name="text">
     <string>Cancel</string>
+   </property>
+  </widget>
+  <widget class="QTableWidget" name="ui_FileList">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>571</width>
+     <height>192</height>
+    </rect>
    </property>
   </widget>
  </widget>

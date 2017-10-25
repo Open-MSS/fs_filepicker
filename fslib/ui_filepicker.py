@@ -11,10 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(577, 304)
-        self.ui_FileList = QtWidgets.QListWidget(Dialog)
-        self.ui_FileList.setGeometry(QtCore.QRect(10, 40, 561, 192))
-        self.ui_FileList.setObjectName("ui_FileList")
+        Dialog.resize(573, 304)
         self.ui_DirList = QtWidgets.QComboBox(Dialog)
         self.ui_DirList.setGeometry(QtCore.QRect(110, 10, 421, 29))
         self.ui_DirList.setObjectName("ui_DirList")
@@ -45,6 +42,11 @@ class Ui_Dialog(object):
         self.ui_Cancel = QtWidgets.QPushButton(Dialog)
         self.ui_Cancel.setGeometry(QtCore.QRect(490, 270, 81, 27))
         self.ui_Cancel.setObjectName("ui_Cancel")
+        self.ui_FileList = QtWidgets.QTableWidget(Dialog)
+        self.ui_FileList.setGeometry(QtCore.QRect(0, 40, 571, 192))
+        self.ui_FileList.setObjectName("ui_FileList")
+        self.ui_FileList.setColumnCount(0)
+        self.ui_FileList.setRowCount(0)
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)

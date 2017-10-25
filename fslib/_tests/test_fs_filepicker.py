@@ -52,16 +52,22 @@ class Test_Open_FilePicker(object):
         self.window.close()
         assert filename is None
 
-    def test_fs_filepicker_ok(self):
+    def test_fs_filepicker_nothing_selected_ok(self):
         self.window.action()
         filename = self.window.filename
         self.window.close()
+        assert filename == None
+
+    def test_fs_filepicker_files_selected_ok(self):
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
-        files = []
         for item in sorted(data_fs.listdir(u'.')):
             if data_fs.isfile(item):
-                files.append(item)
-        assert filename == files[0]
+                self.window.ui_SelectedName.setText(item)
+                QtWidgets.QApplication.processEvents()
+                self.window.selection_name()
+                QtWidgets.QApplication.processEvents()
+                assert self.window.filename == item
+        self.window.close()
 
     def test_selection_directory(self):
         self.window.ui_DirList.setCurrentIndex(1)
@@ -76,7 +82,13 @@ class Test_Open_FilePicker(object):
     def test_showname(self):
         self.window.show_name()
         self.window.close()
-        assert self.window.filename == u"example.csv"
+        assert self.window.filename is None
+        filename = u"example.csv"
+        self.window.ui_FileList.selectRow(self.window.file_list_items.index(filename))
+        QtWidgets.QApplication.processEvents()
+        self.window.show_name()
+        self.window.close()
+        assert self.window.filename == filename
 
     def test_selection_file_type(self):
         self.window.file_pattern = u"*.never"
