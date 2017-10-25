@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file './ui_filepicker.ui'
+# Form implementation generated from reading ui file 'ui_filepicker.ui'
 #
 # Created by: PyQt5 UI code generator 5.6
 #
@@ -34,6 +34,7 @@ class Ui_Dialog(object):
         self.ui_SelectedName.setObjectName("ui_SelectedName")
         self.ui_mkdir = QtWidgets.QPushButton(Dialog)
         self.ui_mkdir.setGeometry(QtCore.QRect(540, 10, 31, 27))
+        self.ui_mkdir.setFocusPolicy(QtCore.Qt.NoFocus)
         self.ui_mkdir.setObjectName("ui_mkdir")
         self.ui_Action = QtWidgets.QPushButton(Dialog)
         self.ui_Action.setEnabled(False)
