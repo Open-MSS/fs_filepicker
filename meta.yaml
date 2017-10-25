@@ -29,6 +29,7 @@ requirements:
     - setuptools
     - pyqt
     - fs
+    - fs.webdavfs
 
 test:
   imports:
