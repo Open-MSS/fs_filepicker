@@ -67,6 +67,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         walks through all folders and selects first directory
         """
+        if self.show_save_action:
+            self.ui_Action.setEnabled(True)
         self.ui_DirList.clear()
         self.fs = fs.open_fs(self.fs_url)
         self.ui_DirList.addItem(u'.')
@@ -117,8 +119,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def selection_name(self):
         self.filename = self.ui_SelectedName.text()
-        if (self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir, self.filename)) and \
-                        self.filename in self.file_list_items):
+        if ((self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir, self.filename)) and
+                        self.filename in self.file_list_items)):
             self.ui_Action.setEnabled(True)
             item = self.ui_FileList.findItems(self.filename, QtCore.Qt.MatchExactly)
             try:
@@ -126,7 +128,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             except TypeError:
                 pass
         else:
-            self.ui_Action.setEnabled(False)
+            if not self.show_save_action:
+                self.ui_Action.setEnabled(False)
             self.ui_FileList.clearSelection()
 
     def show_name(self):
