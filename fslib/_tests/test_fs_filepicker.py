@@ -65,10 +65,13 @@ class Test_Open_FilePicker(object):
 
     def test_selection_directory(self):
         self.window.ui_DirList.setCurrentIndex(1)
+        QtWidgets.QApplication.processEvents()
         self.window.selection_directory(0)
         QtWidgets.QApplication.processEvents()
-        self.window.close()
-        assert self.window.ui_FileList.currentItem().text() == u"foo.txt"
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        assert u"foo.txt" in self.window.file_list_items
+        assert len(self.window.file_list_items) == 1
 
     def test_showname(self):
         self.window.show_name()
@@ -86,14 +89,13 @@ class Test_Open_FilePicker(object):
         self.window.selection_directory(0)
         QtWidgets.QApplication.processEvents()
         assert self.window.filename is None
-        pytest.skip("not finished")
         self.window.ui_FileType.setText(u"*.txt")
         QtWidgets.QApplication.processEvents()
         self.window.selection_file_type()
         QtWidgets.QApplication.processEvents()
         self.window.ui_FileList.setFocus()
         QtWidgets.QApplication.processEvents()
-        self.window.ui_FileList.AnyKeyPressed
+        self.window.ui_SelectedName.setText(u"example.txt")
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
