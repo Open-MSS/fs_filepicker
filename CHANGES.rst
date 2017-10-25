@@ -1,8 +1,18 @@
 Changelog
 =========
 
+Version 0.0.9
+-------------
+
+   - refactored WidgetList to TableWidget, currently 1 column
+   - fs.webdavfs module added
+   - make_dir feature added
+   - File Name moved above File of type, Makedir button added right of dirs, buttonbox replaced by two buttons.
+     Tests and Logic adapted.
+
 Version 0.0.8
 -------------
+
   - fix clear selected name if file_type is changed and not save action
   - sphinx documentation introduced
   - py.test tests introduced
