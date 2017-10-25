@@ -55,6 +55,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_Cancel.clicked.connect(self.cancel)
         self.action_buttons()
         self.ui_FileList.itemClicked.connect(self.show_name)
+        self.ui_mkdir.clicked.connect(self.make_dir)
 
 
     def action_buttons(self):
@@ -139,6 +140,17 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.ui_Action.setText("Save")
             if self.default_filename is not None:
                 self.ui_SelectedName.setText(self.default_filename)
+
+    def make_dir(self):
+        """
+        shows the make dir dialog und creates a new directory
+        """
+        new_dir, ok = QtWidgets.QInputDialog.getText(self, "New Folder","Enter a new folder name:",
+                                                  QtWidgets.QLineEdit.Normal, "")
+        if ok:
+            if not self.fs.isdir(new_dir):
+                self.fs.makedir(new_dir)
+                self.browse_folder()
 
     def action(self):
         """
