@@ -25,6 +25,11 @@
 """
 import fnmatch
 
+from PyQt5.QtCore import pyqtProperty, QRect
+from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap
+
 
 def match_extension(name, extensions=None):
     """
@@ -40,3 +45,47 @@ def match_extension(name, extensions=None):
     for pattern in extensions:
         state.append(fnmatch.fnmatch(name, pattern))
     return True in state
+
+
+class WidgetImageText(QWidget):
+    # inspired by
+    # https://stackoverflow.com/questions/45896291/how-to-show-image-and-text-at-same-cell-in-qtablewidget-in-pyqt
+    # slightly modified
+    def __init__(self, text, img, parent=None):
+        QWidget.__init__(self, parent)
+        self._text = text
+        self._img = img
+        self.setLayout(QHBoxLayout())
+        self.lbPixmap = QLabel(self)
+        self.lbText = QLabel(self)
+        self.lbText.setMinimumWidth(400)
+        self.lbText.setAlignment(Qt.AlignLeft)
+        self.layout().addWidget(self.lbPixmap)
+        self.layout().addWidget(self.lbText)
+        self.initUi()
+
+    def initUi(self):
+        self.lbPixmap.setPixmap(QPixmap(self._img).scaled(self.lbPixmap.size(), Qt.KeepAspectRatio))
+        self.lbText.setText(self._text)
+
+    @pyqtProperty(str)
+    def img(self):
+        return self._img
+
+    @img.setter
+    def total(self, value):
+        if self._img == value:
+            return
+        self._img = value
+        self.initUi()
+
+    @pyqtProperty(str)
+    def text(self):
+        return self._text
+
+    @text.setter
+    def text(self, value):
+        if self._text == value:
+            return
+        self._text = value
+        self.initUi()

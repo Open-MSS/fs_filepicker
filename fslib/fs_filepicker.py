@@ -25,11 +25,10 @@
 """
 import sys
 import argparse
-
 import fs
 from PyQt5 import QtWidgets, QtCore
 from fslib import ui_filepicker, __version__
-from fslib.utils import match_extension
+from fslib.utils import match_extension, WidgetImageText
 
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
@@ -37,6 +36,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                  default_filename=None, show_save_action=False):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
+        self.file_icon = 'icons/tango/text-x-generic.png'
+        self.dir_icon = 'icons/tango/folder.png'
         self.selected_dir = None
         self.filename = None
         self.setWindowTitle(title)
@@ -56,6 +57,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.action_buttons()
         self.ui_FileList.itemClicked.connect(self.show_name)
         self.ui_mkdir.clicked.connect(self.make_dir)
+
 
     def action_buttons(self):
         try:
@@ -89,24 +91,39 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.clearContents()
         file_type = self.ui_FileType.text()
         self.file_list_items = []
+        self.dir_list_items = []
         self.ui_FileList.setColumnCount(1)
-        self.ui_FileList.setRowCount(len(self.file_list_items))
+        self.ui_FileList.setColumnWidth(0, 400)
         self.ui_FileList.verticalHeader().setVisible(False)
         self.ui_FileList.horizontalHeader().setVisible(False)
         self.ui_FileList.setShowGrid(False)
+        self.ui_FileList.setSizeAdjustPolicy(
+            QtWidgets.QAbstractScrollArea.AdjustToContents)
 
         for item in sorted(self.fs.listdir(self.selected_dir)):
             if not self.fs.isdir(item) and match_extension(item, [file_type]):
                 self.file_list_items.append(item)
-        self.ui_FileList.setRowCount(len(self.file_list_items))
+            elif self.fs.isdir(item):
+                self.dir_list_items.append(item)
+
+        self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
         index = 0
+
+        for item in self.dir_list_items:
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(item, self.dir_icon))
+            index = index + 1
         for item in self.file_list_items:
-            self.ui_FileList.setItem(index, 0,  QtWidgets.QTableWidgetItem(item))
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(item, self.file_icon))
             index = index + 1
         if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.clearSelection()
             if self.ui_FileList.currentItem() is not None:
                 self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
+        self.ui_FileList.resizeRowsToContents()
+
+
+        # ToDo
+        # self.ui_FileList.cellClicked.connect(self.show_name)
 
     def selection_file_type(self):
         """
@@ -237,6 +254,7 @@ def main():
         print("Version:", __version__)
         sys.exit()
     app = QtWidgets.QApplication([])
+
     return fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern,
                          title=args.title, default_filename=args.default_name,
                          show_save_action=args.save)
