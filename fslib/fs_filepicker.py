@@ -142,6 +142,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if wparm is not None:
             if "text" in wparm.img:
                 self.ui_SelectedName.setText(wparm.text)
+
             if "folder" in wparm.img:
                 index = self.dir_list_items.index(wparm.text) + 1
                 if index != 0:
@@ -163,9 +164,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if ((self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir, self.filename)) and
                         self.filename in self.file_list_items)):
             self.ui_Action.setEnabled(True)
-            item = self.ui_FileList.findItems(self.filename, QtCore.Qt.MatchExactly)
+            all_items = self.dir_list_items + self.file_list_items
             try:
-                self.ui_FileList.selectRow(self.file_list_items.index(self.filename))
+                self.ui_FileList.selectRow(all_items.index(self.filename))
             except TypeError:
                 pass
         else:
