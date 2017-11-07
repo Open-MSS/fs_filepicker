@@ -42,6 +42,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.filename = None
         self.setWindowTitle(title)
         self.fs_url = unicode(fs_url)
+        self.parent_url = unicode(fs_url)
         self.fs = None
         self.file_list_items = []
         self.last_index = 0
@@ -57,6 +58,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.action_buttons()
         self.ui_FileList.itemClicked.connect(self.show_name)
         self.ui_mkdir.clicked.connect(self.make_dir)
+        self.ui_parentdir.clicked.connect(self.parent_dir)
 
 
     def action_buttons(self):
@@ -65,14 +67,19 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         except AttributeError:
             pass
 
-    def browse_folder(self):
+    def browse_folder(self, subdir=None):
         """
         walks through all folders and selects first directory
         """
         if self.show_save_action:
             self.ui_Action.setEnabled(True)
         self.ui_DirList.clear()
-        self.fs = fs.open_fs(self.fs_url)
+        if subdir:
+            self.parent_url = fs.path.combine(self.parent_url, subdir)
+            self.fs = fs.open_fs(self.parent_url)
+        else:
+            self.fs = fs.open_fs(self.fs_url)
+            self.parent_url = self.fs_url
         self.ui_DirList.addItem(u'.')
         for dir_path in sorted(self.fs.listdir(u'.')):
             if self.fs.isdir(dir_path):
@@ -133,6 +140,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 if index != 0:
                     self.ui_DirList.setCurrentIndex(index)
                     self.selection_directory(index)
+                    self.browse_folder(subdir=wparm.text)
 
     def selection_file_type(self):
         """
@@ -198,6 +206,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.browse_folder()
             else:
                 ok = QtWidgets.QMessageBox.warning(self, "New Folder", "Can't create this Folder: {}".format(new_dir))
+
+    def parent_dir(self):
+        self.browse_folder()
 
     def action(self):
         """

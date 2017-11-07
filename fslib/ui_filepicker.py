@@ -13,7 +13,7 @@ class Ui_Dialog(object):
         Dialog.setObjectName("Dialog")
         Dialog.resize(573, 304)
         self.ui_DirList = QtWidgets.QComboBox(Dialog)
-        self.ui_DirList.setGeometry(QtCore.QRect(110, 10, 421, 29))
+        self.ui_DirList.setGeometry(QtCore.QRect(110, 10, 381, 29))
         self.ui_DirList.setObjectName("ui_DirList")
         self.label = QtWidgets.QLabel(Dialog)
         self.label.setGeometry(QtCore.QRect(20, 20, 68, 17))
@@ -33,7 +33,7 @@ class Ui_Dialog(object):
         self.ui_SelectedName.setText("")
         self.ui_SelectedName.setObjectName("ui_SelectedName")
         self.ui_mkdir = QtWidgets.QPushButton(Dialog)
-        self.ui_mkdir.setGeometry(QtCore.QRect(540, 10, 31, 27))
+        self.ui_mkdir.setGeometry(QtCore.QRect(540, 10, 32, 32))
         self.ui_mkdir.setFocusPolicy(QtCore.Qt.NoFocus)
         self.ui_mkdir.setObjectName("ui_mkdir")
         self.ui_Action = QtWidgets.QPushButton(Dialog)
@@ -48,6 +48,9 @@ class Ui_Dialog(object):
         self.ui_FileList.setObjectName("ui_FileList")
         self.ui_FileList.setColumnCount(0)
         self.ui_FileList.setRowCount(0)
+        self.ui_parentdir = QtWidgets.QPushButton(Dialog)
+        self.ui_parentdir.setGeometry(QtCore.QRect(500, 10, 32, 32))
+        self.ui_parentdir.setObjectName("ui_parentdir")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -61,4 +64,5 @@ class Ui_Dialog(object):
         self.ui_mkdir.setText(_translate("Dialog", "MD"))
         self.ui_Action.setText(_translate("Dialog", "Open"))
         self.ui_Cancel.setText(_translate("Dialog", "Cancel"))
+        self.ui_parentdir.setText(_translate("Dialog", "PushButton"))
 
