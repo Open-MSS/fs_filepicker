@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.1.0
+-------------
+
+   - tango icons for actions added
+   - file list shows directories on same level
+   - directory navigation, goto top fs url added
+   - Cancel returns always None as filename
+
 Version 0.0.9
 -------------
 
