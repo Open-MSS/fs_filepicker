@@ -30,15 +30,15 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
 from fslib.utils import match_extension, WidgetImageText
-
+from fslib.icons import icons
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker',
                  default_filename=None, show_save_action=False):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
-        self.file_icon = 'icons/tango/text-x-generic.png'
-        self.dir_icon = 'icons/tango/folder.png'
+        self.file_icon = icons('text-x-generic.png')
+        self.dir_icon = icons('folder.png')
         self.selected_dir = None
         self.filename = None
         self.setWindowTitle(title)
@@ -64,9 +64,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def button_icons(self):
         self.ui_parentdir.setText("")
-        self.ui_parentdir.setIcon(QIcon('icons/tango/go-top.png'))
+        self.ui_parentdir.setIcon(QIcon(icons('go-top.png')))
         self.ui_mkdir.setText("")
-        self.ui_mkdir.setIcon(QIcon('icons/tango/folder-new.png'))
+        self.ui_mkdir.setIcon(QIcon(icons('folder-new.png')))
 
     def action_buttons(self):
         try:
