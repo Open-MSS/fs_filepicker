@@ -183,7 +183,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if self.fs.exists(fs.path.join(self.selected_dir, self.filename)):
             self.ui_Action.setEnabled(True)
 
-
     def cancel(self):
         """
         Action on cancel button
@@ -238,7 +237,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.close()
         else:
             try:
-                self.filename = self.ui_FileList.currentItem().text()
+                self.filename = self.ui_SelectedName.text()
             except AttributeError:
                 pass
             else:
