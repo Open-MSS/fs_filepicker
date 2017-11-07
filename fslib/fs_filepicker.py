@@ -238,6 +238,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         else:
             try:
                 self.filename = self.ui_SelectedName.text()
+                if self.filename == u"":
+                    self.filename = None
             except AttributeError:
                 pass
             else:
