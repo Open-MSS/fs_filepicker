@@ -188,6 +188,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Action on cancel button
         """
+        self.filename = None
         self.close()
 
     def show_action(self):
