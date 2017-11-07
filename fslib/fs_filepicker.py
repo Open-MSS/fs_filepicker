@@ -176,8 +176,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def show_name(self):
         try:
-            self.filename = self.ui_FileList.currentItem().text()
+            self.filename = self.ui_SelectedName.text()
         except AttributeError:
+            self.filename = None
+        if self.filename == u"":
             self.filename = None
         self.ui_SelectedName.setText(self.filename)
         if self.fs.exists(fs.path.join(self.selected_dir, self.filename)):
@@ -263,7 +265,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
     fp.exec_()
     filename = None
     if fp.filename is not None:
-        filename = fs.path.combine(fp.fs_url, fs.path.join(fp.selected_dir, fp.filename))
+        filename = fs.path.combine(fp.parent_url, fp.filename)
     return filename
 
 

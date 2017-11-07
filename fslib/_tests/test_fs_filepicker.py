@@ -79,12 +79,19 @@ class Test_Open_FilePicker(object):
         assert u"foo.txt" in self.window.file_list_items
         assert len(self.window.file_list_items) == 1
 
-    def test_showname(self):
+    def test_showname_close(self):
         self.window.show_name()
         self.window.close()
         assert self.window.filename is None
+
+    def test_showname_on_filename(self):
+        self.window.show_name()
         filename = u"example.csv"
-        self.window.ui_FileList.selectRow(self.window.file_list_items.index(filename))
+        all_items = self.window.dir_list_items + self.window.file_list_items
+        index = all_items.index(filename)
+        self.window.ui_FileList.selectRow(index)
+        QtWidgets.QApplication.processEvents()
+        self.window.onCellClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         self.window.show_name()
         self.window.close()
@@ -112,3 +119,14 @@ class Test_Open_FilePicker(object):
         self.window.action()
         QtWidgets.QApplication.processEvents()
         assert self.window.filename == u"example.txt"
+
+    def test_subdirectory(self):
+        self.window.browse_folder(subdir="bar")
+        self.window.selection_directory(0)
+        QtWidgets.QApplication.processEvents()
+        self.window.onCellClicked(0, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        QtWidgets.QApplication.processEvents()
+        assert "bar" in self.window.parent_url
+        assert self.window.filename == "foo.txt"
