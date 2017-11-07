@@ -130,3 +130,56 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         assert "bar" in self.window.parent_url
         assert self.window.filename == "foo.txt"
+
+    def test_onCellClicked(self):
+        self.window.onCellClicked(0, 0)
+        QtWidgets.QApplication.processEvents()
+        assert self.window.parent_url != self.window.fs_url
+        assert u"bar" in self.window.parent_url
+
+
+class Test_Save_FilePicker(object):
+    def setup(self):
+        self.application = QtWidgets.QApplication([])
+        self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
+        self.window = fs_filepicker.FilePicker(fs_url=self.fs_url, show_save_action=True)
+        self.window.show()
+        QtWidgets.QApplication.processEvents()
+        QtTest.QTest.qWaitForWindowExposed(self.window)
+        QtWidgets.QApplication.processEvents()
+
+    def teardown(self):
+        self.application.quit()
+
+    def test_fs_filepicker_cancel(self):
+        self.window.cancel()
+        filename = self.window.filename
+        self.window.close()
+        assert filename is None
+
+    def test_filename_cancel(self):
+        self.window.ui_SelectedName.setText(u"example.txt")
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        QtWidgets.QApplication.processEvents()
+        self.window.cancel()
+        QtWidgets.QApplication.processEvents()
+        filename = self.window.filename
+        assert filename is None
+
+    def test_filename_save(self):
+        self.window.ui_SelectedName.setText(u"newexample.txt")
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        QtWidgets.QApplication.processEvents()
+        filename = self.window.filename
+        assert filename == u"newexample.txt"
+
+    def test_default_filename(self):
+        self.window.default_filename = u"abc.txt"
+        self.window.show_action()
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        QtWidgets.QApplication.processEvents()
+        filename = self.window.filename
+        assert filename == u"abc.txt"
