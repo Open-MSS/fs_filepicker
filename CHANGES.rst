@@ -1,6 +1,15 @@
 Changelog
 =========
 
+
+Version 0.1.1
+~~~~~~~~~~~~~
+
+   - fix, on makedir stay in selected_dir
+   - navigation to other resources added, home, computer, fs
+   - resizing of dialog disabled
+   - test coverage improved
+
 Version 0.1.0
 -------------
 
