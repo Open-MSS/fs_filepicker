@@ -251,7 +251,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if ok:
             if not u"/" in new_dir and not self.fs.isdir(new_dir):
                 self.fs.makedir(new_dir)
-                self.browse_folder()
+                self.browse_folder(subdir=self.selected_dir)
             else:
                 ok = QtWidgets.QMessageBox.warning(self, "New Folder", "Can't create this Folder: {}".format(new_dir))
 
