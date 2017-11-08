@@ -24,6 +24,7 @@
     limitations under the License.
 """
 import fnmatch
+import sys
 
 from PyQt5.QtCore import pyqtProperty, QRect
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout
@@ -45,6 +46,12 @@ def match_extension(name, extensions=None):
     for pattern in extensions:
         state.append(fnmatch.fnmatch(name, pattern))
     return True in state
+
+def root_url():
+    if sys.platform.startswith('win'):
+        return u"c://"
+    else:
+        return u"//"
 
 
 class WidgetImageText(QWidget):

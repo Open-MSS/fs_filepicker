@@ -24,6 +24,7 @@
     limitations under the License.
 """
 import sys
+import logging
 import argparse
 import fs
 from PyQt5 import QtWidgets, QtCore
@@ -31,6 +32,7 @@ from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
 from fslib.utils import match_extension, WidgetImageText
 from fslib.icons import icons
+from fslib.utils import root_url
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker',
@@ -44,7 +46,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.filename = None
         self.setWindowTitle(title)
         self.fs_url = unicode(fs_url)
-        self.parent_url = unicode(fs_url)
+        self.fs_home_url = u"~/"
+        self.fs_root_url = root_url()
+        self.active_url = self.fs_url
+        self.parent_url = self.fs_url
         self.fs = None
         self.file_list_items = []
         self.last_index = 0
@@ -62,12 +67,37 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.itemClicked.connect(self.show_name)
         self.ui_mkdir.clicked.connect(self.make_dir)
         self.ui_parentdir.clicked.connect(self.parent_dir)
+        self.ui_home.clicked.connect(self.home_button)
+        self.ui_root.clicked.connect(self.root_button)
+        self.ui_fs.clicked.connect(self.fs_button)
+
 
     def button_icons(self):
         self.ui_parentdir.setText("")
         self.ui_parentdir.setIcon(QIcon(icons('go-top.png')))
         self.ui_mkdir.setText("")
         self.ui_mkdir.setIcon(QIcon(icons('folder-new.png')))
+        self.ui_home.setText("")
+        self.ui_home.setIconSize(QtCore.QSize(64, 64))
+        self.ui_home.setIcon(QIcon(icons('go-home.png')))
+        self.ui_root.setText("")
+        self.ui_root.setIconSize(QtCore.QSize(64, 64))
+        self.ui_root.setIcon(QIcon(icons('computer.png')))
+        self.ui_fs.setText("")
+        self.ui_fs.setIconSize(QtCore.QSize(64, 64))
+        self.ui_fs.setIcon(QIcon(icons('fs_logo.png', origin=u'fs')))
+
+    def home_button(self):
+        self.active_url = self.fs_home_url
+        self.browse_folder()
+
+    def fs_button(self):
+        self.active_url = self.fs_url
+        self.browse_folder()
+
+    def root_button(self):
+        self.active_url = self.fs_root_url
+        self.browse_folder()
 
     def action_buttons(self):
         try:
@@ -86,12 +116,16 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.parent_url = fs.path.combine(self.parent_url, subdir)
             self.fs = fs.open_fs(self.parent_url)
         else:
-            self.fs = fs.open_fs(self.fs_url)
-            self.parent_url = self.fs_url
+            self.parent_url = self.active_url
+            self.fs = fs.open_fs(self.active_url)
+
         self.ui_DirList.addItem(u'.')
         for dir_path in sorted(self.fs.listdir(u'.')):
-            if self.fs.isdir(dir_path):
-                self.ui_DirList.addItem(dir_path)
+            try:
+                if self.fs.isdir(dir_path):
+                    self.ui_DirList.addItem(dir_path)
+            except fs.errors.PermissionDenied:
+                logging.info("can't access {}".format(dir_path))
         self.selection_directory(0)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
@@ -116,10 +150,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             QtWidgets.QAbstractScrollArea.AdjustToContents)
 
         for item in sorted(self.fs.listdir(self.selected_dir)):
-            if not self.fs.isdir(item) and match_extension(item, [file_type]):
-                self.file_list_items.append(item)
-            elif self.fs.isdir(item):
-                self.dir_list_items.append(item)
+            try:
+                if not self.fs.isdir(item) and match_extension(item, [file_type]):
+                    self.file_list_items.append(item)
+                elif self.fs.isdir(item):
+                    self.dir_list_items.append(item)
+            except fs.errors.PermissionDenied:
+                logging.info("can't access {}".format(item))
 
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
         index = 0
