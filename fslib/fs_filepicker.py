@@ -37,6 +37,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                  default_filename=None, show_save_action=False):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
+        self.setFixedSize(self.size())
         self.file_icon = icons('text-x-generic.png')
         self.dir_icon = icons('folder.png')
         self.selected_dir = None
