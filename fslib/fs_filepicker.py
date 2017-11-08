@@ -73,6 +73,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
 
     def button_icons(self):
+        """
+        set icon image to button
+        """
         self.ui_parentdir.setText("")
         self.ui_parentdir.setIcon(QIcon(icons('go-top.png')))
         self.ui_mkdir.setText("")
@@ -88,18 +91,30 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_fs.setIcon(QIcon(icons('fs_logo.png', origin=u'fs')))
 
     def home_button(self):
+        """
+        action home button
+        """
         self.active_url = self.fs_home_url
         self.browse_folder()
 
     def fs_button(self):
+        """
+        action fs button
+        """
         self.active_url = self.fs_url
         self.browse_folder()
 
     def root_button(self):
+        """
+        action root button
+        """
         self.active_url = self.fs_root_url
         self.browse_folder()
 
     def action_buttons(self):
+        """
+        Open / Save button action connect
+        """
         try:
             self.ui_Action.clicked.connect(self.action)
         except AttributeError:
@@ -107,7 +122,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def browse_folder(self, subdir=None):
         """
-        walks through all folders and selects first directory
+        list all folders and selects first directory
         """
         if self.show_save_action:
             self.ui_Action.setEnabled(True)
@@ -131,7 +146,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def selection_directory(self, i):
         """
-        Fills the filenames based on file_type into a FileList
+        Fills the filenames based on file_type into a FileList, also directories
 
         :param i: index of selelection
         """
@@ -198,6 +213,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.ui_SelectedName.setText(None)
 
     def selection_name(self):
+        """
+        action for filename changes, line edit text input
+
+        """
         self.filename = self.ui_SelectedName.text()
         if ((self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir, self.filename)) and
                         self.filename in self.file_list_items)):
@@ -213,6 +232,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.ui_FileList.clearSelection()
 
     def show_name(self):
+        """
+        action for showing clicked name as filename
+        """
         try:
             self.filename = self.ui_SelectedName.text()
         except AttributeError:
@@ -256,6 +278,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 ok = QtWidgets.QMessageBox.warning(self, "New Folder", "Can't create this Folder: {}".format(new_dir))
 
     def parent_dir(self):
+        """
+        action for button parent dir
+        """
+        # ToDo currently this shows the initial folder only, this needs to be changed to the parent
         self.browse_folder()
 
     def action(self):
