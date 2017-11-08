@@ -30,6 +30,7 @@ requirements:
     - pyqt
     - fs
     - fs.webdavfs
+    - fs.sshfs
 
 test:
   imports:
