@@ -56,7 +56,7 @@ class Test_Open_FilePicker(object):
         self.window.action()
         filename = self.window.filename
         self.window.close()
-        assert filename == None
+        assert filename is None
 
     def test_fs_filepicker_files_selected_ok(self):
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))

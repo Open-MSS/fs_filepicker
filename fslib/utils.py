@@ -47,6 +47,7 @@ def match_extension(name, extensions=None):
         state.append(fnmatch.fnmatch(name, pattern))
     return True in state
 
+
 def root_url():
     if sys.platform.startswith('win'):
         return u"c://"

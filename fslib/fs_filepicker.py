@@ -34,6 +34,7 @@ from fslib.utils import match_extension, WidgetImageText
 from fslib.icons import icons
 from fslib.utils import root_url
 
+
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker',
                  default_filename=None, show_save_action=False):
@@ -70,7 +71,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_home.clicked.connect(self.home_button)
         self.ui_root.clicked.connect(self.root_button)
         self.ui_fs.clicked.connect(self.fs_button)
-
 
     def button_icons(self):
         """
@@ -218,8 +218,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
         """
         self.filename = self.ui_SelectedName.text()
-        if ((self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir, self.filename)) and
-                        self.filename in self.file_list_items)):
+        if ((self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir,
+                                                                               self.filename)) and
+                self.filename in self.file_list_items)):
             self.ui_Action.setEnabled(True)
             all_items = self.dir_list_items + self.file_list_items
             try:
@@ -268,10 +269,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         shows the make dir dialog und creates a new directory
         """
-        new_dir, ok = QtWidgets.QInputDialog.getText(self, u"New Folder","Enter a new folder name:",
-                                                  QtWidgets.QLineEdit.Normal, "")
+        new_dir, ok = QtWidgets.QInputDialog.getText(self, u"New Folder", "Enter a new folder name:",
+                                                     QtWidgets.QLineEdit.Normal, "")
         if ok:
-            if not u"/" in new_dir and not self.fs.isdir(new_dir):
+            if u"/" not in new_dir and not self.fs.isdir(new_dir):
                 self.fs.makedir(new_dir)
                 self.browse_folder(subdir=self.selected_dir)
             else:
