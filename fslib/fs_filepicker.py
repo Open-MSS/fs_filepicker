@@ -178,9 +178,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             _item = fs.path.combine(self.selected_dir, item)
             try:
                 if not self.fs.isdir(_item) and match_extension(item, [file_type]):
-                    self.file_list_items.append(item)
+                    self.file_list_items.append(_item)
                 elif self.fs.isdir(_item):
-                    self.dir_list_items.append(item)
+                    self.dir_list_items.append(_item)
             except fs.errors.PermissionDenied:
                 logging.info("can't access {}".format(item))
 
@@ -304,7 +304,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
-            if self.fs.exists(fs.path.join(self.selected_dir, self.filename)):
+            if self.fs.exists(fs.path.join(self.filename)):
                 sel = QtWidgets.QMessageBox.question(
                     self, "Replace Filename",
                     "This will replace the filename: {0}. Continue?".format(self.filename),
