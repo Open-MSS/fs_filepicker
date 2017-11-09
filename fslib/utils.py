@@ -52,7 +52,7 @@ def root_url():
     if sys.platform.startswith('win'):
         return u"c://"
     else:
-        return u"//"
+        return u"/"
 
 
 class WidgetImageText(QWidget):
