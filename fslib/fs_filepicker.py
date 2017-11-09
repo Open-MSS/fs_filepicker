@@ -61,7 +61,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.show_action()
         self.ui_FileType.setText(self.file_pattern)
         self.fs_button()
-        self.browse_folder()
         self.ui_FileType.returnPressed.connect(self.selection_file_type)
         self.ui_SelectedName.textChanged.connect(self.selection_name)
         self.ui_Cancel.clicked.connect(self.cancel)
@@ -72,6 +71,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_home.clicked.connect(self.home_button)
         self.ui_root.clicked.connect(self.root_button)
         self.ui_fs.clicked.connect(self.fs_button)
+        self.ui_FileList.cellClicked.connect(self.onCellClicked)
+        self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
     def button_icons(self):
         """
@@ -100,6 +101,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.fs.close()
         self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
+        self.selection_directory(0)
 
 
     def fs_button(self):
@@ -111,6 +113,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.fs.close()
         self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
+        self.selection_directory(0)
 
     def root_button(self):
         """
@@ -121,6 +124,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.fs.close()
         self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
+        self.selection_directory(0)
 
     def action_buttons(self):
         """
@@ -147,8 +151,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                     self.ui_DirList.addItem(dir_path)
             except fs.errors.PermissionDenied:
                 logging.info("can't access {}".format(dir_path))
-        self.selection_directory(0)
-        self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
+        #self.selection_directory(0)
+
 
     def selection_directory(self, i):
         """
@@ -171,10 +175,11 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             QtWidgets.QAbstractScrollArea.AdjustToContents)
 
         for item in sorted(self.fs.listdir(self.selected_dir)):
+            _item = fs.path.combine(self.selected_dir, item)
             try:
-                if not self.fs.isdir(item) and match_extension(item, [file_type]):
+                if not self.fs.isdir(_item) and match_extension(item, [file_type]):
                     self.file_list_items.append(item)
-                elif self.fs.isdir(item):
+                elif self.fs.isdir(_item):
                     self.dir_list_items.append(item)
             except fs.errors.PermissionDenied:
                 logging.info("can't access {}".format(item))
@@ -193,7 +198,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.ui_FileList.currentItem() is not None:
                 self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
         self.ui_FileList.resizeRowsToContents()
-        self.ui_FileList.cellClicked.connect(self.onCellClicked)
+
 
     @QtCore.pyqtSlot(int, int)
     def onCellClicked(self, row, column):
