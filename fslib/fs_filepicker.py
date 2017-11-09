@@ -101,7 +101,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.fs.close()
         self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
-        self.selection_directory(0)
+        self.selection_directory()
 
 
     def fs_button(self):
@@ -113,7 +113,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.fs.close()
         self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
-        self.selection_directory(0)
+        self.selection_directory()
 
     def root_button(self):
         """
@@ -124,7 +124,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.fs.close()
         self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
-        self.selection_directory(0)
+        self.selection_directory()
 
     def action_buttons(self):
         """
@@ -142,25 +142,18 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if self.show_save_action:
             self.ui_Action.setEnabled(True)
         self.ui_DirList.clear()
+        if subdir == u".":
+            _sub_dir = self.active_url
+        else:
+            _sub_dir = subdir
+        self.ui_DirList.addItem(_sub_dir)
 
 
-        self.ui_DirList.addItem(subdir)
-        for dir_path in sorted(self.fs.listdir(subdir)):
-            try:
-                if self.fs.isdir(dir_path):
-                    self.ui_DirList.addItem(dir_path)
-            except fs.errors.PermissionDenied:
-                logging.info("can't access {}".format(dir_path))
-        #self.selection_directory(0)
-
-
-    def selection_directory(self, i):
+    def selection_directory(self):
         """
         Fills the filenames based on file_type into a FileList, also directories
 
-        :param i: index of selelection
         """
-        self.last_index = i
         self.selected_dir = self.ui_DirList.currentText()
         self.ui_FileList.clearContents()
         file_type = self.ui_FileType.text()
@@ -174,8 +167,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.setSizeAdjustPolicy(
             QtWidgets.QAbstractScrollArea.AdjustToContents)
 
-        for item in sorted(self.fs.listdir(self.selected_dir)):
-            _item = fs.path.combine(self.selected_dir, item)
+        if self.selected_dir == self.active_url:
+            _sel_dir = u"."
+        else:
+            _sel_dir = self.selected_dir
+        for item in sorted(self.fs.listdir(_sel_dir)):
+            _item = fs.path.combine(_sel_dir, item)
             try:
                 if not self.fs.isdir(_item) and match_extension(item, [file_type]):
                     self.file_list_items.append(_item)
@@ -211,14 +208,14 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 index = self.dir_list_items.index(wparm.text) + 1
                 if index != 0:
                     self.ui_DirList.setCurrentIndex(index)
-                    self.selection_directory(index)
+                    self.selection_directory()
                     self.browse_folder(subdir=wparm.text)
 
     def selection_file_type(self):
         """
         Action for line edit of file type
         """
-        self.selection_directory(self.last_index)
+        self.selection_directory()
         self.ui_FileList.clearSelection()
         if not self.show_save_action:
             self.ui_SelectedName.setText(None)

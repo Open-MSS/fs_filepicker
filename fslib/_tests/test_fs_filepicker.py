@@ -72,7 +72,7 @@ class Test_Open_FilePicker(object):
     def test_selection_directory(self):
         self.window.ui_DirList.setCurrentIndex(1)
         QtWidgets.QApplication.processEvents()
-        self.window.selection_directory(0)
+        self.window.selection_directory()
         QtWidgets.QApplication.processEvents()
         QtWidgets.QApplication.processEvents()
         self.window.action()
@@ -105,7 +105,7 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         QtWidgets.QApplication.processEvents()
         self.window.browse_folder()
-        self.window.selection_directory(0)
+        self.window.selection_directory()
         QtWidgets.QApplication.processEvents()
         assert self.window.filename is None
         self.window.ui_FileType.setText(u"*.txt")
@@ -122,7 +122,7 @@ class Test_Open_FilePicker(object):
 
     def test_subdirectory(self):
         self.window.browse_folder(subdir=u"bar")
-        self.window.selection_directory(0)
+        self.window.selection_directory()
         QtWidgets.QApplication.processEvents()
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
