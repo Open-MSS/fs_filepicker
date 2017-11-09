@@ -185,10 +185,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         index = 0
 
         for item in self.dir_list_items:
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(item, self.dir_icon))
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item), self.dir_icon, item))
             index = index + 1
         for item in self.file_list_items:
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(item, self.file_icon))
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item), self.file_icon, item ))
             index = index + 1
         if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.clearSelection()
@@ -200,16 +200,18 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     @QtCore.pyqtSlot(int, int)
     def onCellClicked(self, row, column):
         wparm = self.ui_FileList.cellWidget(row, column)
+        text, label = wparm.text
+        print text, label
         if wparm is not None:
             if "text" in wparm.img:
-                self.ui_SelectedName.setText(wparm.text)
+                self.ui_SelectedName.setText(text)
 
             if "folder" in wparm.img:
-                index = self.dir_list_items.index(wparm.text) + 1
+                index = self.dir_list_items.index(label) + 1
                 if index != 0:
                     self.ui_DirList.setCurrentIndex(index)
                     self.selection_directory()
-                    self.browse_folder(subdir=wparm.text)
+                    self.browse_folder(subdir=label)
 
     def selection_file_type(self):
         """
