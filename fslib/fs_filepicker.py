@@ -60,6 +60,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.button_icons()
         self.show_action()
         self.ui_FileType.setText(self.file_pattern)
+        self.fs_button()
         self.browse_folder()
         self.ui_FileType.returnPressed.connect(self.selection_file_type)
         self.ui_SelectedName.textChanged.connect(self.selection_name)
@@ -95,13 +96,20 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         action home button
         """
         self.active_url = self.fs_home_url
+        if self.fs:
+            self.fs.close()
+        self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
+
 
     def fs_button(self):
         """
         action fs button
         """
         self.active_url = self.fs_url
+        if self.fs:
+            self.fs.close()
+        self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
 
     def root_button(self):
@@ -109,6 +117,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         action root button
         """
         self.active_url = self.fs_root_url
+        if self.fs:
+            self.fs.close()
+        self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
 
     def action_buttons(self):
@@ -120,22 +131,17 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         except AttributeError:
             pass
 
-    def browse_folder(self, subdir=None):
+    def browse_folder(self, subdir=u"."):
         """
         list all folders and selects first directory
         """
         if self.show_save_action:
             self.ui_Action.setEnabled(True)
         self.ui_DirList.clear()
-        if subdir:
-            self.parent_url = fs.path.combine(self.parent_url, subdir)
-            self.fs = fs.open_fs(self.parent_url)
-        else:
-            self.parent_url = self.active_url
-            self.fs = fs.open_fs(self.active_url)
 
-        self.ui_DirList.addItem(u'.')
-        for dir_path in sorted(self.fs.listdir(u'.')):
+
+        self.ui_DirList.addItem(subdir)
+        for dir_path in sorted(self.fs.listdir(subdir)):
             try:
                 if self.fs.isdir(dir_path):
                     self.ui_DirList.addItem(dir_path)

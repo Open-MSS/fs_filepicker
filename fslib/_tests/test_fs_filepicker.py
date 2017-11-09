@@ -121,21 +121,20 @@ class Test_Open_FilePicker(object):
         assert self.window.filename == u"example.txt"
 
     def test_subdirectory(self):
-        self.window.browse_folder(subdir="bar")
+        self.window.browse_folder(subdir=u"bar")
         self.window.selection_directory(0)
         QtWidgets.QApplication.processEvents()
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
-        assert "bar" in self.window.parent_url
         assert self.window.filename == "foo.txt"
 
     def test_onCellClicked(self):
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
-        assert self.window.parent_url != self.window.fs_url
-        assert u"bar" in self.window.parent_url
+        assert u"bar" in self.window.ui_DirList.currentText()
+        assert u"foo.txt" in self.window.file_list_items
 
 
 class Test_Save_FilePicker(object):
