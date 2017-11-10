@@ -172,7 +172,7 @@ class Test_Save_FilePicker(object):
         filename = self.window.filename
         assert filename is None
 
-    def test_filename_save(self):
+    def test_filename_save_newname(self):
         self.window.ui_SelectedName.setText(u"newexample.txt")
         QtWidgets.QApplication.processEvents()
         self.window.action()
@@ -180,6 +180,21 @@ class Test_Save_FilePicker(object):
         self.window.close()
         filename = self.window.filename
         assert filename == u"newexample.txt"
+
+    def test_filename_high_light_by_selectedname(self):
+        # this needs further investigation
+        index = sorted(SUB_DIRS).index(u'testdata/foo')
+        self.window.ui_FileList.selectRow(index)
+        QtWidgets.QApplication.processEvents()
+        self.window.onCellClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.ui_SelectedName.setText(u'foo.txt')
+        QtWidgets.QApplication.processEvents()
+        self.window.selection_name()
+        QtWidgets.QApplication.processEvents()
+        # get the highlighted row
+        index = self.window.ui_FileList.selectedIndexes()[0].row()
+        assert index == 0
 
     def test_default_filename(self):
         self.window.default_filename = u"abc.txt"
