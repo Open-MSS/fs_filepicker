@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.1.2
+~~~~~~~~~~~~~
+
+  - refactoring of amount fs open calls
+  - refactored onCellClicked
+  - pyqt Property for value defined
+  - refactored tests
+
 
 Version 0.1.1
 ~~~~~~~~~~~~~
