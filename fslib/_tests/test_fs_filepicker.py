@@ -24,7 +24,7 @@
     limitations under the License.
 """
 
-
+import mock
 import fs
 import pytest
 
@@ -132,11 +132,13 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
+        self.window.close()
         assert self.window.filename == "foo.txt"
 
     def test_onCellClicked(self):
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
+        self.window.close()
         assert u"bar" in self.window.ui_DirList.currentText()
         assert u"./bar/foo.txt" in self.window.file_list_items
 
@@ -175,6 +177,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
+        self.window.close()
         filename = self.window.filename
         assert filename == u"newexample.txt"
 
@@ -184,6 +187,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
+        self.window.close()
         filename = self.window.filename
         assert filename == u"abc.txt"
 
@@ -198,5 +202,19 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
+        self.window.close()
         assert self.window.wparm.value == u'./empty'
         assert u"example.txt" in self.window.filename
+
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
+                return_value=(u"exampledir", True))
+    def test_makedir(self, mocktext):
+        index = sorted(SUB_DIRS).index(u'testdata/empty')
+        self.window.ui_FileList.selectRow(index)
+        QtWidgets.QApplication.processEvents()
+        self.window.onCellClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.make_dir()
+        QtWidgets.QApplication.processEvents()
+        self.window.close()
+        assert u'./empty/exampledir' in self.window.dir_list_items
