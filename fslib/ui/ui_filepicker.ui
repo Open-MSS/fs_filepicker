@@ -168,7 +168,7 @@
      <x>10</x>
      <y>10</y>
      <width>120</width>
-     <height>281</height>
+     <height>291</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -176,6 +176,9 @@
    </property>
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
+   </property>
+   <property name="lineWidth">
+    <number>1</number>
    </property>
    <widget class="QPushButton" name="ui_home">
     <property name="geometry">
