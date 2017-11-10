@@ -1,6 +1,22 @@
 fs_filepicker
 ~~~~~~~~~~~~~
 
+
+|Source| |Conda| |Codecov| |Codacy| |License|
+
+.. |Source| image:: https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=300&style=flat-square
+   :target: https://github.com/ReimarBauer/fs_filepicker
+
+.. |Conda| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/installer/conda.svg
+   :target: https://anaconda.org/conda-forge/fs_filepicker
+
+.. |License| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/license.svg
+   :target: https://choosealicense.com/licenses/apache-2.0/
+
+.. |Codecov| image:: https://codecov.io/gh/ReimarBauer/fs_filepicker/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/ReimarBauer/fs_filepicker
+
+
 This project is based on `PyFilesystem2 <http://pyfilesystem2.readthedocs.io/>`_
 As fs_url you can enter any valid url which the fs.open_fs accepts.
 
