@@ -228,13 +228,19 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Action for filename changes, line edit text input
         """
         self.filename = self.ui_SelectedName.text()
-        if ((self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir,
-                                                                               self.filename)) and
-                self.filename in self.file_list_items)):
+        dirname = u'./'
+        if self.wparm is not None:
+            if self.wparm.value == './{}'.format(self.wparm.text):
+                dirname = self.wparm.value
+            else:
+                dirname = fs.path.dirname(self.wparm.value)
+        _filename = fs.path.combine(dirname, self.filename)
+
+        if self.fs.exists(_filename) and _filename in self.file_list_items:
             self.ui_Action.setEnabled(True)
             all_items = self.dir_list_items + self.file_list_items
             try:
-                self.ui_FileList.selectRow(all_items.index(self.filename))
+                self.ui_FileList.selectRow(all_items.index(_filename))
             except TypeError:
                 pass
         else:
@@ -311,24 +317,25 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
+            dirname = u'./'
             if self.wparm is not None:
                 if self.wparm.value == './{}'.format(self.wparm.text):
                     dirname = self.wparm.value
                 else:
                     dirname = fs.path.dirname(self.wparm.value)
-                filename = fs.path.join(dirname, self.filename)
-                if self.fs.isdir(filename):
-                    sel = QtWidgets.QMessageBox.warning(
-                        self, "Warning",
-                        "You can't create a file with this name: {0}".format(self.filename),
-                        QtWidgets.QMessageBox.No)
-                elif self.fs.exists(filename):
-                    sel = QtWidgets.QMessageBox.question(
-                        self, "Replace Filename",
-                        "This will replace the filename: {0}. Continue?".format(self.filename),
-                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-                    if sel == QtWidgets.QMessageBox.Yes:
-                        self.close()
+            filename = fs.path.join(dirname, self.filename)
+            if self.fs.isdir(filename):
+                sel = QtWidgets.QMessageBox.warning(
+                    self, "Warning",
+                    "You can't create a file with this name: {0}".format(self.filename),
+                    QtWidgets.QMessageBox.No)
+            elif self.fs.exists(filename):
+                sel = QtWidgets.QMessageBox.question(
+                    self, "Replace Filename",
+                    "This will replace the filename: {0}. Continue?".format(self.filename),
+                    QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+                if sel == QtWidgets.QMessageBox.Yes:
+                    self.close()
                 else:
                     self.close()
             else:
@@ -361,10 +368,12 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
     fp.exec_()
     filename = None
     if fp.filename is not None:
-        if fp.wparm.value == './{}'.format(fp.wparm.text):
-            dirname = fp.wparm.value
-        else:
-            dirname = fs.path.dirname(fp.wparm.value)
+        dirname = u'./'
+        if fp.wparm is not None:
+            if fp.wparm.value == './{}'.format(fp.wparm.text):
+                dirname = u""
+            else:
+                dirname = fs.path.dirname(fp.wparm.value)
         filename = fs.path.join(fp.active_url, dirname, fp.filename)
     return filename
 
