@@ -301,12 +301,17 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
-            if self.fs.exists(fs.path.join(self.filename)):
-                sel = QtWidgets.QMessageBox.question(
-                    self, "Replace Filename",
-                    "This will replace the filename: {0}. Continue?".format(self.filename),
-                    QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
-                if sel == QtWidgets.QMessageBox.Yes:
+            if self.wparm is not None:
+                dirname = fs.path.dirname(self.wparm.value)
+                filename = fs.path.join(dirname, self.filename)
+                if self.fs.exists(filename):
+                    sel = QtWidgets.QMessageBox.question(
+                        self, "Replace Filename",
+                        "This will replace the filename: {0}. Continue?".format(self.filename),
+                        QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+                    if sel == QtWidgets.QMessageBox.Yes:
+                        self.close()
+                else:
                     self.close()
             else:
                 self.close()
@@ -338,7 +343,8 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
     fp.exec_()
     filename = None
     if fp.filename is not None:
-        filename = fs.path.combine(fp.parent_url, fp.filename)
+        dirname = fs.path.dirname(fp.wparm.value)
+        filename = fs.path.join(fp.active_url, dirname, fp.filename)
     return filename
 
 
