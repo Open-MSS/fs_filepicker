@@ -312,9 +312,17 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.filename == u"":
                 return
             if self.wparm is not None:
-                dirname = fs.path.dirname(self.wparm.value)
+                if self.wparm.value == './{}'.format(self.wparm.text):
+                    dirname = self.wparm.value
+                else:
+                    dirname = fs.path.dirname(self.wparm.value)
                 filename = fs.path.join(dirname, self.filename)
-                if self.fs.exists(filename):
+                if self.fs.isdir(filename):
+                    sel = QtWidgets.QMessageBox.warning(
+                        self, "Warning",
+                        "You can't create a file with this name: {0}".format(self.filename),
+                        QtWidgets.QMessageBox.No)
+                elif self.fs.exists(filename):
                     sel = QtWidgets.QMessageBox.question(
                         self, "Replace Filename",
                         "This will replace the filename: {0}. Continue?".format(self.filename),
