@@ -374,7 +374,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
                 dirname = u""
             else:
                 dirname = fs.path.dirname(fp.wparm.value)
-        filename = fs.path.join(fp.active_url, dirname, fp.filename)
+        filename = fs.path.combine("{}{}".format(fp.active_url, dirname), fp.filename)
     return filename
 
 
