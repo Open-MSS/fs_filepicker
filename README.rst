@@ -1,6 +1,10 @@
 fs_filepicker
 ~~~~~~~~~~~~~
 
+.. image:: https://api.codacy.com/project/badge/Grade/665867585be14a4c971f2baa463312ad
+   :alt: Codacy Badge
+   :target: https://www.codacy.com/app/ReimarBauer/fs_filepicker?utm_source=github.com&utm_medium=referral&utm_content=ReimarBauer/fs_filepicker&utm_campaign=badger
+
 
 |Source| |Conda| |Codecov| |Codacy| |License|
 
