@@ -1,11 +1,6 @@
 fs_filepicker
 ~~~~~~~~~~~~~
 
-.. image:: https://api.codacy.com/project/badge/Grade/665867585be14a4c971f2baa463312ad
-   :alt: Codacy Badge
-   :target: https://www.codacy.com/app/ReimarBauer/fs_filepicker?utm_source=github.com&utm_medium=referral&utm_content=ReimarBauer/fs_filepicker&utm_campaign=badger
-
-
 |Source| |Conda| |Codecov| |Codacy| |License|
 
 .. |Source| image:: https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=300&style=flat-square
@@ -19,6 +14,9 @@ fs_filepicker
 
 .. |Codecov| image:: https://codecov.io/gh/ReimarBauer/fs_filepicker/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/ReimarBauer/fs_filepicker
+
+.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/665867585be14a4c971f2baa463312ad
+   :target: https://www.codacy.com/app/ReimarBauer/fs_filepicker?utm_source=github.com&utm_medium=referral&utm_content=ReimarBauer/fs_filepicker&utm_campaign=badger
 
 
 This project is based on `PyFilesystem2 <http://pyfilesystem2.readthedocs.io/>`_
