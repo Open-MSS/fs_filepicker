@@ -59,11 +59,11 @@ class WidgetImageText(QWidget):
     # inspired by
     # https://stackoverflow.com/questions/45896291/how-to-show-image-and-text-at-same-cell-in-qtablewidget-in-pyqt
     # slightly modified
-    def __init__(self, text, img, label, parent=None):
+    def __init__(self, text, img, value, parent=None):
         QWidget.__init__(self, parent)
         self._text = text
         self._img = img
-        self._label = label
+        self._value = value
         self.setLayout(QHBoxLayout())
         self.lbPixmap = QLabel(self)
         self.lbText = QLabel(self)
@@ -90,7 +90,11 @@ class WidgetImageText(QWidget):
 
     @pyqtProperty(str)
     def text(self):
-        return self._text, self._label
+        return self._text
+
+    @pyqtProperty(str)
+    def value(self):
+        return self._value
 
     @text.setter
     def text(self, value):
