@@ -77,7 +77,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def button_icons(self):
         """
-        set icon image to button
+        Set icon image to button
         """
         self.ui_parentdir.setText("")
         self.ui_parentdir.setIcon(QIcon(icons('go-top.png')))
@@ -95,7 +95,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def home_button(self):
         """
-        action home button
+        Action home button
         """
         self.active_url = self.fs_home_url
         if self.fs:
@@ -107,7 +107,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def fs_button(self):
         """
-        action fs button
+        Action fs button
         """
         self.active_url = self.fs_url
         if self.fs:
@@ -118,7 +118,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def root_button(self):
         """
-        action root button
+        Action root button
         """
         self.active_url = self.fs_root_url
         if self.fs:
@@ -138,7 +138,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def browse_folder(self, subdir=u"."):
         """
-        list all folders and selects first directory
+        list folder in drop down
         """
         if self.show_save_action:
             self.ui_Action.setEnabled(True)
@@ -149,11 +149,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             _sub_dir = subdir
         self.ui_DirList.addItem(_sub_dir)
 
-
     def selection_directory(self):
         """
         Fills the filenames based on file_type into a FileList, also directories
-
         """
         self.selected_dir = self.ui_DirList.currentText()
         self.ui_FileList.clearContents()
@@ -200,6 +198,11 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     @QtCore.pyqtSlot(int, int)
     def onCellClicked(self, row, column):
+        """
+        Action for ui_FileList WidgetImageText
+        :param row: position
+        :param column: position
+        """
         self.wparm = self.ui_FileList.cellWidget(row, column)
         if self.wparm is not None:
             if "text" in self.wparm.img:
@@ -222,8 +225,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def selection_name(self):
         """
-        action for filename changes, line edit text input
-
+        Action for filename changes, line edit text input
         """
         self.filename = self.ui_SelectedName.text()
         if ((self.filename not in (u"",  u".") and self.fs.exists(fs.path.join(self.selected_dir,
@@ -242,7 +244,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def show_name(self):
         """
-        action for showing clicked name as filename
+        Action for showing clicked name as filename
         """
         try:
             self.filename = self.ui_SelectedName.text()
@@ -263,7 +265,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def show_action(self):
         """
-        changes the Open Button into a Save Button
+        Changes the Open Button into a Save Button
 
         :param show_save_action: True for showing the Save dialog
         """
@@ -275,7 +277,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def make_dir(self):
         """
-        shows the make dir dialog und creates a new directory
+        Shows the make dir dialog und creates a new directory
         """
         new_dir, ok = QtWidgets.QInputDialog.getText(self, u"New Folder", "Enter a new folder name:",
                                                      QtWidgets.QLineEdit.Normal, "")
@@ -288,14 +290,14 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def parent_dir(self):
         """
-        action for button parent dir
+        Action for button parent dir
         """
         # ToDo currently this shows the initial folder only, this needs to be changed to the parent
         self.browse_folder()
 
     def action(self):
         """
-        Action on open / save button
+        Action on Open / Save button
         """
         if self.show_save_action:
             self.filename = self.ui_SelectedName.text()
