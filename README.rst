@@ -27,6 +27,8 @@ Open
 
 Standalone example::
 
+  from PyQt5 import QtWidgets
+  app = QtWidgets.QApplication([])
   from fslib.fs_filepicker import fs_filepicker
   filename = fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*',
                            title=u'Open Config File')
