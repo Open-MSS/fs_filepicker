@@ -163,22 +163,25 @@
    </property>
   </widget>
   <widget class="QFrame" name="frame">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
      <width>120</width>
-     <height>291</height>
+     <height>290</height>
     </rect>
    </property>
    <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+    <enum>QFrame::NoFrame</enum>
    </property>
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
    <property name="lineWidth">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QPushButton" name="ui_home">
     <property name="geometry">
