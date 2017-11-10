@@ -231,7 +231,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         dirname = u'./'
         if self.wparm is not None:
             if self.wparm.value == './{}'.format(self.wparm.text):
-                dirname = self.wparm.value
+                dirname = fs.path.dirname('./{}'.format(self.wparm.text))
             else:
                 dirname = fs.path.dirname(self.wparm.value)
         _filename = fs.path.combine(dirname, self.filename)
@@ -320,7 +320,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             dirname = u'./'
             if self.wparm is not None:
                 if self.wparm.value == './{}'.format(self.wparm.text):
-                    dirname = self.wparm.value
+                    dirname = fs.path.dirname('./{}'.format(self.wparm.text))
                 else:
                     dirname = fs.path.dirname(self.wparm.value)
             filename = fs.path.join(dirname, self.filename)
