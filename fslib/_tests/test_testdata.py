@@ -33,7 +33,7 @@ class TestTestdata(object):
     def test_data_available(self):
         assert ROOT_FS.exists(u'.')
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
-        assert len(data_fs.listdir(u'.')) == 5
+        assert len(data_fs.listdir(u'.')) == 6
 
     def test_dir_available(self):
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
@@ -41,6 +41,6 @@ class TestTestdata(object):
         for item in data_fs.listdir(u'.'):
             if data_fs.isdir(item):
                 dirs.append(item)
-        assert len(dirs) == 2
+        assert len(dirs) == 3
         assert u'foo' in dirs
         assert u'bar' in dirs

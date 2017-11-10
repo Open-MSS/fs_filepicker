@@ -29,7 +29,7 @@ import fs
 import pytest
 
 from PyQt5 import QtCore, QtWidgets, QtTest
-from conftest import ROOT_FS, TESTDATA_DIR, ROOT_DIR
+from conftest import ROOT_FS, TESTDATA_DIR, ROOT_DIR, SUB_DIRS
 from fslib import fs_filepicker
 
 
@@ -70,9 +70,10 @@ class Test_Open_FilePicker(object):
         self.window.close()
 
     def test_selection_directory(self):
-        self.window.ui_FileList.selectRow(1)
+        index = sorted(SUB_DIRS).index(u'testdata/foo')
+        self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellClicked(1, 0)
+        self.window.onCellClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         self.window.selection_directory()
 
@@ -185,3 +186,17 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         filename = self.window.filename
         assert filename == u"abc.txt"
+
+    def test_save_in_empty_dir(self):
+        index = sorted(SUB_DIRS).index(u'testdata/empty')
+        self.window.ui_FileList.selectRow(index)
+        QtWidgets.QApplication.processEvents()
+        self.window.onCellClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.selection_directory()
+        self.window.ui_SelectedName.setText(u"example.txt")
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        QtWidgets.QApplication.processEvents()
+        assert self.window.wparm.value == u'./empty'
+        assert u"example.txt" in self.window.filename

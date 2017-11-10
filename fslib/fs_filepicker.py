@@ -343,7 +343,10 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
     fp.exec_()
     filename = None
     if fp.filename is not None:
-        dirname = fs.path.dirname(fp.wparm.value)
+        if fp.wparm.value == './{}'.format(fp.wparm.text):
+            dirname = fp.wparm.value
+        else:
+            dirname = fs.path.dirname(fp.wparm.value)
         filename = fs.path.join(fp.active_url, dirname, fp.filename)
     return filename
 
