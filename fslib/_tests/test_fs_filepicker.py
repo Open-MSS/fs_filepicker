@@ -70,13 +70,16 @@ class Test_Open_FilePicker(object):
         self.window.close()
 
     def test_selection_directory(self):
-        self.window.ui_DirList.setCurrentIndex(1)
+        self.window.ui_FileList.selectRow(1)
+        QtWidgets.QApplication.processEvents()
+        self.window.onCellClicked(1, 0)
         QtWidgets.QApplication.processEvents()
         self.window.selection_directory()
+
         QtWidgets.QApplication.processEvents()
         QtWidgets.QApplication.processEvents()
         self.window.action()
-        assert u"foo.txt" in self.window.file_list_items
+        assert u"./foo/foo.txt" in self.window.file_list_items
         assert len(self.window.file_list_items) == 1
 
     def test_showname_close(self):
@@ -86,7 +89,7 @@ class Test_Open_FilePicker(object):
 
     def test_showname_on_filename(self):
         self.window.show_name()
-        filename = u"example.csv"
+        filename = u"./example.csv"
         all_items = self.window.dir_list_items + self.window.file_list_items
         index = all_items.index(filename)
         self.window.ui_FileList.selectRow(index)
@@ -95,7 +98,7 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.show_name()
         self.window.close()
-        assert self.window.filename == filename
+        assert self.window.filename == fs.path.basename(filename)
 
     def test_selection_file_type(self):
         self.window.file_pattern = u"*.never"
@@ -134,7 +137,7 @@ class Test_Open_FilePicker(object):
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
         assert u"bar" in self.window.ui_DirList.currentText()
-        assert u"foo.txt" in self.window.file_list_items
+        assert u"./bar/foo.txt" in self.window.file_list_items
 
 
 class Test_Save_FilePicker(object):
