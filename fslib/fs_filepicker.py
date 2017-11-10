@@ -45,6 +45,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.dir_icon = icons('folder.png')
         self.selected_dir = None
         self.filename = None
+        self.wparm = None
         self.setWindowTitle(title)
         self.fs_url = unicode(fs_url)
         self.fs_home_url = u"~/"
@@ -199,18 +200,16 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     @QtCore.pyqtSlot(int, int)
     def onCellClicked(self, row, column):
-        wparm = self.ui_FileList.cellWidget(row, column)
-        text = wparm.text
-        value = wparm.value
-        if wparm is not None:
-            if "text" in wparm.img:
-                self.ui_SelectedName.setText(text)
-            if "folder" in wparm.img:
-                index = self.dir_list_items.index(value) + 1
+        self.wparm = self.ui_FileList.cellWidget(row, column)
+        if self.wparm is not None:
+            if "text" in self.wparm.img:
+                self.ui_SelectedName.setText(self.wparm.text)
+            if "folder" in self.wparm.img:
+                index = self.dir_list_items.index(self.wparm.value) + 1
                 if index != 0:
                     self.ui_DirList.setCurrentIndex(index)
                     self.selection_directory()
-                    self.browse_folder(subdir=value)
+                    self.browse_folder(subdir=self.wparm.value)
 
     def selection_file_type(self):
         """
