@@ -81,13 +81,6 @@ class WidgetImageText(QWidget):
     def img(self):
         return self._img
 
-    @img.setter
-    def total(self, value):
-        if self._img == value:
-            return
-        self._img = value
-        self.initUi()
-
     @pyqtProperty(str)
     def text(self):
         return self._text
@@ -96,9 +89,3 @@ class WidgetImageText(QWidget):
     def value(self):
         return self._value
 
-    @text.setter
-    def text(self, value):
-        if self._text == value:
-            return
-        self._text = value
-        self.initUi()
