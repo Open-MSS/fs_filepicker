@@ -38,7 +38,7 @@ Standalone example::
 As modal widget snippet::
 
   from fslib.fs_filepicker import fs_filepicker
-  filename = fs_filepicker(self, fs_url=u'ftp.debian.org/debian', u'*.*', title=u"Debian files")
+  filename = fs_filepicker(self, fs_url=u'ftp://ftp.de.debian.org/debian', file_pattern=u'*.*', title=u"Debian files")
 
 
 Save
