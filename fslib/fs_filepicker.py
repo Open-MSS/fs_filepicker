@@ -177,18 +177,20 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             _sel_dir = u"."
         else:
             _sel_dir = self.selected_dir
-        try:
-            for item in sorted(self.fs.listdir(_sel_dir)):
-                _item = fs.path.combine(_sel_dir, item)
-                try:
-                    if not self.fs.isdir(_item) and match_extension(item, [file_type]):
-                        self.file_list_items.append(_item)
-                    elif self.fs.isdir(_item):
-                        self.dir_list_items.append(_item)
-                except fs.errors.PermissionDenied:
-                    logging.info("can't access {}".format(item))
-        except UnicodeDecodeError, e:
-            logging.error("Error: {}".format(e))
+        # don't scan on clear
+        if not _sel_dir == "":
+            try:
+                 for item in sorted(self.fs.listdir(_sel_dir)):
+                    _item = fs.path.combine(_sel_dir, item)
+                    try:
+                        if not self.fs.isdir(_item) and match_extension(item, [file_type]):
+                            self.file_list_items.append(_item)
+                        elif self.fs.isdir(_item):
+                            self.dir_list_items.append(_item)
+                    except fs.errors.PermissionDenied:
+                        logging.info("can't access {}".format(item))
+            except UnicodeDecodeError, e:
+                logging.error("Error: {}".format(e))
 
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
         index = 0
@@ -230,8 +232,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if "folder" in self.wparm.img:
                 index = self.dir_list_items.index(self.wparm.value) + 1
                 if index != 0:
-                    self.ui_DirList.setCurrentIndex(index)
-                    self.selection_directory()
                     self.browse_folder(subdir=self.wparm.value)
 
     def selection_file_type(self):
