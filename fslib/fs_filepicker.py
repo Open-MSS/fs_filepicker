@@ -153,6 +153,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Fills the filenames based on file_type into a FileList, also directories
         """
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         self.selected_dir = self.ui_DirList.currentText()
         self.ui_FileList.clearContents()
         file_type = self.ui_FileType.text()
@@ -197,6 +198,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.ui_FileList.currentItem() is not None:
                 self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
         self.ui_FileList.resizeRowsToContents()
+        QtWidgets.QApplication.restoreOverrideCursor()
 
     @QtCore.pyqtSlot(int, int)
     def onCellClicked(self, row, column):
