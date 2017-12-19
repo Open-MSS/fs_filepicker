@@ -105,7 +105,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.browse_folder()
         self.selection_directory()
 
-
     def fs_button(self):
         """
         Action fs button
@@ -181,7 +180,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                         self.dir_list_items.append(_item)
                 except fs.errors.PermissionDenied:
                     logging.info("can't access {}".format(item))
-        except UnicodeDecodeError,e:
+        except UnicodeDecodeError, e:
             logging.error("Error: {}".format(e))
 
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
@@ -191,14 +190,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item), self.dir_icon, item))
             index = index + 1
         for item in self.file_list_items:
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item), self.file_icon, item ))
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item), self.file_icon, item))
             index = index + 1
         if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.clearSelection()
             if self.ui_FileList.currentItem() is not None:
                 self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
         self.ui_FileList.resizeRowsToContents()
-
 
     @QtCore.pyqtSlot(int, int)
     def onCellClicked(self, row, column):
@@ -211,7 +209,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if self.wparm is not None:
             if "text" in self.wparm.img:
                 self.ui_SelectedName.setText(self.wparm.text)
-
 
     @QtCore.pyqtSlot(int, int)
     def onCellDoubleClicked(self, row, column):

@@ -88,4 +88,3 @@ class WidgetImageText(QWidget):
     @pyqtProperty(str)
     def value(self):
         return self._value
-
