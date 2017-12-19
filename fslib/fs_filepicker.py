@@ -73,6 +73,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_root.clicked.connect(self.root_button)
         self.ui_fs.clicked.connect(self.fs_button)
         self.ui_FileList.cellClicked.connect(self.onCellClicked)
+        self.ui_FileList.cellDoubleClicked.connect(self.onCellDoubleClicked)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
     def button_icons(self):
@@ -207,6 +208,17 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if self.wparm is not None:
             if "text" in self.wparm.img:
                 self.ui_SelectedName.setText(self.wparm.text)
+
+
+    @QtCore.pyqtSlot(int, int)
+    def onCellDoubleClicked(self, row, column):
+        """
+        Action for ui_FileList WidgetImageText on doubleclick
+        :param row: position
+        :param column: position
+        """
+        self.wparm = self.ui_FileList.cellWidget(row, column)
+        if self.wparm is not None:
             if "folder" in self.wparm.img:
                 index = self.dir_list_items.index(self.wparm.value) + 1
                 if index != 0:

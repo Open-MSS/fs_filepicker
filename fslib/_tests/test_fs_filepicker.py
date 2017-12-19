@@ -73,7 +73,7 @@ class Test_Open_FilePicker(object):
         index = sorted(SUB_DIRS).index(u'testdata/foo')
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellClicked(index, 0)
+        self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         self.window.selection_directory()
 
@@ -136,7 +136,7 @@ class Test_Open_FilePicker(object):
         assert self.window.filename == "foo.txt"
 
     def test_onCellClicked(self):
-        self.window.onCellClicked(0, 0)
+        self.window.onCellDoubleClicked(0, 0)
         QtWidgets.QApplication.processEvents()
         self.window.close()
         assert u"bar" in self.window.ui_DirList.currentText()
@@ -227,7 +227,7 @@ class Test_Save_FilePicker(object):
         index = sorted(SUB_DIRS).index(u'testdata/empty')
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellClicked(index, 0)
+        self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         self.window.make_dir()
         QtWidgets.QApplication.processEvents()
