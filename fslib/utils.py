@@ -50,7 +50,7 @@ def match_extension(name, extensions=None):
 
 def root_url():
     if sys.platform.startswith('win'):
-        return u"c://"
+        return u"file:///"
     else:
         return u"/"
 
