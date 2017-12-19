@@ -171,15 +171,18 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             _sel_dir = u"."
         else:
             _sel_dir = self.selected_dir
-        for item in sorted(self.fs.listdir(_sel_dir)):
-            _item = fs.path.combine(_sel_dir, item)
-            try:
-                if not self.fs.isdir(_item) and match_extension(item, [file_type]):
-                    self.file_list_items.append(_item)
-                elif self.fs.isdir(_item):
-                    self.dir_list_items.append(_item)
-            except fs.errors.PermissionDenied:
-                logging.info("can't access {}".format(item))
+        try:
+            for item in sorted(self.fs.listdir(_sel_dir)):
+                _item = fs.path.combine(_sel_dir, item)
+                try:
+                    if not self.fs.isdir(_item) and match_extension(item, [file_type]):
+                        self.file_list_items.append(_item)
+                    elif self.fs.isdir(_item):
+                        self.dir_list_items.append(_item)
+                except fs.errors.PermissionDenied:
+                    logging.info("can't access {}".format(item))
+        except UnicodeDecodeError,e:
+            logging.error("Error: {}".format(e))
 
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
         index = 0
