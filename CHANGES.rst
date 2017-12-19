@@ -1,6 +1,16 @@
 Changelog
 =========
 
+Version 0.1.3
+~~~~~~~~~~~~~
+
+  - improved directory scan
+  - nested directory creation fixed
+  - on time consuming functions cursor changed to wait cursor
+  - windows root url fixed
+  - double click introduced for changing into a directory
+
+
 Version 0.1.2
 ~~~~~~~~~~~~~
 
