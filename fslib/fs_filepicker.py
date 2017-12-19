@@ -189,7 +189,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                             self.dir_list_items.append(_item)
                     except fs.errors.PermissionDenied:
                         logging.info("can't access {}".format(item))
-            except UnicodeDecodeError, e:
+            except UnicodeDecodeError as e:
                 logging.error("Error: {}".format(e))
 
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
