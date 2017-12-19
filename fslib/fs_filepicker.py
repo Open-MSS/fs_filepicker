@@ -101,6 +101,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.active_url = self.fs_home_url
         if self.fs:
             self.fs.close()
+        if self.wparm is not None:
+            self.wparm = None
         self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
         self.selection_directory()
@@ -112,6 +114,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.active_url = self.fs_url
         if self.fs:
             self.fs.close()
+        if self.wparm is not None:
+            self.wparm = None
         self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
         self.selection_directory()
@@ -123,6 +127,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.active_url = self.fs_root_url
         if self.fs:
             self.fs.close()
+        if self.wparm is not None:
+            self.wparm = None
         self.fs = fs.open_fs(self.active_url)
         self.browse_folder()
         self.selection_directory()
@@ -305,10 +311,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if ok:
             dirname = u''
             if self.wparm is not None:
-                if self.wparm.value == './{}'.format(self.wparm.text):
-                    dirname = self.wparm.value
-                else:
-                    dirname = fs.path.dirname(self.wparm.value)
+                dirname = self.wparm.value
             new_dir = fs.path.combine(dirname, new_dir_name)
             if not self.fs.isdir(new_dir):
                 self.fs.makedir(new_dir)
