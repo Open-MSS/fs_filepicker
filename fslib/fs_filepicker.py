@@ -56,6 +56,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.file_list_items = []
         self.directory_history = []
         self.last_index = 0
+        self.last_dir_index = 0
         self.default_filename = default_filename
         self.file_pattern = file_pattern
         self.show_save_action = show_save_action
@@ -167,6 +168,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.directory_history.append(_sub_dir)
         for item in reversed(self.directory_history):
             self.ui_DirList.addItem(item)
+        self.ui_DirList.setCurrentIndex(self.last_dir_index)
 
     def selection_directory(self):
         """
@@ -323,15 +325,18 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                                                           QtWidgets.QLineEdit.Normal, "")
 
         if ok:
-            dirname = u''
-            if self.wparm is not None:
-                dirname = self.wparm.value
+            if self.wparm is None:
+                dirname = u''
+            else:
+                dirname = self.selected_dir
             new_dir = fs.path.combine(dirname, new_dir_name)
             if not self.fs.isdir(new_dir):
                 self.fs.makedir(new_dir)
+                self.last_dir_index = list(reversed(self.directory_history)).index(self.selected_dir)
                 self.browse_folder(subdir=self.selected_dir)
             else:
                 ok = QtWidgets.QMessageBox.warning(self, "New Folder", "Can't create this Folder: {}".format(new_dir))
+
 
     def history_top(self):
         """
