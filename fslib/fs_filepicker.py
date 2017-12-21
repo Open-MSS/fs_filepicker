@@ -54,6 +54,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.parent_url = self.fs_url
         self.fs = None
         self.file_list_items = []
+        self.directory_history = []
         self.last_index = 0
         self.default_filename = default_filename
         self.file_pattern = file_pattern
@@ -68,7 +69,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.action_buttons()
         self.ui_FileList.itemClicked.connect(self.show_name)
         self.ui_mkdir.clicked.connect(self.make_dir)
-        self.ui_parentdir.clicked.connect(self.parent_dir)
+        self.ui_history_top.clicked.connect(self.history_top)
+        self.ui_history_previous.clicked.connect(self.history_previous)
+        self.ui_history_next.clicked.connect(self.history_next)
         self.ui_home.clicked.connect(self.home_button)
         self.ui_root.clicked.connect(self.root_button)
         self.ui_fs.clicked.connect(self.fs_button)
@@ -80,8 +83,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Set icon image to button
         """
-        self.ui_parentdir.setText("")
-        self.ui_parentdir.setIcon(QIcon(icons('go-top.png')))
+        self.ui_history_top.setText("")
+        self.ui_history_top.setIcon(QIcon(icons('go-top.png')))
+        self.ui_history_next.setText("")
+        self.ui_history_next.setIcon(QIcon(icons('go-next.png')))
+        self.ui_history_previous.setText("")
+        self.ui_history_previous.setIcon(QIcon(icons('go-previous.png')))
         self.ui_mkdir.setText("")
         self.ui_mkdir.setIcon(QIcon(icons('folder-new.png')))
         self.ui_home.setText("")
@@ -99,6 +106,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Action home button
         """
         self.active_url = self.fs_home_url
+        self.directory_history = []
         if self.fs:
             self.fs.close()
         if self.wparm is not None:
@@ -112,6 +120,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Action fs button
         """
         self.active_url = self.fs_url
+        self.directory_history = []
         if self.fs:
             self.fs.close()
         if self.wparm is not None:
@@ -125,6 +134,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Action root button
         """
         self.active_url = self.fs_root_url
+        self.directory_history = []
         if self.fs:
             self.fs.close()
         if self.wparm is not None:
@@ -153,7 +163,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             _sub_dir = self.active_url
         else:
             _sub_dir = subdir
-        self.ui_DirList.addItem(_sub_dir)
+        if len(self.directory_history) == 0:
+            self.directory_history.append(_sub_dir)
+        for item in reversed(self.directory_history):
+            self.ui_DirList.addItem(item)
 
     def selection_directory(self):
         """
@@ -230,6 +243,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.wparm = self.ui_FileList.cellWidget(row, column)
         if self.wparm is not None:
             if "folder" in self.wparm.img:
+                self.directory_history.append(self.wparm.value)
                 index = self.dir_list_items.index(self.wparm.value) + 1
                 if index != 0:
                     self.browse_folder(subdir=self.wparm.value)
@@ -319,12 +333,27 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             else:
                 ok = QtWidgets.QMessageBox.warning(self, "New Folder", "Can't create this Folder: {}".format(new_dir))
 
-    def parent_dir(self):
+    def history_top(self):
         """
-        Action for button parent dir
+        Action for top dir in history_list
         """
-        # ToDo currently this shows the initial folder only, this needs to be changed to the parent
-        self.browse_folder()
+        self.browse_folder(self.active_url)
+
+    def history_next(self):
+        """
+        Action for previous dir in history_list
+        """
+        index = list(reversed(self.directory_history)).index(self.selected_dir) - 1
+        if index >= 0:
+            self.ui_DirList.setCurrentIndex(index)
+
+    def history_previous(self):
+        """
+        Action for bext dir in history_list
+        """
+        index = list(reversed(self.directory_history)).index(self.selected_dir) + 1
+        if index < len(self.directory_history):
+            self.ui_DirList.setCurrentIndex(index)
 
     def action(self):
         """

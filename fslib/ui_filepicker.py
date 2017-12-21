@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_filepicker.ui'
 #
-# Created by: PyQt5 UI code generator 5.6
+# Created by: PyQt5 UI code generator 5.5.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(717, 301)
+        Dialog.resize(763, 305)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -27,35 +27,35 @@ class Ui_Dialog(object):
         self.label_3.setGeometry(QtCore.QRect(160, 270, 101, 17))
         self.label_3.setObjectName("label_3")
         self.ui_FileType = QtWidgets.QLineEdit(Dialog)
-        self.ui_FileType.setGeometry(QtCore.QRect(260, 270, 361, 25))
+        self.ui_FileType.setGeometry(QtCore.QRect(260, 270, 411, 25))
         self.ui_FileType.setObjectName("ui_FileType")
         self.SaveName = QtWidgets.QLabel(Dialog)
         self.SaveName.setGeometry(QtCore.QRect(160, 240, 81, 17))
         self.SaveName.setObjectName("SaveName")
         self.ui_SelectedName = QtWidgets.QLineEdit(Dialog)
         self.ui_SelectedName.setEnabled(True)
-        self.ui_SelectedName.setGeometry(QtCore.QRect(260, 240, 361, 25))
+        self.ui_SelectedName.setGeometry(QtCore.QRect(260, 240, 411, 25))
         self.ui_SelectedName.setText("")
         self.ui_SelectedName.setObjectName("ui_SelectedName")
         self.ui_mkdir = QtWidgets.QPushButton(Dialog)
-        self.ui_mkdir.setGeometry(QtCore.QRect(680, 10, 32, 32))
+        self.ui_mkdir.setGeometry(QtCore.QRect(730, 10, 32, 32))
         self.ui_mkdir.setFocusPolicy(QtCore.Qt.NoFocus)
         self.ui_mkdir.setObjectName("ui_mkdir")
         self.ui_Action = QtWidgets.QPushButton(Dialog)
         self.ui_Action.setEnabled(False)
-        self.ui_Action.setGeometry(QtCore.QRect(630, 240, 81, 27))
+        self.ui_Action.setGeometry(QtCore.QRect(680, 240, 81, 27))
         self.ui_Action.setObjectName("ui_Action")
         self.ui_Cancel = QtWidgets.QPushButton(Dialog)
-        self.ui_Cancel.setGeometry(QtCore.QRect(630, 270, 81, 27))
+        self.ui_Cancel.setGeometry(QtCore.QRect(680, 270, 81, 27))
         self.ui_Cancel.setObjectName("ui_Cancel")
         self.ui_FileList = QtWidgets.QTableWidget(Dialog)
-        self.ui_FileList.setGeometry(QtCore.QRect(140, 40, 571, 192))
+        self.ui_FileList.setGeometry(QtCore.QRect(140, 40, 621, 192))
         self.ui_FileList.setObjectName("ui_FileList")
         self.ui_FileList.setColumnCount(0)
         self.ui_FileList.setRowCount(0)
-        self.ui_parentdir = QtWidgets.QPushButton(Dialog)
-        self.ui_parentdir.setGeometry(QtCore.QRect(640, 10, 32, 32))
-        self.ui_parentdir.setObjectName("ui_parentdir")
+        self.ui_history_top = QtWidgets.QPushButton(Dialog)
+        self.ui_history_top.setGeometry(QtCore.QRect(670, 10, 32, 32))
+        self.ui_history_top.setObjectName("ui_history_top")
         self.frame = QtWidgets.QFrame(Dialog)
         self.frame.setEnabled(True)
         self.frame.setGeometry(QtCore.QRect(10, 10, 120, 290))
@@ -77,6 +77,12 @@ class Ui_Dialog(object):
         self.ui_fs = QtWidgets.QPushButton(self.frame)
         self.ui_fs.setGeometry(QtCore.QRect(30, 220, 64, 64))
         self.ui_fs.setObjectName("ui_fs")
+        self.ui_history_previous = QtWidgets.QPushButton(Dialog)
+        self.ui_history_previous.setGeometry(QtCore.QRect(640, 10, 32, 32))
+        self.ui_history_previous.setObjectName("ui_history_previous")
+        self.ui_history_next = QtWidgets.QPushButton(Dialog)
+        self.ui_history_next.setGeometry(QtCore.QRect(700, 10, 32, 32))
+        self.ui_history_next.setObjectName("ui_history_next")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -90,8 +96,10 @@ class Ui_Dialog(object):
         self.ui_mkdir.setText(_translate("Dialog", "MD"))
         self.ui_Action.setText(_translate("Dialog", "Open"))
         self.ui_Cancel.setText(_translate("Dialog", "Cancel"))
-        self.ui_parentdir.setText(_translate("Dialog", "PushButton"))
+        self.ui_history_top.setText(_translate("Dialog", "PushButton"))
         self.ui_home.setText(_translate("Dialog", "HOME"))
         self.ui_root.setText(_translate("Dialog", "ROOT"))
         self.ui_fs.setText(_translate("Dialog", "FS"))
+        self.ui_history_previous.setText(_translate("Dialog", "PushButton"))
+        self.ui_history_next.setText(_translate("Dialog", "PushButton"))
 

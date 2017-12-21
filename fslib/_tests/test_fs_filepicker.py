@@ -125,9 +125,10 @@ class Test_Open_FilePicker(object):
         assert self.window.filename == u"example.txt"
 
     def test_subdirectory(self):
-        self.window.browse_folder(subdir=u"bar")
-        self.window.selection_directory()
+        index = self.window.dir_list_items.index(u'./bar')
+        self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
+        assert self.window.file_list_items[0] == "./bar/foo.txt"
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
         self.window.action()
