@@ -234,3 +234,22 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.close()
         assert u'./empty/exampledir' in self.window.dir_list_items
+
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
+                return_value=(u"thisexampledir", True))
+    def test_history_makedir(self, mocktext):
+        index = self.window.dir_list_items.index(u'./empty')
+        self.window.onCellDoubleClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.history_previous()
+        index = self.window.dir_list_items.index(u'./bar')
+        self.window.onCellDoubleClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.history_previous()
+        assert self.window.ui_DirList.currentText() == './empty'
+        QtWidgets.QApplication.processEvents()
+        self.window.make_dir()
+        QtWidgets.QApplication.processEvents()
+        self.window.close()
+        assert u'./empty/thisexampledir' in self.window.dir_list_items
+        assert self.window.last_dir_index == 1
