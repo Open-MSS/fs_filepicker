@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.1.4
+~~~~~~~~~~~~~
+
+  - improved directory history navigation, fixes #3
+
+
 Version 0.1.3
 ~~~~~~~~~~~~~
 
