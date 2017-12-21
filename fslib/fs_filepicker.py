@@ -346,7 +346,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def history_next(self):
         """
-        Action for previous dir in history_list
+        Action for next dir in history_list
         """
         index = list(reversed(self.directory_history)).index(self.selected_dir) - 1
         if index >= 0:
@@ -354,7 +354,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def history_previous(self):
         """
-        Action for bext dir in history_list
+        Action for previous dir in history_list
         """
         index = list(reversed(self.directory_history)).index(self.selected_dir) + 1
         if index < len(self.directory_history):
