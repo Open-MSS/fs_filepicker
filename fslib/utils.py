@@ -54,6 +54,7 @@ def root_url():
     else:
         return u"/"
 
+
 class WidgetText(QWidget):
     def __init__(self, text, parent=None):
         QWidget.__init__(self, parent)
@@ -63,6 +64,7 @@ class WidgetText(QWidget):
         self.lbText.setAlignment(Qt.AlignRight)
         self.layout().addWidget(self.lbText)
         self.lbText.setText(self._text)
+
 
 class WidgetImageText(QWidget):
     # inspired by

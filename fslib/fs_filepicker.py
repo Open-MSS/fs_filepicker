@@ -186,7 +186,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         file_type = self.ui_FileType.text()
         self.file_list_items = []
         self.dir_list_items = []
-        #self.ui_FileList.setColumnCount(3)
         self.ui_FileList.verticalHeader().setVisible(False)
         self.ui_FileList.horizontalHeader().setVisible(True)
         self.ui_FileList.setHorizontalHeaderLabels([u'Name', u'Size', u'Modified'])
@@ -201,7 +200,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         # don't scan on clear
         if not _sel_dir == u"":
             try:
-                 for item in sorted(self.fs.listdir(_sel_dir)):
+                for item in sorted(self.fs.listdir(_sel_dir)):
                     _item = fs.path.combine(_sel_dir, item)
                     try:
                         if not self.fs.isdir(_item) and match_extension(item, [file_type]):
@@ -234,7 +233,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             except (AttributeError, TypeError):
                 _size = u""
 
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]), self.dir_icon, item))
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]),
+                                                                     self.dir_icon, item))
             self.ui_FileList.setCellWidget(index, 1, WidgetText(_size))
             self.ui_FileList.setCellWidget(index, 2, WidgetText(_mod_time))
             index = index + 1
@@ -248,7 +248,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 _size = unicode(humanfriendly.format_size(info.size))
             except (AttributeError, TypeError):
                 _size = u""
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]), self.file_icon, item))
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]),
+                                                                     self.file_icon, item))
             self.ui_FileList.setCellWidget(index, 1, WidgetText(_size))
             self.ui_FileList.setCellWidget(index, 2, WidgetText(_mod_time))
             index = index + 1
@@ -379,7 +380,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.browse_folder(subdir=self.selected_dir)
             else:
                 ok = QtWidgets.QMessageBox.warning(self, u"New Folder", u"Can't create this Folder: {}".format(new_dir))
-
 
     def history_top(self):
         """
