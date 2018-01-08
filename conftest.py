@@ -49,9 +49,9 @@ SUB_DIRS = [u'testdata/foo', u'testdata/bar', u'testdata/empty']
 
 
 def setup_testdata():
-    for dir in SUB_DIRS:
-        if not ROOT_FS.exists(dir):
-            ROOT_FS.makedirs(dir)
+    for testdir in SUB_DIRS:
+        if not ROOT_FS.exists(testdir):
+            ROOT_FS.makedirs(testdir)
 
     data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
     with data_fs.open(u'example.csv', 'w') as file_object:
@@ -61,8 +61,8 @@ def setup_testdata():
     with data_fs.open(u'foo.txt', 'w') as file_object:
         file_object.write(u'testdata')
 
-    for dir in [u'testdata/foo', u'testdata/bar']:
-        data_fs = fs.open_fs(fs.path.join(ROOT_DIR,  dir))
+    for testdir in [u'testdata/foo', u'testdata/bar']:
+        data_fs = fs.open_fs(fs.path.join(ROOT_DIR,  testdir))
         with data_fs.open(u'foo.txt', 'w') as file_object:
             file_object.write(u'testdata')
 

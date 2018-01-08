@@ -26,7 +26,7 @@
 import fnmatch
 import sys
 
-from PyQt5.QtCore import pyqtProperty, QRect
+from PyQt5.QtCore import pyqtProperty
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
