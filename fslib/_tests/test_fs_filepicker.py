@@ -216,7 +216,7 @@ class Test_Save_FilePicker(object):
         index = sorted(SUB_DIRS).index(u'testdata/empty')
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellClicked(index, 0)
+        self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         self.window.selection_directory()
         self.window.ui_SelectedName.setText(u"example.txt")
@@ -224,7 +224,7 @@ class Test_Save_FilePicker(object):
         self.window.action()
         QtWidgets.QApplication.processEvents()
         self.window.close()
-        assert self.window.wparm.value == {u'./empty': None}
+        assert self.window.wparm.value.keys()[0] == u"./empty"
         assert u"example.txt" in self.window.filename
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
