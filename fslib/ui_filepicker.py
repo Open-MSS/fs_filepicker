@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'ui_filepicker.ui'
 #
-# Created by: PyQt5 UI code generator 5.5.1
+# Created by: PyQt5 UI code generator 5.6
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -50,9 +50,14 @@ class Ui_Dialog(object):
         self.ui_Cancel.setObjectName("ui_Cancel")
         self.ui_FileList = QtWidgets.QTableWidget(Dialog)
         self.ui_FileList.setGeometry(QtCore.QRect(140, 40, 621, 192))
+        self.ui_FileList.setShowGrid(False)
+        self.ui_FileList.setColumnCount(3)
         self.ui_FileList.setObjectName("ui_FileList")
-        self.ui_FileList.setColumnCount(0)
         self.ui_FileList.setRowCount(0)
+        self.ui_FileList.horizontalHeader().setCascadingSectionResizes(True)
+        self.ui_FileList.horizontalHeader().setDefaultSectionSize(200)
+        self.ui_FileList.horizontalHeader().setSortIndicatorShown(True)
+        self.ui_FileList.horizontalHeader().setStretchLastSection(True)
         self.ui_history_top = QtWidgets.QPushButton(Dialog)
         self.ui_history_top.setGeometry(QtCore.QRect(670, 10, 32, 32))
         self.ui_history_top.setObjectName("ui_history_top")
@@ -96,6 +101,7 @@ class Ui_Dialog(object):
         self.ui_mkdir.setText(_translate("Dialog", "MD"))
         self.ui_Action.setText(_translate("Dialog", "Open"))
         self.ui_Cancel.setText(_translate("Dialog", "Cancel"))
+        self.ui_FileList.setSortingEnabled(True)
         self.ui_history_top.setText(_translate("Dialog", "PushButton"))
         self.ui_home.setText(_translate("Dialog", "HOME"))
         self.ui_root.setText(_translate("Dialog", "ROOT"))

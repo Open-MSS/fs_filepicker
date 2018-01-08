@@ -27,10 +27,11 @@ import sys
 import logging
 import argparse
 import fs
+import humanfriendly
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
-from fslib.utils import match_extension, WidgetImageText
+from fslib.utils import match_extension, WidgetImageText, WidgetText
 from fslib.icons import icons
 from fslib.utils import root_url
 
@@ -180,10 +181,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         file_type = self.ui_FileType.text()
         self.file_list_items = []
         self.dir_list_items = []
-        self.ui_FileList.setColumnCount(1)
-        self.ui_FileList.setColumnWidth(0, 400)
+        #self.ui_FileList.setColumnCount(3)
         self.ui_FileList.verticalHeader().setVisible(False)
-        self.ui_FileList.horizontalHeader().setVisible(False)
+        self.ui_FileList.horizontalHeader().setVisible(True)
+        self.ui_FileList.setHorizontalHeaderLabels(['Name', 'Size', 'Modified'])
         self.ui_FileList.setShowGrid(False)
         self.ui_FileList.setSizeAdjustPolicy(
             QtWidgets.QAbstractScrollArea.AdjustToContents)
@@ -199,22 +200,52 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                     _item = fs.path.combine(_sel_dir, item)
                     try:
                         if not self.fs.isdir(_item) and match_extension(item, [file_type]):
-                            self.file_list_items.append(_item)
+                            try:
+                                info = self.fs.getinfo(_item, namespaces=[u'details', u'access', u'stat'])
+                            except (fs.errors.ResourceNotFound, UnicodeEncodeError):
+                                info = None
+                            self.file_list_items.append({_item: info})
                         elif self.fs.isdir(_item):
-                            self.dir_list_items.append(_item)
+                            try:
+                                info = self.fs.getinfo(_item, namespaces=[u'details', u'access', u'stat'])
+                            except (fs.errors.ResourceNotFound, UnicodeEncodeError):
+                                info = None
+                            self.dir_list_items.append({_item: info})
                     except fs.errors.PermissionDenied:
-                        logging.info("can't access {}".format(item))
+                        logging.info(u"can't access {}".format(item))
             except UnicodeDecodeError as e:
-                logging.error("Error: {}".format(e))
+                logging.error(u"Error: {}".format(e))
 
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
         index = 0
-
         for item in self.dir_list_items:
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item), self.dir_icon, item))
+            info = item.values()[0]
+            try:
+                _mod_time = info.modified.strftime("%Y-%m-%d %H:%M:%S")
+            except TypeError:
+                _mod_time = u""
+            try:
+                _size = unicode(humanfriendly.format_size(info.size))
+            except (AttributeError, TypeError):
+                _size = u""
+
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]), self.dir_icon, item))
+            self.ui_FileList.setCellWidget(index, 1, WidgetText(_size))
+            self.ui_FileList.setCellWidget(index, 2, WidgetText(_mod_time))
             index = index + 1
         for item in self.file_list_items:
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item), self.file_icon, item))
+            info = item.values()[0]
+            try:
+                _mod_time = info.modified.strftime("%Y-%m-%d %H:%M:%S")
+            except (AttributeError, TypeError):
+                _mod_time = u""
+            try:
+                _size = unicode(humanfriendly.format_size(info.size))
+            except (AttributeError, TypeError):
+                _size = u""
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]), self.file_icon, item))
+            self.ui_FileList.setCellWidget(index, 1, WidgetText(_size))
+            self.ui_FileList.setCellWidget(index, 2, WidgetText(_mod_time))
             index = index + 1
         if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.clearSelection()
@@ -243,12 +274,16 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         :param column: position
         """
         self.wparm = self.ui_FileList.cellWidget(row, column)
-        if self.wparm is not None:
-            if "folder" in self.wparm.img:
-                self.directory_history.append(self.wparm.value)
-                index = self.dir_list_items.index(self.wparm.value) + 1
-                if index != 0:
-                    self.browse_folder(subdir=self.wparm.value)
+        try:
+            if self.wparm is not None:
+                if "folder" in self.wparm.img:
+                    _folder_names = [name.keys()[0] for name in self.dir_list_items]
+                    self.directory_history.append(self.wparm.value.keys()[0])
+                    index = _folder_names.index(self.wparm.value.keys()[0])  # + 1
+                    if index != 0:
+                        self.browse_folder(subdir=self.wparm.value.keys()[0])
+        except AttributeError:
+            pass
 
     def selection_file_type(self):
         """
@@ -269,14 +304,15 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.wparm.value == './{}'.format(self.wparm.text):
                 dirname = fs.path.dirname('./{}'.format(self.wparm.text))
             else:
-                dirname = fs.path.dirname(self.wparm.value)
+                dirname = fs.path.dirname(self.wparm.value.keys()[0])
         _filename = fs.path.combine(dirname, self.filename)
+        _file_names = [name.keys()[0] for name in self.file_list_items]
 
-        if self.fs.exists(_filename) and _filename in self.file_list_items:
+        if self.fs.exists(_filename) and _filename in _file_names:
             self.ui_Action.setEnabled(True)
-            all_items = self.dir_list_items + self.file_list_items
+            all_items = self.dir_list_items + _file_names
             try:
-                self.ui_FileList.selectRow(all_items.index(_filename))
+                self.ui_FileList.selectRow(all_items.index(_filename) + 1)
             except TypeError:
                 pass
         else:

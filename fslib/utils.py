@@ -54,6 +54,15 @@ def root_url():
     else:
         return u"/"
 
+class WidgetText(QWidget):
+    def __init__(self, text, parent=None):
+        QWidget.__init__(self, parent)
+        self._text = text
+        self.setLayout(QHBoxLayout())
+        self.lbText = QLabel(self)
+        self.lbText.setAlignment(Qt.AlignRight)
+        self.layout().addWidget(self.lbText)
+        self.lbText.setText(self._text)
 
 class WidgetImageText(QWidget):
     # inspired by
@@ -67,8 +76,15 @@ class WidgetImageText(QWidget):
         self.setLayout(QHBoxLayout())
         self.lbPixmap = QLabel(self)
         self.lbText = QLabel(self)
-        self.lbText.setMinimumWidth(400)
+        self.lbModtime = QLabel(self)
+        self.lbSize = QLabel(self)
+        self.lbModtime = QLabel(self)
+        self.lbText.setMinimumWidth(600)
         self.lbText.setAlignment(Qt.AlignLeft)
+        self.lbSize.setMinimumWidth(200)
+        self.lbSize.setAlignment(Qt.AlignLeft)
+        self.lbModtime.setMinimumWidth(300)
+        self.lbModtime.setAlignment(Qt.AlignLeft)
         self.layout().addWidget(self.lbPixmap)
         self.layout().addWidget(self.lbText)
         self.initUi()
