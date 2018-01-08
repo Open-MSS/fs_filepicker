@@ -189,7 +189,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         #self.ui_FileList.setColumnCount(3)
         self.ui_FileList.verticalHeader().setVisible(False)
         self.ui_FileList.horizontalHeader().setVisible(True)
-        self.ui_FileList.setHorizontalHeaderLabels(['Name', 'Size', 'Modified'])
+        self.ui_FileList.setHorizontalHeaderLabels([u'Name', u'Size', u'Modified'])
         self.ui_FileList.setShowGrid(False)
         self.ui_FileList.setSizeAdjustPolicy(
             QtWidgets.QAbstractScrollArea.AdjustToContents)
@@ -199,7 +199,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         else:
             _sel_dir = self.selected_dir
         # don't scan on clear
-        if not _sel_dir == "":
+        if not _sel_dir == u"":
             try:
                  for item in sorted(self.fs.listdir(_sel_dir)):
                     _item = fs.path.combine(_sel_dir, item)
@@ -226,7 +226,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         for item in self.dir_list_items:
             info = item.values()[0]
             try:
-                _mod_time = info.modified.strftime("%Y-%m-%d %H:%M:%S")
+                _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
             except TypeError:
                 _mod_time = u""
             try:
@@ -241,7 +241,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         for item in self.file_list_items:
             info = item.values()[0]
             try:
-                _mod_time = info.modified.strftime("%Y-%m-%d %H:%M:%S")
+                _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
             except (AttributeError, TypeError):
                 _mod_time = u""
             try:
@@ -306,8 +306,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.filename = self.ui_SelectedName.text()
         dirname = u'./'
         if self.wparm is not None:
-            if self.wparm.value == './{}'.format(self.wparm.text):
-                dirname = fs.path.dirname('./{}'.format(self.wparm.text))
+            if self.wparm.value == u'./{}'.format(self.wparm.text):
+                dirname = fs.path.dirname(u'./{}'.format(self.wparm.text))
             else:
                 dirname = fs.path.dirname(self.wparm.value.keys()[0])
         _filename = fs.path.combine(dirname, self.filename)
@@ -362,7 +362,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Shows the make dir dialog und creates a new directory
         """
-        new_dir_name, ok = QtWidgets.QInputDialog.getText(self, u"New Folder", "Enter a new folder name:",
+        new_dir_name, ok = QtWidgets.QInputDialog.getText(self, u"New Folder", u"Enter a new folder name:",
                                                           QtWidgets.QLineEdit.Normal, "")
 
         if ok:
@@ -376,7 +376,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.last_dir_index = list(reversed(self.directory_history)).index(self.selected_dir)
                 self.browse_folder(subdir=self.selected_dir)
             else:
-                ok = QtWidgets.QMessageBox.warning(self, "New Folder", "Can't create this Folder: {}".format(new_dir))
+                ok = QtWidgets.QMessageBox.warning(self, u"New Folder", u"Can't create this Folder: {}".format(new_dir))
 
 
     def history_top(self):
@@ -411,20 +411,20 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 return
             dirname = u'./'
             if self.wparm is not None:
-                if self.wparm.value == './{}'.format(self.wparm.text):
-                    dirname = fs.path.dirname('./{}'.format(self.wparm.text))
+                if self.wparm.value == u'./{}'.format(self.wparm.text):
+                    dirname = fs.path.dirname(u'./{}'.format(self.wparm.text))
                 else:
                     dirname = fs.path.dirname(self.wparm.value)
             filename = fs.path.join(dirname, self.filename)
             if self.fs.isdir(filename):
                 sel = QtWidgets.QMessageBox.warning(
-                    self, "Warning",
-                    "You can't create a file with this name: {0}".format(self.filename),
+                    self, u"Warning",
+                    u"You can't create a file with this name: {0}".format(self.filename),
                     QtWidgets.QMessageBox.No)
             elif self.fs.exists(filename):
                 sel = QtWidgets.QMessageBox.question(
-                    self, "Replace Filename",
-                    "This will replace the filename: {0}. Continue?".format(self.filename),
+                    self, u"Replace Filename",
+                    u"This will replace the filename: {0}. Continue?".format(self.filename),
                     QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
                 if sel == QtWidgets.QMessageBox.Yes:
                     self.close()
