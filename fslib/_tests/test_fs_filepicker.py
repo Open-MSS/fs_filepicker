@@ -235,8 +235,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
-        self.window.make
-        _dir()
+        self.window.make_dir()
         QtWidgets.QApplication.processEvents()
         self.window.close()
         _folder_names = [name.keys()[0] for name in self.window.dir_list_items]
