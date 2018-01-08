@@ -1,6 +1,15 @@
 Changelog
 =========
 
+
+Version 0.1.5
+~~~~~~~~~~~~~
+
+ - handle incorrect fs urls
+ - size and modtime added to additional columns
+ - on save mode rejecting an existing name does not close
+
+
 Version 0.1.4
 ~~~~~~~~~~~~~
 
