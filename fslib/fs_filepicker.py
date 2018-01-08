@@ -266,6 +266,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         :param row: position
         :param column: position
         """
+        # Any cell click is always in column 0
+        column = 0
         self.wparm = self.ui_FileList.cellWidget(row, column)
         if self.wparm is not None:
             if "text" in self.wparm.img:
@@ -278,6 +280,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         :param row: position
         :param column: position
         """
+        column = 0
         self.wparm = self.ui_FileList.cellWidget(row, column)
         try:
             if self.wparm is not None:
