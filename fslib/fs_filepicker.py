@@ -127,7 +127,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.fs.close()
         if self.wparm is not None:
             self.wparm = None
-        self.fs = fs.open_fs(self.active_url)
+        try:
+            self.fs = fs.open_fs(self.active_url)
+        # ToDo lookup external library why it is not e.g. OpenFailed
+        except fs.errors.CreateFailed:
+            logging.error(u"{} does not exist!".format(self.active_url))
+            exit()
         self.browse_folder()
         self.selection_directory()
 
