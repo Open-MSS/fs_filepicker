@@ -428,7 +428,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 if sel == QtWidgets.QMessageBox.Yes:
                     self.close()
                 else:
-                    self.close()
+                    pass
             else:
                 self.close()
         else:
