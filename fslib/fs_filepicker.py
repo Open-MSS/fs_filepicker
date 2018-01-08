@@ -317,7 +317,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.ui_Action.setEnabled(True)
             all_items = self.dir_list_items + _file_names
             try:
-                self.ui_FileList.selectRow(all_items.index(_filename) + 1)
+                self.ui_FileList.selectRow(all_items.index(_filename))
             except TypeError:
                 pass
         else:
