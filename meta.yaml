@@ -27,6 +27,7 @@ requirements:
   run:
     - python
     - setuptools
+    - humanfriendly
     - pyqt
     - fs
     - fs.webdavfs
