@@ -29,6 +29,7 @@ import argparse
 import fs
 import humanfriendly
 from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtWidgets import QAbstractItemView
 from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
 from fslib.utils import match_extension, WidgetImageText, WidgetText
@@ -79,6 +80,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_fs.clicked.connect(self.fs_button)
         self.ui_FileList.cellClicked.connect(self.onCellClicked)
         self.ui_FileList.cellDoubleClicked.connect(self.onCellDoubleClicked)
+        self.ui_FileList.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
     def button_icons(self):
@@ -267,7 +269,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         # Any cell click is always in column 0
         column = 0
-        self.ui_FileList.selectRow(row)
         self.wparm = self.ui_FileList.cellWidget(row, column)
         if self.wparm is not None:
             if "text" in self.wparm.img:
