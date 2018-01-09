@@ -228,10 +228,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
             except TypeError:
                 _mod_time = u""
-            try:
-                _size = unicode(humanfriendly.format_size(info.size))
-            except (AttributeError, TypeError):
-                _size = u""
+
+            _size = u"Folder"
 
             self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]),
                                                                      self.dir_icon, item))
