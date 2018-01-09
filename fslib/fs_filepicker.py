@@ -267,6 +267,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         # Any cell click is always in column 0
         column = 0
+        self.ui_FileList.selectRow(row)
         self.wparm = self.ui_FileList.cellWidget(row, column)
         if self.wparm is not None:
             if "text" in self.wparm.img:
