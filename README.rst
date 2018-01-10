@@ -22,12 +22,29 @@ fs_filepicker
 This project is based on `PyFilesystem2 <http://pyfilesystem2.readthedocs.io/>`_
 As fs_url you can enter any valid url which the fs.open_fs accepts.
 
-The examples shows the setup for Open and Save.
+Example for commandline::
 
-Open
-----
+   ~$: fs_filepicker -h
+   usage: fs_filepicker [-h] [-v] [-s] [-d DEFAULT_NAME] [-u FS_URL]
+                        [-f FILE_PATTERN] [-t TITLE]
+   optional arguments:
+     -h, --help            show this help message and exit
+     -v, --version         show version
+     -s, --save            show save button
+     -d DEFAULT_NAME, --default_name DEFAULT_NAME
+                           default name for saving
+     -u FS_URL, --fs_url FS_URL
+                           fs url to filesystem
+     -f FILE_PATTERN, --file_pattern FILE_PATTERN
+                           file pattern
+     -t TITLE, --title TITLE
+                           title of window
 
-Standalone example::
+
+   ~$: fs_filepicker -u ftp://ftp.de.debian.org/debian
+
+
+Examples for PyQt5::
 
   from PyQt5 import QtWidgets
   app = QtWidgets.QApplication([])
@@ -36,17 +53,15 @@ Standalone example::
                            title=u'Open Config File')
   print(filename)
 
-
-As modal widget snippet::
-
-  from fslib.fs_filepicker import fs_filepicker
-  filename = fs_filepicker(self, fs_url=u'ftp://ftp.de.debian.org/debian', file_pattern=u'*.*', title=u"Debian files")
-
-
-Save
-----
-
-Example::
-
   filename = fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.json', default_filename=u'config.json',
                            show_save_action=True, title=u'Save Config File')
+
+  print(filename)
+
+
+  def load_file(self):
+      from fslib.fs_filepicker import fs_filepicker
+      filename = fs_filepicker(self, fs_url=u'ftp://ftp.de.debian.org/debian', file_pattern=u'*.*', title=u"Debian files")
+
+
+
