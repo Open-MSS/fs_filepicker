@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+Version 0.1.6
+~~~~~~~~~~~~~
+
+ - catch exception on make_dir for RO directorie
+ - any cell click selects the row
+ - size for directories replaced by the word Folder
+
+
 Version 0.1.5
 ~~~~~~~~~~~~~
 
