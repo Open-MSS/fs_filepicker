@@ -110,20 +110,23 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Action home button
         """
         self.active_url = self.fs_home_url
-        self.directory_history = []
-        if self.fs:
-            self.fs.close()
-        if self.wparm is not None:
-            self.wparm = None
-        self.fs = fs.open_fs(self.active_url)
-        self.browse_folder()
-        self.selection_directory()
+        self.select_fs()
+
+    def root_button(self):
+        """
+        Action root button
+        """
+        self.active_url = self.fs_root_url
+        self.select_fs()
 
     def fs_button(self):
         """
         Action fs button
         """
         self.active_url = self.fs_url
+        self.select_fs()
+
+    def select_fs(self):
         self.directory_history = []
         if self.fs:
             self.fs.close()
@@ -138,19 +141,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.browse_folder()
         self.selection_directory()
 
-    def root_button(self):
-        """
-        Action root button
-        """
-        self.active_url = self.fs_root_url
-        self.directory_history = []
-        if self.fs:
-            self.fs.close()
-        if self.wparm is not None:
-            self.wparm = None
-        self.fs = fs.open_fs(self.active_url)
-        self.browse_folder()
-        self.selection_directory()
+
 
     def action_buttons(self):
         """
