@@ -363,7 +363,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 dirname = self.selected_dir
             new_dir = fs.path.combine(dirname, new_dir_name)
             if not self.fs.isdir(new_dir):
-                self.fs.makedir(new_dir)
+                try:
+                    self.fs.makedir(new_dir)
+                except fs.errors.ResourceNotFound:
+                    logging.error(u"Can't create {}".format(new_dir))
                 self.last_dir_index = list(reversed(self.directory_history)).index(self.selected_dir)
                 self.browse_folder(subdir=self.selected_dir)
             else:
