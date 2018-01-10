@@ -127,6 +127,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.select_fs()
 
     def select_fs(self):
+        """
+        loads the selected fs to the file list ui
+        """
         self.directory_history = []
         if self.fs:
             self.fs.close()
@@ -140,8 +143,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             exit()
         self.browse_folder()
         self.selection_directory()
-
-
 
     def action_buttons(self):
         """
@@ -221,9 +222,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
             except TypeError:
                 _mod_time = u""
-
             _size = u"Folder"
-
             self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]),
                                                                      self.dir_icon, item))
             self.ui_FileList.setCellWidget(index, 1, WidgetText(_size))
@@ -357,7 +356,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         new_dir_name, ok = QtWidgets.QInputDialog.getText(self, u"New Folder", u"Enter a new folder name:",
                                                           QtWidgets.QLineEdit.Normal, "")
-
         if ok:
             if self.wparm is None:
                 dirname = u''
@@ -470,7 +468,6 @@ def main():
     parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/")
     parser.add_argument("-f", "--file_pattern", help="file pattern", default=u"*.*")
     parser.add_argument("-t", "--title", help="title of window", default=u'FS File Picker')
-
     args = parser.parse_args()
     if args.version:
         print("***********************************************************************")
