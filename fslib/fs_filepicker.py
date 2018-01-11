@@ -48,7 +48,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.filename = None
         self.wparm = None
         self.setWindowTitle(title)
-        self.fs_url = unicode(fs_url)
+        self.fs_url = fs_url
         self.fs_home_url = u"~/"
         self.fs_root_url = root_url()
         self.active_url = self.fs_url
@@ -216,28 +216,28 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
         index = 0
         for item in self.dir_list_items:
-            info = item.values()[0]
+            info = list(item.values())[0]
             try:
                 _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
             except TypeError:
                 _mod_time = u""
             _size = u"Folder"
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]),
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
                                                                      self.dir_icon, item))
             self.ui_FileList.setCellWidget(index, 1, WidgetText(_size))
             self.ui_FileList.setCellWidget(index, 2, WidgetText(_mod_time))
             index = index + 1
         for item in self.file_list_items:
-            info = item.values()[0]
+            info = list(item.values())[0]
             try:
                 _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
             except (AttributeError, TypeError):
                 _mod_time = u""
             try:
-                _size = unicode(humanfriendly.format_size(info.size))
+                _size = humanfriendly.format_size(info.size)
             except (AttributeError, TypeError):
                 _size = u""
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(item.keys()[0]),
+            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
                                                                      self.file_icon, item))
             self.ui_FileList.setCellWidget(index, 1, WidgetText(_size))
             self.ui_FileList.setCellWidget(index, 2, WidgetText(_mod_time))
@@ -275,9 +275,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         try:
             if self.wparm is not None:
                 if "folder" in self.wparm.img:
-                    _folder_names = [name.keys()[0] for name in self.dir_list_items]
-                    self.directory_history.append(self.wparm.value.keys()[0])
-                    self.browse_folder(subdir=self.wparm.value.keys()[0])
+                    _folder_names = [list(name)[0] for name in self.dir_list_items]
+                    self.directory_history.append(list(self.wparm.value.keys())[0])
+                    self.browse_folder(subdir=list(self.wparm.value.keys())[0])
         except AttributeError:
             pass
 
@@ -300,9 +300,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.wparm.value == u'./{}'.format(self.wparm.text):
                 dirname = fs.path.dirname(u'./{}'.format(self.wparm.text))
             else:
-                dirname = fs.path.dirname(self.wparm.value.keys()[0])
+                dirname = fs.path.dirname(list(self.wparm.value)[0])
         _filename = fs.path.combine(dirname, self.filename)
-        _file_names = [name.keys()[0] for name in self.file_list_items]
+        _file_names = [list(name)[0] for name in self.file_list_items]
 
         if self.fs.exists(_filename) and _filename in _file_names:
             self.ui_Action.setEnabled(True)
