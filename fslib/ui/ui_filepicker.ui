@@ -38,6 +38,9 @@
            <height>64</height>
           </size>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>HOME</string>
          </property>
@@ -57,6 +60,9 @@
            <height>64</height>
           </size>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
          <property name="text">
           <string>ROOT</string>
          </property>
@@ -75,6 +81,9 @@
            <width>64</width>
            <height>64</height>
           </size>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="text">
           <string>FS</string>
@@ -126,6 +135,9 @@
                <height>32</height>
               </size>
              </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="text">
               <string>L</string>
              </property>
@@ -145,6 +157,9 @@
                <height>32</height>
               </size>
              </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="text">
               <string>UP</string>
              </property>
@@ -163,6 +178,9 @@
                <width>32</width>
                <height>32</height>
               </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
              </property>
              <property name="text">
               <string>R</string>
@@ -293,6 +311,9 @@
                <height>25</height>
               </size>
              </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="text">
               <string>Open</string>
              </property>
@@ -305,6 +326,9 @@
                <width>80</width>
                <height>25</height>
               </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
              </property>
              <property name="text">
               <string>Cancel</string>
