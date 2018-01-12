@@ -1,6 +1,14 @@
 Changelog
 =========
 
+
+Version 0.1.8
+~~~~~~~~~~~~~
+
+ - no focus for buttons
+ - py2topy3 compatibilty fixed #11
+
+
 Version 0.1.7
 ~~~~~~~~~~~~~
 

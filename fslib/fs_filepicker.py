@@ -28,6 +28,7 @@ import logging
 import argparse
 import fs
 import humanfriendly
+from fs.opener import parse
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QAbstractItemView
 from PyQt5.QtGui import QIcon
@@ -52,6 +53,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.fs_home_url = u"~/"
         self.fs_root_url = root_url()
         self.active_url = self.fs_url
+        self.authentification = None
         self.parent_url = self.fs_url
         self.fs = None
         self.file_list_items = []
@@ -140,6 +142,15 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         except fs.errors.CreateFailed:
             logging.error(u"{} does not exist!".format(self.active_url))
             exit()
+        try:
+            parseresult = parse(self.active_url)
+        except fs.opener.errors.ParseError:
+            parseresult = None
+
+        if parseresult is not None and parseresult.username is not None:
+            self.authentification = "{}:{}@".format(parseresult.username,  parseresult.password)
+            self.active_url = self.active_url.replace(self.authentification, u"")
+
         self.browse_folder()
         self.selection_directory()
 
@@ -450,15 +461,23 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS Fil
                     default_filename=default_filename, show_save_action=show_save_action)
     fp.setModal(True)
     fp.exec_()
+    active_url = fp.active_url
+    if fp.authentification is not None:
+        try:
+            parseresult = parse(fp.active_url)
+        except fs.opener.errors.ParseError:
+            parseresult = None
+        if parseresult is not None:
+            active_url = u"{}://{}{}".format(parseresult.protocol, fp.authentification, parseresult.resource)
     filename = None
     if fp.filename is not None:
         dirname = u'./'
         if fp.wparm is not None:
             dirname = fp.selected_dir
         if dirname.startswith(fp.active_url):
-            filename = u"{}{}".format(dirname, fp.filename)
+            filename = u"{}{}".format(active_url, fp.filename)
         else:
-            filename = fs.path.combine(u"{}{}".format(fp.active_url, dirname), fp.filename)
+            filename = fs.path.combine(u"{}{}".format(active_url, dirname), fp.filename)
     return filename
 
 
