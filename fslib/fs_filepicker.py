@@ -216,7 +216,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                             except (fs.errors.ResourceNotFound, UnicodeEncodeError):
                                 info = None
                             self.dir_list_items.append({_item: info})
-                    except fs.errors.PermissionDenied:
+                    except (fs.errors.PermissionDenied, fs.errors.OperationFailed):
                         logging.info(u"can't access {}".format(item))
             except UnicodeDecodeError as e:
                 logging.error(u"Error: {}".format(e))
