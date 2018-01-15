@@ -242,65 +242,45 @@
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="Bottom_Selection_horizontal">
+        <layout class="QHBoxLayout" name="Botton_Selection_horizontal">
          <item>
-          <layout class="QVBoxLayout" name="file_name_and_file_type_vertical">
-           <item>
-            <layout class="QHBoxLayout" name="file_name_horizontal">
-             <item>
-              <widget class="QLabel" name="ui_label_filename">
-               <property name="text">
-                <string>File name: </string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeType">
-                <enum>QSizePolicy::Fixed</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>7</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="ui_SelectedName">
-               <property name="enabled">
-                <bool>true</bool>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
+          <layout class="QGridLayout" name="File_Label_grid">
+           <item row="0" column="0">
+            <widget class="QLabel" name="ui_label_filename">
+             <property name="text">
+              <string>File name: </string>
+             </property>
+            </widget>
            </item>
-           <item>
-            <layout class="QHBoxLayout" name="files_of_type_horizontal">
-             <item>
-              <widget class="QLabel" name="ui_label_filetype">
-               <property name="text">
-                <string>Files of type:</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="ui_FileType"/>
-             </item>
-            </layout>
+           <item row="1" column="0">
+            <widget class="QLabel" name="ui_label_filetype">
+             <property name="text">
+              <string>Files of type:</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
          <item>
-          <layout class="QVBoxLayout" name="action_button_vertical">
-           <item>
+          <layout class="QGridLayout" name="File_name_Files_of_type_grid">
+           <item row="2" column="0">
+            <widget class="QLineEdit" name="ui_FileType"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLineEdit" name="ui_SelectedName">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QGridLayout" name="Open_Cancel_grid">
+           <item row="0" column="0">
             <widget class="QPushButton" name="ui_Action">
              <property name="enabled">
               <bool>false</bool>
@@ -319,7 +299,7 @@
              </property>
             </widget>
            </item>
-           <item>
+           <item row="1" column="0">
             <widget class="QPushButton" name="ui_Cancel">
              <property name="minimumSize">
               <size>
