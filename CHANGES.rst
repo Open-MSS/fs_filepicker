@@ -2,6 +2,15 @@ Changelog
 =========
 
 
+Version 0.1.9
+~~~~~~~~~~~~~
+
+  - refactored "./" placeholder
+  - seperated authentication from url in widget
+  - grid layout used in widget
+  - handle IOError and OperationFailed
+
+
 Version 0.1.8
 ~~~~~~~~~~~~~
 
