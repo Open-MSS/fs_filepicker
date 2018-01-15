@@ -84,7 +84,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
-
     def button_icons(self):
         """
         Set icon image to button
@@ -221,7 +220,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                         logging.info(u"can't access {}".format(item))
             except UnicodeDecodeError as e:
                 logging.error(u"Error: {}".format(e))
-
 
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
         index = 0
