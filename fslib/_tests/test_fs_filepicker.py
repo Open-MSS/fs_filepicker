@@ -28,7 +28,7 @@ import mock
 import fs
 import pytest
 
-from PyQt5 import QtCore, QtWidgets, QtTest
+from PyQt5 import QtWidgets, QtTest
 from conftest import ROOT_FS, TESTDATA_DIR, ROOT_DIR, SUB_DIRS
 from fslib import fs_filepicker
 
