@@ -81,7 +81,7 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
-        assert u"./foo/foo.txt" in _file_names
+        assert u"foo/foo.txt" in _file_names
         assert len(self.window.file_list_items) == 1
 
     def test_showname_close(self):
@@ -91,7 +91,7 @@ class Test_Open_FilePicker(object):
 
     def test_showname_on_filename(self):
         self.window.show_name()
-        filename = u"./example.csv"
+        filename = u"example.csv"
         _file_names = [list(name)[0] for name in self.window.file_list_items]
         all_items = self.window.dir_list_items + _file_names
         index = all_items.index(filename)
@@ -128,11 +128,11 @@ class Test_Open_FilePicker(object):
 
     def test_subdirectory(self):
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
-        index = _folder_names.index(u'./bar')
+        index = _folder_names.index(u'bar')
         self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
-        assert _file_names[0] == "./bar/foo.txt"
+        assert _file_names[0] == "bar/foo.txt"
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
         self.window.action()
@@ -146,7 +146,7 @@ class Test_Open_FilePicker(object):
         self.window.close()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
         assert u"bar" in self.window.ui_DirList.currentText()
-        assert u"./bar/foo.txt" in _file_names
+        assert u"bar/foo.txt" in _file_names
 
 
 class Test_Save_FilePicker(object):
@@ -224,7 +224,7 @@ class Test_Save_FilePicker(object):
         self.window.action()
         QtWidgets.QApplication.processEvents()
         self.window.close()
-        assert list(self.window.wparm.value)[0] == u"./empty"
+        assert list(self.window.wparm.value)[0] == u"empty"
         assert u"example.txt" in self.window.filename
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
@@ -239,25 +239,25 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.close()
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
-        assert u'./empty/exampledir' in _folder_names
+        assert u'empty/exampledir' in _folder_names
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
                 return_value=(u"thisexampledir", True))
     def test_history_makedir(self, mocktext):
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
-        index = _folder_names.index(u'./empty')
+        index = _folder_names.index(u'empty')
         self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         self.window.history_previous()
-        index = _folder_names.index(u'./bar')
+        index = _folder_names.index(u'bar')
         self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         self.window.history_previous()
-        assert self.window.ui_DirList.currentText() == './empty'
+        assert self.window.ui_DirList.currentText() == 'empty'
         QtWidgets.QApplication.processEvents()
         self.window.make_dir()
         QtWidgets.QApplication.processEvents()
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
         self.window.close()
-        assert u'./empty/thisexampledir' in _folder_names
+        assert u'empty/thisexampledir' in _folder_names
         assert self.window.last_dir_index == 1

@@ -84,6 +84,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
+
     def button_icons(self):
         """
         Set icon image to button
@@ -145,11 +146,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             parseresult = parse(self.active_url)
         except fs.opener.errors.ParseError:
             parseresult = None
-
         if parseresult is not None and parseresult.username is not None:
             self.authentification = "{}:{}@".format(parseresult.username,  parseresult.password)
             self.active_url = self.active_url.replace(self.authentification, u"")
-
         self.browse_folder()
         self.selection_directory()
 
@@ -197,11 +196,11 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             QtWidgets.QAbstractScrollArea.AdjustToContents)
 
         if self.selected_dir == self.active_url:
-            _sel_dir = u"."
+            _sel_dir = u""
         else:
             _sel_dir = self.selected_dir
-        # don't scan on clear
-        if not _sel_dir == u"":
+        # on clearing ui_DirList also index changes and makes an additional call of that method
+        if self.ui_DirList.count() > 0:
             try:
                 for item in sorted(self.fs.listdir(_sel_dir)):
                     _item = fs.path.combine(_sel_dir, item)
@@ -222,6 +221,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                         logging.info(u"can't access {}".format(item))
             except UnicodeDecodeError as e:
                 logging.error(u"Error: {}".format(e))
+
 
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
         index = 0
