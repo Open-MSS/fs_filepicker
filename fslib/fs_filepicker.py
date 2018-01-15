@@ -138,8 +138,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.wparm = None
         try:
             self.fs = fs.open_fs(self.active_url)
-        # ToDo lookup external library why it is not e.g. OpenFailed
-        except fs.errors.CreateFailed:
+        except IOError:
             logging.error(u"{} does not exist!".format(self.active_url))
             exit()
         try:
