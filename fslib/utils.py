@@ -55,17 +55,6 @@ def root_url():
         return u"/"
 
 
-class WidgetText(QWidget):
-    def __init__(self, text, parent=None):
-        QWidget.__init__(self, parent)
-        self._text = text
-        self.setLayout(QHBoxLayout())
-        self.lbText = QLabel(self)
-        self.lbText.setAlignment(Qt.AlignRight)
-        self.layout().addWidget(self.lbText)
-        self.lbText.setText(self._text)
-
-
 class WidgetImageText(QWidget):
     # inspired by
     # https://stackoverflow.com/questions/45896291/how-to-show-image-and-text-at-same-cell-in-qtablewidget-in-pyqt

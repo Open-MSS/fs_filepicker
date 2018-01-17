@@ -33,7 +33,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QAbstractItemView
 from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
-from fslib.utils import match_extension, WidgetImageText, WidgetText
+from fslib.utils import match_extension, WidgetImageText
 from fslib.icons import icons
 from fslib.utils import root_url
 
@@ -230,10 +230,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             except TypeError:
                 _mod_time = u""
             _size = u"Folder"
+
             self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
                                                                      self.dir_icon, item))
-            self.ui_FileList.setCellWidget(index, 1, WidgetText(_size))
-            self.ui_FileList.setCellWidget(index, 2, WidgetText(_mod_time))
+            self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
+            self.ui_FileList.setItem(index, 2, QtWidgets.QTableWidgetItem(_mod_time))
+
             index = index + 1
         for item in self.file_list_items:
             info = list(item.values())[0]
@@ -245,10 +247,11 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 _size = humanfriendly.format_size(info.size)
             except (AttributeError, TypeError):
                 _size = u""
+
             self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
                                                                      self.file_icon, item))
-            self.ui_FileList.setCellWidget(index, 1, WidgetText(_size))
-            self.ui_FileList.setCellWidget(index, 2, WidgetText(_mod_time))
+            self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
+            self.ui_FileList.setItem(index, 2, QtWidgets.QTableWidgetItem(_mod_time))
             index = index + 1
         if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.clearSelection()
@@ -313,11 +316,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
         if self.fs.exists(_filename) and _filename in _file_names:
             self.ui_Action.setEnabled(True)
-            all_items = self.dir_list_items + _file_names
-            try:
-                self.ui_FileList.selectRow(all_items.index(_filename))
-            except TypeError:
-                pass
         else:
             if not self.show_save_action:
                 self.ui_Action.setEnabled(False)
