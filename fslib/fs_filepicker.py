@@ -24,6 +24,7 @@
     limitations under the License.
 """
 import sys
+import time
 import logging
 import argparse
 import fs
@@ -228,12 +229,14 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             try:
                 _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
             except TypeError:
-                _mod_time = u""
+                _mod_time = u" "
             _size = u"Folder"
-            _item = " " * 12 + fs.path.basename(list(item)[0])
-            self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
             self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
                                                                      self.dir_icon, item))
+            time.sleep(0.001)
+            _item = " " * 11 + fs.path.basename(list(item)[0])
+            self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
+
             self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
             self.ui_FileList.setItem(index, 2, QtWidgets.QTableWidgetItem(_mod_time))
 
@@ -243,15 +246,18 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             try:
                 _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
             except (AttributeError, TypeError):
-                _mod_time = u""
+                _mod_time = u" "
             try:
                 _size = humanfriendly.format_size(info.size)
             except (AttributeError, TypeError):
                 _size = u""
-            _item = " " * 12 + fs.path.basename(list(item)[0])
-            self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
             self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
                                                                      self.file_icon, item))
+            time.sleep(0.001)
+            _item = " " * 12 + fs.path.basename(list(item)[0])
+            self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
+
+
             self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
             self.ui_FileList.setItem(index, 2, QtWidgets.QTableWidgetItem(_mod_time))
             index = index + 1
