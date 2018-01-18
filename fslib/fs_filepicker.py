@@ -30,7 +30,7 @@ import fs
 import humanfriendly
 from fs.opener import parse
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QAbstractItemView
+from PyQt5.QtWidgets import QAbstractItemView, QTableWidgetItem
 from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
 from fslib.utils import match_extension, WidgetImageText
@@ -230,7 +230,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             except TypeError:
                 _mod_time = u""
             _size = u"Folder"
-
+            _item = " " * 12 + fs.path.basename(list(item)[0])
+            self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
             self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
                                                                      self.dir_icon, item))
             self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
@@ -247,7 +248,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 _size = humanfriendly.format_size(info.size)
             except (AttributeError, TypeError):
                 _size = u""
-
+            _item = " " * 12 + fs.path.basename(list(item)[0])
+            self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
             self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
                                                                      self.file_icon, item))
             self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))

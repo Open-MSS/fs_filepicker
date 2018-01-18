@@ -66,23 +66,12 @@ class WidgetImageText(QWidget):
         self._value = value
         self.setLayout(QHBoxLayout())
         self.lbPixmap = QLabel(self)
-        self.lbText = QLabel(self)
         self.lbModtime = QLabel(self)
-        self.lbSize = QLabel(self)
-        self.lbModtime = QLabel(self)
-        self.lbText.setMinimumWidth(600)
-        self.lbText.setAlignment(Qt.AlignLeft)
-        self.lbSize.setMinimumWidth(200)
-        self.lbSize.setAlignment(Qt.AlignLeft)
-        self.lbModtime.setMinimumWidth(300)
-        self.lbModtime.setAlignment(Qt.AlignLeft)
         self.layout().addWidget(self.lbPixmap)
-        self.layout().addWidget(self.lbText)
         self.initUi()
 
     def initUi(self):
         self.lbPixmap.setPixmap(QPixmap(self._img).scaled(self.lbPixmap.size(), Qt.KeepAspectRatio))
-        self.lbText.setText(self._text)
 
     @pyqtProperty(str)
     def img(self):
