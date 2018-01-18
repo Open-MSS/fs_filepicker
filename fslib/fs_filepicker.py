@@ -33,7 +33,7 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QAbstractItemView
 from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
-from fslib.utils import root_url, human_readable_info, match_extension, FOLDER_SPACES, FILES_SPACES, WidgetImageText
+from fslib.utils import root_url, human_readable_info, match_extension, FOLDER_SPACES, FILES_SPACES, WidgetImage
 from fslib.icons import icons
 
 
@@ -234,8 +234,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         _mod_time, _size = human_readable_info(info)
         if folder:
             _size = u"Folder"
-        self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
-                                                                 icon, item))
+        self.ui_FileList.setCellWidget(index, 0, WidgetImage(fs.path.basename(list(item)[0]),
+                                                             icon, item))
         time.sleep(0.001)
         _item = " " * spaces + fs.path.basename(list(item)[0])
         self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))

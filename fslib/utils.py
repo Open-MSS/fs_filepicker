@@ -71,7 +71,7 @@ def human_readable_info(info):
     return _mod_time, _size
 
 
-class WidgetImageText(QWidget):
+class WidgetImage(QWidget):
     # inspired by
     # https://stackoverflow.com/questions/45896291/how-to-show-image-and-text-at-same-cell-in-qtablewidget-in-pyqt
     # slightly modified
