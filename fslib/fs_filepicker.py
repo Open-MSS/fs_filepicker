@@ -28,15 +28,13 @@ import time
 import logging
 import argparse
 import fs
-import humanfriendly
 from fs.opener import parse
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QAbstractItemView, QTableWidgetItem
+from PyQt5.QtWidgets import QAbstractItemView
 from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
-from fslib.utils import match_extension, WidgetImageText
+from fslib.utils import root_url, human_readable_info, match_extension, FOLDER_SPACES, FILES_SPACES, WidgetImageText
 from fslib.icons import icons
-from fslib.utils import root_url
 
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
@@ -206,16 +204,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                     _item = fs.path.combine(_sel_dir, item)
                     try:
                         if not self.fs.isdir(_item) and match_extension(item, [file_type]):
-                            try:
-                                info = self.fs.getinfo(_item, namespaces=[u'details', u'access', u'stat'])
-                            except (fs.errors.ResourceNotFound, UnicodeEncodeError):
-                                info = None
+                            info = self.get_info(_item)
                             self.file_list_items.append({_item: info})
                         elif self.fs.isdir(_item):
-                            try:
-                                info = self.fs.getinfo(_item, namespaces=[u'details', u'access', u'stat'])
-                            except (fs.errors.ResourceNotFound, UnicodeEncodeError):
-                                info = None
+                            info = self.get_info(_item)
                             self.dir_list_items.append({_item: info})
                     except (fs.errors.PermissionDenied, fs.errors.OperationFailed):
                         logging.info(u"can't access {}".format(item))
@@ -225,41 +217,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
         index = 0
         for item in self.dir_list_items:
-            info = list(item.values())[0]
-            try:
-                _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
-            except TypeError:
-                _mod_time = u" "
-            _size = u"Folder"
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
-                                                                     self.dir_icon, item))
-            time.sleep(0.001)
-            _item = " " * 11 + fs.path.basename(list(item)[0])
-            self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
-
-            self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
-            self.ui_FileList.setItem(index, 2, QtWidgets.QTableWidgetItem(_mod_time))
-
+            self.table_row(item, index, self.dir_icon, FOLDER_SPACES, folder=True)
             index = index + 1
         for item in self.file_list_items:
-            info = list(item.values())[0]
-            try:
-                _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
-            except (AttributeError, TypeError):
-                _mod_time = u" "
-            try:
-                _size = humanfriendly.format_size(info.size)
-            except (AttributeError, TypeError):
-                _size = u""
-            self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
-                                                                     self.file_icon, item))
-            time.sleep(0.001)
-            _item = " " * 12 + fs.path.basename(list(item)[0])
-            self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
-
-
-            self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
-            self.ui_FileList.setItem(index, 2, QtWidgets.QTableWidgetItem(_mod_time))
+            self.table_row(item, index, self.file_icon, FILES_SPACES, folder=False)
             index = index + 1
         if self.last_index == 0 and not self.show_save_action:
             self.ui_FileList.clearSelection()
@@ -267,6 +228,27 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
         self.ui_FileList.resizeRowsToContents()
         QtWidgets.QApplication.restoreOverrideCursor()
+
+    def table_row(self, item, index, icon, spaces, folder):
+        info = list(item.values())[0]
+        _mod_time, _size = human_readable_info(info)
+        if folder:
+            _size = u"Folder"
+        self.ui_FileList.setCellWidget(index, 0, WidgetImageText(fs.path.basename(list(item)[0]),
+                                                                 icon, item))
+        time.sleep(0.001)
+        _item = " " * spaces + fs.path.basename(list(item)[0])
+        self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
+        self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
+        self.ui_FileList.setItem(index, 2, QtWidgets.QTableWidgetItem(_mod_time))
+
+    def get_info(self, _item):
+        try:
+            info = self.fs.getinfo(_item, namespaces=[u'details', u'access', u'stat'])
+            time.sleep(0.001)
+        except (fs.errors.ResourceNotFound, UnicodeEncodeError):
+            info = None
+        return info
 
     @QtCore.pyqtSlot(int, int)
     def onCellClicked(self, row, column):

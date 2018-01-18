@@ -25,11 +25,15 @@
 """
 import fnmatch
 import sys
+import humanfriendly
 
 from PyQt5.QtCore import pyqtProperty
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
+
+FOLDER_SPACES = 11
+FILES_SPACES = 12
 
 
 def match_extension(name, extensions=None):
@@ -53,6 +57,18 @@ def root_url():
         return u"file:///"
     else:
         return u"/"
+
+
+def human_readable_info(info):
+    try:
+        _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
+    except (AttributeError, TypeError):
+        _mod_time = u" "
+    try:
+        _size = humanfriendly.format_size(info.size)
+    except (AttributeError, TypeError):
+        _size = u" "
+    return _mod_time, _size
 
 
 class WidgetImageText(QWidget):
