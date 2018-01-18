@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../fsfp/Menu/fsfp.ico</normaloff>../../fsfp/Menu/fsfp.ico</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="main_horizontal">
@@ -215,6 +219,12 @@
        </item>
        <item>
         <widget class="QTableWidget" name="ui_FileList">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
          <property name="showGrid">
           <bool>false</bool>
          </property>
