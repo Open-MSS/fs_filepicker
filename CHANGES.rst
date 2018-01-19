@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+Version 0.2.0
+~~~~~~~~~~~~~
+
+   - default size 700x400
+   - sorting of columns implemented
+   - alternating row colors
+   - fs icon added to widget
+
 Version 0.1.9
 ~~~~~~~~~~~~~
 
