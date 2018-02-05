@@ -40,7 +40,7 @@ from fslib.icons import icons
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'All Files (*)', title=u'FS File Picker',
-                 default_filename=None, show_save_action=False):
+                 default_filename=None, show_save_action=False, show_dirs_only=False):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
         self.setWindowIcon(QIcon(icons('fs_logo.png', origin='fs')))
@@ -65,8 +65,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.default_filename = default_filename
         self.file_pattern = file_pattern
         self.show_save_action = show_save_action
+        self.show_dirs_only = show_dirs_only
         self.button_icons()
         self.show_action()
+        self.configure()
         self.ui_FileType.addItems([self.file_pattern])
         self.fs_button()
         self.ui_FileType.currentIndexChanged.connect(self.selection_file_type)
@@ -85,6 +87,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.cellDoubleClicked.connect(self.onCellDoubleClicked)
         self.ui_FileList.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
+
+    def configure(self):
+        if self.show_dirs_only:
+            self.ui_label_filename.hide()
+            self.ui_label_filetype.hide()
+            self.ui_FileType.hide()
+            self.ui_SelectedName.hide()
 
     def button_icons(self):
         """
@@ -168,6 +177,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         if self.show_save_action:
             self.ui_Action.setEnabled(True)
+        if self.show_dirs_only:
+            self.ui_Action.setEnabled(True)
         self.ui_DirList.clear()
         if subdir == u".":
             _sub_dir = self.active_url
@@ -208,8 +219,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                     try:
                         self.selected_file_pattern = get_extension_from_string(file_type)
                         if not self.fs.isdir(_item) and match_extension(item, self.selected_file_pattern):
-                            info = self.get_info(_item)
-                            self.file_list_items.append({_item: info})
+                            if not self.show_dirs_only:
+                                info = self.get_info(_item)
+                                self.file_list_items.append({_item: info})
                         elif self.fs.isdir(_item):
                             info = self.get_info(_item)
                             self.dir_list_items.append({_item: info})
@@ -267,6 +279,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if self.wparm is not None:
             if "text" in self.wparm.img:
                 self.ui_SelectedName.setText(self.wparm.text)
+            if self.show_dirs_only and "folder" in self.wparm.img:
+                self.ui_SelectedName.setText(self.wparm.text)
 
     @QtCore.pyqtSlot(int, int)
     def onCellDoubleClicked(self, row, column):
@@ -305,15 +319,16 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 dirname = fs.path.dirname(u'./{}'.format(self.wparm.text))
             else:
                 dirname = fs.path.dirname(list(self.wparm.value)[0])
-        _filename = fs.path.combine(dirname, self.filename)
-        _file_names = [list(name)[0] for name in self.file_list_items]
+        if not self.show_dirs_only:
+            _filename = fs.path.combine(dirname, self.filename)
+            _file_names = [list(name)[0] for name in self.file_list_items]
 
-        if self.fs.exists(_filename) and _filename in _file_names:
-            self.ui_Action.setEnabled(True)
-        else:
-            if not self.show_save_action:
-                self.ui_Action.setEnabled(False)
-            self.ui_FileList.clearSelection()
+            if self.fs.exists(_filename) and _filename in _file_names:
+                self.ui_Action.setEnabled(True)
+            else:
+                if not self.show_save_action:
+                    self.ui_Action.setEnabled(False)
+                self.ui_FileList.clearSelection()
 
     def show_name(self):
         """
@@ -347,6 +362,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.ui_Action.setText("Save")
             if self.default_filename is not None:
                 self.ui_SelectedName.setText(self.default_filename)
+        if self.show_dirs_only:
+            self.ui_SelectedName.setEnabled(True)
+            self.ui_Action.setText("Get Directory")
 
     def make_dir(self):
         """
@@ -435,7 +453,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
 
 def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                  default_filename=None, show_save_action=False):
+                  default_filename=None, show_save_action=False, show_dirs_only=False):
     """
     Selects a file by FilePicker for a given pyfilesystem2 Url.
 
@@ -446,7 +464,8 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
     :return: selected filename
     """
     fp = FilePicker(parent, fs_url, file_pattern, title=title,
-                    default_filename=default_filename, show_save_action=show_save_action)
+                    default_filename=default_filename, show_save_action=show_save_action,
+                    show_dirs_only=show_dirs_only)
     fp.setModal(True)
     fp.exec_()
     active_url = fp.active_url
@@ -484,10 +503,14 @@ def getSaveFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files
     return fs_filepicker(parent, fs_url, file_pattern, title,
                          default_filename, show_save_action)
 
+def getExistingDirectory(parent=None, fs_url=u'~/', title=u'FS File Picker', show_dirs_only=True):
+    return fs_filepicker(parent, fs_url, title=title, show_dirs_only=show_dirs_only)
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", help="show version", action="store_true", default=False)
     parser.add_argument("-s", "--save", help="show save button", action="store_true", default=False)
+    parser.add_argument("-fo", "--folder", help="show folders only", action="store_true", default=False)
     parser.add_argument("-d", "--default_name", help="default name for saving", default=None)
     parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/")
     parser.add_argument("-f", "--file_pattern", help="file pattern", default=u"All Files (*)")
@@ -503,7 +526,7 @@ def main():
 
     return fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern,
                          title=args.title, default_filename=args.default_name,
-                         show_save_action=args.save)[0]
+                         show_save_action=args.save, show_dirs_only=args.folder)[0]
 
 if __name__ == '__main__':
     print(main())
