@@ -273,9 +273,6 @@
          </item>
          <item>
           <layout class="QGridLayout" name="File_name_Files_of_type_grid">
-           <item row="2" column="0">
-            <widget class="QLineEdit" name="ui_FileType"/>
-           </item>
            <item row="1" column="0">
             <widget class="QLineEdit" name="ui_SelectedName">
              <property name="enabled">
@@ -285,6 +282,9 @@
               <string/>
              </property>
             </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QComboBox" name="ui_FileType"/>
            </item>
           </layout>
          </item>

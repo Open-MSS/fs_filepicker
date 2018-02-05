@@ -26,6 +26,7 @@
 import fnmatch
 import sys
 import humanfriendly
+import re
 
 from PyQt5.QtCore import pyqtProperty
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout
@@ -35,6 +36,9 @@ from PyQt5.QtGui import QPixmap
 FOLDER_SPACES = 11
 FILES_SPACES = 12
 
+
+def get_extension_from_string(text):
+    return re.search(r'\((.*?)\)', text).group(1)
 
 def match_extension(name, extensions=None):
     """

@@ -33,12 +33,13 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QAbstractItemView
 from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
-from fslib.utils import root_url, human_readable_info, match_extension, FOLDER_SPACES, FILES_SPACES, WidgetImage
+from fslib.utils import root_url, human_readable_info, match_extension,\
+    FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string
 from fslib.icons import icons
 
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
-    def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'*.*', title=u'FS File Picker',
+    def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'All Files (*)', title=u'FS File Picker',
                  default_filename=None, show_save_action=False):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
@@ -65,9 +66,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.show_save_action = show_save_action
         self.button_icons()
         self.show_action()
-        self.ui_FileType.setText(self.file_pattern)
+        self.ui_FileType.addItems([self.file_pattern])
         self.fs_button()
-        self.ui_FileType.returnPressed.connect(self.selection_file_type)
+        self.ui_FileType.currentIndexChanged.connect(self.selection_file_type)
         self.ui_SelectedName.textChanged.connect(self.selection_name)
         self.ui_Cancel.clicked.connect(self.cancel)
         self.action_buttons()
@@ -184,7 +185,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         self.selected_dir = self.ui_DirList.currentText()
         self.ui_FileList.clearContents()
-        file_type = self.ui_FileType.text()
+        file_type = self.ui_FileType.currentText()
         self.file_list_items = []
         self.dir_list_items = []
         self.ui_FileList.verticalHeader().setVisible(False)
@@ -204,7 +205,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 for item in sorted(self.fs.listdir(_sel_dir)):
                     _item = fs.path.combine(_sel_dir, item)
                     try:
-                        if not self.fs.isdir(_item) and match_extension(item, [file_type]):
+                        _file_type = get_extension_from_string(file_type)
+                        if not self.fs.isdir(_item) and match_extension(item, [_file_type]):
                             info = self.get_info(_item)
                             self.file_list_items.append({_item: info})
                         elif self.fs.isdir(_item):
@@ -431,7 +433,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.close()
 
 
-def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*', title=u'FS File Picker',
+def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
                   default_filename=None, show_save_action=False):
     """
     Selects a file by FilePicker for a given pyfilesystem2 Url.
@@ -472,7 +474,7 @@ def main():
     parser.add_argument("-s", "--save", help="show save button", action="store_true", default=False)
     parser.add_argument("-d", "--default_name", help="default name for saving", default=None)
     parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/")
-    parser.add_argument("-f", "--file_pattern", help="file pattern", default=u"*.*")
+    parser.add_argument("-f", "--file_pattern", help="file pattern", default=u"All Files (*)")
     parser.add_argument("-t", "--title", help="title of window", default=u'FS File Picker')
     args = parser.parse_args()
     if args.version:
