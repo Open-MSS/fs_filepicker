@@ -104,8 +104,8 @@ class Test_Open_FilePicker(object):
         assert self.window.filename == fs.path.basename(filename)
 
     def test_selection_file_type(self):
-        self.window.file_pattern = u"*.never"
-        self.window.ui_FileType.setText(u"*.never")
+        self.window.file_pattern = u"Does not exist (*.never)"
+        self.window.ui_FileType.addItem(self.window.file_pattern)
         QtWidgets.QApplication.processEvents()
         self.window.selection_file_type()
         QtWidgets.QApplication.processEvents()
@@ -114,7 +114,7 @@ class Test_Open_FilePicker(object):
         self.window.selection_directory()
         QtWidgets.QApplication.processEvents()
         assert self.window.filename is None
-        self.window.ui_FileType.setText(u"*.txt")
+        self.window.ui_FileType.addItem(u"Text Files (*.txt)")
         QtWidgets.QApplication.processEvents()
         self.window.selection_file_type()
         QtWidgets.QApplication.processEvents()
