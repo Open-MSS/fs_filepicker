@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.2.1
+~~~~~~~~~~~~~
+
+   - extensions input field changed to a QCombobox, new Syntax e.g. All Files (*)
+   - list of extensions for an item e.g.  Images (*.png *.jpg)
+   - seperate functions getOpenFileName, getOpenFileNameAndFilter, getSaveFileName,
+     getSaveFileNameAndFilter, getExistingDirectory
+
 
 Version 0.2.0
 ~~~~~~~~~~~~~
