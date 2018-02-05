@@ -487,24 +487,24 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
             filename = fs.path.combine(u"{}{}".format(active_url, dirname), fp.filename)
     return filename, fp.selected_file_pattern
 
-def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker'):
+def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker', **options):
     return fs_filepicker(parent, fs_url, file_pattern, title=title)[0]
 
 def getOpenFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker'):
-    return fs_filepicker(parent, fs_url, file_pattern, title=title)
+    return fs_filepicker(parent, fs_url, file_pattern, title=title, **options)
 
 def getSaveFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                  default_filename=None, show_save_action=True):
+                  default_filename=None, show_save_action=True, **options):
     return fs_filepicker(parent, fs_url, file_pattern, title,
                   default_filename, show_save_action)[0]
 
 def getSaveFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                  default_filename=None, show_save_action=True):
+                  default_filename=None, show_save_action=True, **options):
     return fs_filepicker(parent, fs_url, file_pattern, title,
                          default_filename, show_save_action)
 
 def getExistingDirectory(parent=None, fs_url=u'~/', title=u'FS File Picker', show_dirs_only=True):
-    return fs_filepicker(parent, fs_url, title=title, show_dirs_only=show_dirs_only)
+    return fs_filepicker(parent, fs_url, title=title, show_dirs_only=show_dirs_only, **options)
 
 def main():
     parser = argparse.ArgumentParser()
