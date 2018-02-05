@@ -503,7 +503,7 @@ def main():
 
     return fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern,
                          title=args.title, default_filename=args.default_name,
-                         show_save_action=args.save)
+                         show_save_action=args.save)[0]
 
 if __name__ == '__main__':
     print(main())
