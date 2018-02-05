@@ -206,7 +206,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                     _item = fs.path.combine(_sel_dir, item)
                     try:
                         _file_type = get_extension_from_string(file_type)
-                        if not self.fs.isdir(_item) and match_extension(item, [_file_type]):
+                        if not self.fs.isdir(_item) and match_extension(item, _file_type):
                             info = self.get_info(_item)
                             self.file_list_items.append({_item: info})
                         elif self.fs.isdir(_item):

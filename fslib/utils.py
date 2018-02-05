@@ -38,7 +38,12 @@ FILES_SPACES = 12
 
 
 def get_extension_from_string(text):
-    return re.search(r'\((.*?)\)', text).group(1)
+    pattern = re.search(r'\((.*?)\)', text).group(1)
+    pattern = pattern.split()
+    if isinstance(pattern, list):
+        return pattern
+    else:
+        return [pattern]
 
 def match_extension(name, extensions=None):
     """
