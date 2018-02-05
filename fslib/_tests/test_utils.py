@@ -23,9 +23,22 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 """
+from datetime import datetime
+from fslib.utils import match_extension, get_extension_from_string, human_readable_info
 
-from fslib.utils import match_extension
 
+def test_human_readable_info():
+    class info(object):
+        modified = datetime(2018,02,04,10,10,10)
+        size = 100
+    assert human_readable_info(info) == ("2018-02-04 10:10:10", "100 bytes")
+
+def test_get_extension_from_string():
+    data = [(u"All Files (*)", ["*"]),
+            (u"Images (*.jpg *.png *.svg)", ["*.jpg", "*.png", "*.svg"])
+            ]
+    for text, pattern in data:
+        assert get_extension_from_string(text) == pattern
 
 def test_match_extensions():
     data = [(u"example.csv", [u"*.csv"], True),
