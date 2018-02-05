@@ -47,6 +47,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.file_icon = icons('text-x-generic.png')
         self.dir_icon = icons('folder.png')
         self.selected_dir = None
+        self.selected_file_pattern = None
         self.filename = None
         self.wparm = None
         self.setWindowTitle(title)
@@ -205,8 +206,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 for item in sorted(self.fs.listdir(_sel_dir)):
                     _item = fs.path.combine(_sel_dir, item)
                     try:
-                        _file_type = get_extension_from_string(file_type)
-                        if not self.fs.isdir(_item) and match_extension(item, _file_type):
+                        self.selected_file_pattern = get_extension_from_string(file_type)
+                        if not self.fs.isdir(_item) and match_extension(item, self.selected_file_pattern):
                             info = self.get_info(_item)
                             self.file_list_items.append({_item: info})
                         elif self.fs.isdir(_item):
@@ -465,8 +466,23 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
             filename = u"{}{}".format(active_url, fp.filename)
         else:
             filename = fs.path.combine(u"{}{}".format(active_url, dirname), fp.filename)
-    return filename
+    return filename, fp.selected_file_pattern
 
+def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker'):
+    return fs_filepicker(parent, fs_url, file_pattern, title=title)[0]
+
+def getOpenFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker'):
+    return fs_filepicker(parent, fs_url, file_pattern, title=title)
+
+def getSaveFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
+                  default_filename=None, show_save_action=True):
+    return fs_filepicker(parent, fs_url, file_pattern, title,
+                  default_filename, show_save_action)[0]
+
+def getSaveFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
+                  default_filename=None, show_save_action=True):
+    return fs_filepicker(parent, fs_url, file_pattern, title,
+                         default_filename, show_save_action)
 
 def main():
     parser = argparse.ArgumentParser()
