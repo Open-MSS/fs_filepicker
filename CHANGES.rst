@@ -1,6 +1,13 @@
 Changelog
 =========
 
+
+Version 0.2.2
+~~~~~~~~~~~~~
+
+   - bug fix for multi types
+
+
 Version 0.2.1
 ~~~~~~~~~~~~~
 
