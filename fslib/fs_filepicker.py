@@ -498,8 +498,9 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
 def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker', **options):
     return fs_filepicker(parent, fs_url, file_pattern, title=title)[0]
 
-def getOpenFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker'):
-    return fs_filepicker(parent, fs_url, file_pattern, title=title, **options)
+def getOpenFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)',
+                             title=u'FS File Picker', **options):
+    return fs_filepicker(parent, fs_url, file_pattern, title=title)
 
 def getSaveFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
                   default_filename=None, show_save_action=True, **options):
@@ -511,8 +512,8 @@ def getSaveFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files
     return fs_filepicker(parent, fs_url, file_pattern, title,
                          default_filename, show_save_action)
 
-def getExistingDirectory(parent=None, fs_url=u'~/', title=u'FS File Picker', show_dirs_only=True):
-    return fs_filepicker(parent, fs_url, title=title, show_dirs_only=show_dirs_only, **options)
+def getExistingDirectory(parent=None, fs_url=u'~/', title=u'FS File Picker', show_dirs_only=True, **options):
+    return fs_filepicker(parent, fs_url, title=title, show_dirs_only=show_dirs_only)
 
 def main():
     parser = argparse.ArgumentParser()

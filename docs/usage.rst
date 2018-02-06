@@ -11,15 +11,32 @@ The examples shows the setup for Open and Save.
 
 Examples::
 
-  from fslib.fs_filepicker import fs_filepicker
-  filename = fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.*',
+  from PyQt5 import QtWidgets
+  app = QtWidgets.QApplication([])
+  from fslib.fs_filepicker import getOpenFileName, getSaveFileName, getExistingDirectory, getOpenFileNameAndFilter, \
+                                  getSaveFileNameAndFilter
+  filename = getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)',
                            title=u'Open Config File')
   print(filename)
-  filename = fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'*.json', default_filename=u'config.json',
-                           show_save_action=True, title=u'Save Config File')
+
+  patterns = [u'All Files (*)', u'Config Files (*.json)']
+  filename = getSaveFileName(parent=None, fs_url=u'~/', file_pattern=patterns,
+                             default_filename=u'config.json',
+                             title=u'Save Config File')
   print(filename)
 
+  dirname = getExistingDirectory(parent=None, fs_url=u'~/')
+  print(dirname)
+
+  patterns = [u'Data Files (*.xml)', u'Config Files (*.json)']
+  filename, pattern = getOpenFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=patterns)
+  print(filename, pattern)
+
+  patterns = [u'Data Files (*.xml)', u'Config Files (*.json)']
+  filename, pattern = getSaveFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=patterns)
+  print(filename, pattern)
 
   def load_file(self):
-      from fslib.fs_filepicker import fs_filepicker
-      filename = fs_filepicker(self, fs_url=u'ftp://ftp.de.debian.org/debian', file_pattern=u'*.*', title=u"Debian files")
+      from fslib.fs_filepicker import getOpenFileName
+      filename = getOpenFileName(self, fs_url=u'ftp://ftp.de.debian.org/debian', file_pattern=u'All Files (*)',
+                                 title=u"Debian files")
