@@ -69,7 +69,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.button_icons()
         self.show_action()
         self.configure()
-        self.ui_FileType.addItems([self.file_pattern])
         self.fs_button()
         self.ui_FileType.currentIndexChanged.connect(self.selection_file_type)
         self.ui_SelectedName.textChanged.connect(self.selection_name)
@@ -89,6 +88,11 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
     def configure(self):
+        if isinstance(self.file_pattern, list):
+            for pattern in self.file_pattern:
+                self.ui_FileType.addItem(pattern)
+        else:
+            self.ui_FileType.addItems([self.file_pattern])
         if self.show_dirs_only:
             self.ui_label_filename.hide()
             self.ui_label_filetype.hide()
@@ -307,6 +311,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.clearSelection()
         if not self.show_save_action:
             self.ui_SelectedName.setText(None)
+        if self.show_save_action:
+            text = self.ui_SelectedName.text()
+            new_text = text.split('.')[0]
+            self.ui_SelectedName.setText(new_text)
 
     def selection_name(self):
         """
@@ -485,7 +493,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
             filename = u"{}{}".format(active_url, fp.filename)
         else:
             filename = fs.path.combine(u"{}{}".format(active_url, dirname), fp.filename)
-    return filename, fp.selected_file_pattern
+    return filename, fp.selected_file_pattern[0]
 
 def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker', **options):
     return fs_filepicker(parent, fs_url, file_pattern, title=title)[0]
