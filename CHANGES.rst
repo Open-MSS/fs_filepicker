@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+Version 0.2.3
+~~~~~~~~~~~~~
+
+   - select filter based on extension of default_name
+   - bug fixes
+
 Version 0.2.2
 ~~~~~~~~~~~~~
 
