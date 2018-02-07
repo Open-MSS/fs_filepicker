@@ -93,6 +93,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.ui_FileType.addItem(pattern)
         else:
             self.ui_FileType.addItems([self.file_pattern])
+        if self.default_filename is not None:
+            name, extension = self.default_filename.split('.')
+            idx = 0
+            for pattern in self.file_pattern:
+                if u".%s".format(extension) in pattern:
+                    self.ui_FileType.setCurrentIndex(idx)
+                idx += 1
         if self.show_dirs_only:
             self.ui_label_filename.hide()
             self.ui_label_filetype.hide()
