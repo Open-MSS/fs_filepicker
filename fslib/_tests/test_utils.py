@@ -29,9 +29,10 @@ from fslib.utils import match_extension, get_extension_from_string, human_readab
 
 def test_human_readable_info():
     class info(object):
-        modified = datetime(2018,02,04,10,10,10)
+        modified = datetime(2018, 02, 04, 10, 10, 10)
         size = 100
     assert human_readable_info(info) == ("2018-02-04 10:10:10", "100 bytes")
+
 
 def test_get_extension_from_string():
     data = [(u"All Files (*)", ["*"]),
@@ -39,6 +40,7 @@ def test_get_extension_from_string():
             ]
     for text, pattern in data:
         assert get_extension_from_string(text) == pattern
+
 
 def test_match_extensions():
     data = [(u"example.csv", [u"*.csv"], True),

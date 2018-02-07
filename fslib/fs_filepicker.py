@@ -502,25 +502,31 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
             filename = fs.path.combine(u"{}{}".format(active_url, dirname), fp.filename)
     return filename, fp.selected_file_pattern[0]
 
+
 def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker', **options):
     return fs_filepicker(parent, fs_url, file_pattern, title=title)[0]
+
 
 def getOpenFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)',
                              title=u'FS File Picker', **options):
     return fs_filepicker(parent, fs_url, file_pattern, title=title)
 
+
 def getSaveFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                  default_filename=None, show_save_action=True, **options):
+                    default_filename=None, show_save_action=True, **options):
     return fs_filepicker(parent, fs_url, file_pattern, title,
-                  default_filename, show_save_action)[0]
+                         default_filename, show_save_action)[0]
+
 
 def getSaveFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                  default_filename=None, show_save_action=True, **options):
+                             default_filename=None, show_save_action=True, **options):
     return fs_filepicker(parent, fs_url, file_pattern, title,
                          default_filename, show_save_action)
 
+
 def getExistingDirectory(parent=None, fs_url=u'~/', title=u'FS File Picker', show_dirs_only=True, **options):
     return fs_filepicker(parent, fs_url, title=title, show_dirs_only=show_dirs_only)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -539,10 +545,10 @@ def main():
         print("Version:", __version__)
         sys.exit()
     app = QtWidgets.QApplication([])
-
     return fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern,
                          title=args.title, default_filename=args.default_name,
                          show_save_action=args.save, show_dirs_only=args.folder)[0]
+
 
 if __name__ == '__main__':
     print(main())

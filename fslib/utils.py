@@ -45,6 +45,7 @@ def get_extension_from_string(text):
     else:
         return [pattern]
 
+
 def match_extension(name, extensions=None):
     """
     Determines if a file name matches an extension
