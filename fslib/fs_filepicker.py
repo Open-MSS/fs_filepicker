@@ -573,6 +573,8 @@ def main():
     return fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern,
                          title=args.title, default_filename=args.default_name,
                          show_save_action=args.save, show_dirs_only=args.folder)[0]
+    # ToDO, solve this without del
+    del app
 
 
 if __name__ == '__main__':
