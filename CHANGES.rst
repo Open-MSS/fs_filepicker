@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Version 0.2.4
+~~~~~~~~~~~~~
+
+   - ui element added for defining more fs urls
 
 Version 0.2.3
 ~~~~~~~~~~~~~
