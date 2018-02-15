@@ -250,7 +250,17 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         # on clearing ui_DirList also index changes and makes an additional call of that method
         if self.ui_DirList.count() > 0:
             try:
-                for item in sorted(self.fs.listdir(_sel_dir)):
+                names = self.fs.listdir(_sel_dir)
+                # cleanup not valid names
+                # ToDo improve for other cases, e.g. fs.errors.PermissionDenied
+                for item in names:
+                    _item = fs.path.combine(_sel_dir, item)
+                    try:
+                        self.fs.isdir(_item)
+                    except TypeError:
+                        names.remove(item)
+                        logging.error("item name removed from list")
+                for item in sorted(names):
                     _item = fs.path.combine(_sel_dir, item)
                     try:
                         self.selected_file_pattern = get_extension_from_string(file_type)
