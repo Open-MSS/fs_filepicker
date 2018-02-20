@@ -27,6 +27,7 @@ import fnmatch
 import sys
 import humanfriendly
 import re
+import fs
 
 from PyQt5.QtCore import pyqtProperty
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout
@@ -79,6 +80,20 @@ def human_readable_info(info):
     except (AttributeError, TypeError):
         _size = u" "
     return _mod_time, _size
+
+
+def fs_url_exists(fs_url):
+    """
+    verifies for a valid fs url
+
+    :param fs_url: fs_url string
+    :return: boolean
+    """
+    try:
+        fs.open_fs(fs_url)
+    except fs.errors.CreateFailed:
+        return False
+    return True
 
 
 class WidgetImage(QWidget):

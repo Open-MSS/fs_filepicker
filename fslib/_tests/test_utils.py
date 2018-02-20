@@ -24,7 +24,7 @@
     limitations under the License.
 """
 from datetime import datetime
-from fslib.utils import match_extension, get_extension_from_string, human_readable_info
+from fslib.utils import match_extension, get_extension_from_string, human_readable_info, fs_url_exists
 
 
 def test_human_readable_info():
@@ -50,3 +50,7 @@ def test_match_extensions():
             (u"example.csv", [u"*.txt", u"*.png"], False)]
     for name, pattern, state in data:
         assert match_extension(name, pattern) is state
+
+
+def test_fs_url_exists():
+    assert fs_url_exists(u"~/")

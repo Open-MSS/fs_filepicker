@@ -261,3 +261,25 @@ class Test_Save_FilePicker(object):
         self.window.close()
         assert u'empty/thisexampledir' in _folder_names
         assert self.window.last_dir_index == 1
+
+
+class Test_MoreUrls(object):
+    def setup(self):
+        self.application = QtWidgets.QApplication([])
+        self.fs_url = [ROOT_FS.geturl(_dir) for _dir in SUB_DIRS]
+        self.fs_url.append(u"/never/never/exists")
+        self.window = fs_filepicker.FilePicker(fs_url=self.fs_url)
+        self.window.show()
+        QtWidgets.QApplication.processEvents()
+        QtTest.QTest.qWaitForWindowExposed(self.window)
+        QtWidgets.QApplication.processEvents()
+
+    def test_dirs(self):
+        items = []
+        for index in xrange(self.window.ui_fs_serverlist.count()):
+            items.append(self.window.ui_fs_serverlist.item(index).text())
+        cmp_items = ','.join(items)
+        assert SUB_DIRS[0] in cmp_items
+        assert SUB_DIRS[1] in cmp_items
+        assert SUB_DIRS[2] in cmp_items
+        assert u"/never/never/exists" not in cmp_items

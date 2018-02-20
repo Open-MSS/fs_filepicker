@@ -34,7 +34,7 @@ from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage
 from PyQt5.QtGui import QIcon
 from fslib import ui_filepicker, __version__
 from fslib.utils import root_url, human_readable_info, match_extension,\
-    FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string
+    FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string, fs_url_exists
 from fslib.icons import icons
 
 
@@ -51,7 +51,14 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.filename = None
         self.wparm = None
         self.setWindowTitle(title)
-        self.fs_url = fs_url
+        if isinstance(fs_url, list):
+            self.fs_url = fs_url[0]
+            for _fs_url in fs_url:
+                if fs_url_exists(_fs_url):
+                    self.ui_fs_serverlist.addItem(_fs_url)
+        else:
+            self.ui_fs_serverlist.hide()
+            self.fs_url = fs_url
         self.fs_home_url = u"~/"
         self.fs_root_url = root_url()
         self.active_url = self.fs_url
@@ -87,7 +94,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.cellDoubleClicked.connect(self.onCellDoubleClicked)
         self.ui_FileList.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
-        self.ui_fs_serverlist.hide()
+
         self.ui_fs_serverlist.clicked.connect(self.fs_select_other)
         # ToDo check order of calls
         self.active_url = self.fs_url
@@ -160,17 +167,14 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def other_fs_button(self):
         fs_url, ok = QInputDialog.getText(self, 'Other FS Urls', 'Enter FS Url:')
-        _fs = None
         if ok:
-            try:
-                _fs = fs.open_fs(fs_url)
-            except fs.errors.CreateFailed:
+            if fs_url_exists(fs_url):
+                self.ui_fs_serverlist.setVisible(True)
+                self.ui_fs_serverlist.addItem(fs_url)
+            else:
                 msg = u'"%s" Url not valid' % fs_url
                 QErrorMessage(self).showMessage(msg)
                 logging.info(msg)
-            if _fs is not None:
-                self.ui_fs_serverlist.setVisible(True)
-                self.ui_fs_serverlist.addItem(fs_url)
 
     def fs_select_other(self):
         url = self.ui_fs_serverlist.currentItem().text()
