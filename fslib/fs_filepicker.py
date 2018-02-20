@@ -259,7 +259,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                         self.fs.isdir(_item)
                     except TypeError:
                         names.remove(item)
-                        logging.error("item name removed from list")
+                        logging.error("item name %s removed from list" % item)
                 for item in sorted(names):
                     _item = fs.path.combine(_sel_dir, item)
                     try:
