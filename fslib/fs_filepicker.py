@@ -89,6 +89,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
         self.ui_fs_serverlist.hide()
         self.ui_fs_serverlist.clicked.connect(self.fs_select_other)
+        # ToDo check order of calls
+        self.active_url = self.fs_url
+        self.select_fs()
 
     def configure(self):
         if isinstance(self.file_pattern, list):
@@ -196,7 +199,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.authentification = "{}:{}@".format(parseresult.username,  parseresult.password)
             self.active_url = self.active_url.replace(self.authentification, u"")
         self.browse_folder()
-        self.selection_directory()
 
     def action_buttons(self):
         """
