@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.2.5
+~~~~~~~~~~~~~
+
+ - bug fix, don't call twice listdir
+ - remove not accessible names from listdir, because of bytestr
+
 Version 0.2.4
 ~~~~~~~~~~~~~
 
