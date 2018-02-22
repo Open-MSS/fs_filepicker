@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.2.6
+~~~~~~~~~~~~~
+
+ - feature remove once added fs directories
+ - feature store/restore by QSettings of once entered fs_urls
+ - feature of multiple fs_urls added
+
 Version 0.2.5
 ~~~~~~~~~~~~~
 
