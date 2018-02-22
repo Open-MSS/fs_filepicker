@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(700, 400)
+        Dialog.resize(714, 400)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -72,6 +72,7 @@ class Ui_Dialog(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ui_fs_serverlist.sizePolicy().hasHeightForWidth())
         self.ui_fs_serverlist.setSizePolicy(sizePolicy)
+        self.ui_fs_serverlist.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
         self.ui_fs_serverlist.setObjectName("ui_fs_serverlist")
         self.fs_buttons_vertical.addWidget(self.ui_fs_serverlist)
         self.main_horizontal.addLayout(self.fs_buttons_vertical)

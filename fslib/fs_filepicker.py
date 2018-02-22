@@ -30,7 +30,7 @@ import argparse
 import fs
 from fs.opener import parse
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage
+from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage, QMessageBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 from fslib import ui_filepicker, __version__
@@ -108,6 +108,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
 
         self.ui_fs_serverlist.clicked.connect(self.fs_select_other)
+        self.ui_fs_serverlist.customContextMenuRequested.connect(self.fs_select_other_context)
         # ToDo check order of calls
         self.active_url = self.fs_url
         self.select_fs()
@@ -193,6 +194,20 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         url = self.ui_fs_serverlist.currentItem().text()
         self.active_url = url
         self.select_fs()
+
+    def fs_select_other_context(self):
+        """
+        simple context option, removes item from list
+        """
+        url = self.ui_fs_serverlist.currentItem().text()
+        msg = QtWidgets.QMessageBox()
+        selected = msg.information(self, u"Remove FS Dir", url, QMessageBox.Ok | QMessageBox.Cancel)
+        if selected == QMessageBox.Ok:
+            self.ui_fs_serverlist.clear()
+            for item in self.settings.value("fs_urls"):
+                if item != url:
+                    self.ui_fs_serverlist.addItem(item)
+            self.save_fs_urls_settings()
 
     def select_fs(self):
         """
