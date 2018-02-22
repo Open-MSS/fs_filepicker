@@ -32,6 +32,7 @@ from fs.opener import parse
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage
 from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSettings
 from fslib import ui_filepicker, __version__
 from fslib.utils import root_url, human_readable_info, match_extension,\
     FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string, fs_url_exists
@@ -43,6 +44,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                  default_filename=None, show_save_action=False, show_dirs_only=False):
         super(FilePicker, self).__init__(parent)
         self.setupUi(self)
+        self.settings = QSettings("fs_filepicker")
         self.setWindowIcon(QIcon(icons('fs_logo.png', origin='fs')))
         self.file_icon = icons('text-x-generic.png')
         self.dir_icon = icons('folder.png')
@@ -51,13 +53,23 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.filename = None
         self.wparm = None
         self.setWindowTitle(title)
+        stored_fs_url = self.settings.value("fs_urls", fs_url)
         if isinstance(fs_url, list):
             self.fs_url = fs_url[0]
-            for _fs_url in fs_url:
-                if fs_url_exists(_fs_url):
-                    self.ui_fs_serverlist.addItem(_fs_url)
+            if isinstance(stored_fs_url, list):
+                for _fs_url in stored_fs_url:
+                    if fs_url_exists(_fs_url):
+                        self.ui_fs_serverlist.addItem(_fs_url)
+                for _fs_url in fs_url:
+                    if fs_url_exists(_fs_url):
+                        self.ui_fs_serverlist.addItem(_fs_url)
         else:
-            self.ui_fs_serverlist.hide()
+            if isinstance(stored_fs_url, list):
+                for _fs_url in stored_fs_url:
+                    if fs_url_exists(_fs_url):
+                        self.ui_fs_serverlist.addItem(_fs_url)
+            else:
+                self.ui_fs_serverlist.hide()
             self.fs_url = fs_url
         self.fs_home_url = u"~/"
         self.fs_root_url = root_url()
@@ -171,6 +183,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if fs_url_exists(fs_url):
                 self.ui_fs_serverlist.setVisible(True)
                 self.ui_fs_serverlist.addItem(fs_url)
+                self.save_fs_urls_settings()
             else:
                 msg = u'"%s" Url not valid' % fs_url
                 QErrorMessage(self).showMessage(msg)
@@ -506,6 +519,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 pass
             else:
                 self.close()
+
+    def save_fs_urls_settings(self):
+        items = []
+        for index in xrange(self.ui_fs_serverlist.count()):
+            items.append(self.ui_fs_serverlist.item(index).text())
+        self.settings.setValue('fs_urls', items)
+        self.settings.sync()
 
 
 def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
