@@ -119,8 +119,14 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def configure(self):
         if isinstance(self.file_pattern, list):
+            stored_file_type = self.settings.value("selected_file_pattern", self.file_pattern[0])
+            try:
+                index = self.file_pattern.index(stored_file_type)
+            except ValueError:
+                index = 0
             for pattern in self.file_pattern:
                 self.ui_FileType.addItem(pattern)
+            self.ui_FileType.setCurrentIndex(index)
         else:
             self.ui_FileType.addItems([self.file_pattern])
         if self.default_filename is not None:
@@ -188,7 +194,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if fs_url_exists(fs_url):
                 self.ui_fs_serverlist.setVisible(True)
                 self.ui_fs_serverlist.addItem(fs_url)
-                self.save_fs_urls_settings()
+                self.save_settings()
             else:
                 msg = u'"%s" Url not valid' % fs_url
                 QErrorMessage(self).showMessage(msg)
@@ -211,7 +217,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             for item in self.settings.value("fs_urls"):
                 if item != url:
                     self.ui_fs_serverlist.addItem(item)
-            self.save_fs_urls_settings()
+            self.save_settings()
 
     def select_fs(self):
         """
@@ -503,6 +509,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Action on Open / Save button
         """
         if self.show_save_action:
+            self.save_settings()
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
@@ -539,11 +546,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             else:
                 self.close()
 
-    def save_fs_urls_settings(self):
+    def save_settings(self):
         items = []
         for index in xrange(self.ui_fs_serverlist.count()):
             items.append(self.ui_fs_serverlist.item(index).text())
         self.settings.setValue('fs_urls', items)
+        selected_file_pattern = self.ui_FileType.currentText()
+        self.settings.setValue("selected_file_pattern", selected_file_pattern)
         self.settings.sync()
 
 
