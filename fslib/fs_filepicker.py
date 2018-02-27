@@ -28,6 +28,7 @@ import sys
 import time
 import logging
 import argparse
+import inspect
 import fs
 from fs.opener import parse
 from PyQt5 import QtWidgets, QtCore
@@ -36,7 +37,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 from fslib import ui_filepicker, __version__
 from fslib.utils import root_url, human_readable_info, match_extension,\
-    FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string, fs_url_exists
+    FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string, fs_url_exists, who_called_me
 from fslib.icons import icons
 
 
@@ -44,8 +45,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
     def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'All Files (*)', title=u'FS File Picker',
                  default_filename=None, show_save_action=False, show_dirs_only=False):
         super(FilePicker, self).__init__(parent)
+        frame = inspect.stack()[1][0]
+        scope = who_called_me(frame)
         self.setupUi(self)
-        self.settings = QSettings("fs_filepicker")
+        self.settings = QSettings("fs_filepicker", scope)
         self.setWindowIcon(QIcon(icons('fs_logo.png', origin='fs')))
         self.file_icon = icons('text-x-generic.png')
         self.dir_icon = icons('folder.png')

@@ -28,6 +28,7 @@ import sys
 import humanfriendly
 import re
 import fs
+import inspect
 
 from PyQt5.QtCore import pyqtProperty
 from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout
@@ -36,6 +37,14 @@ from PyQt5.QtGui import QPixmap
 
 FOLDER_SPACES = 11
 FILES_SPACES = 12
+
+
+def who_called_me(frame):
+    _, _, _, value_dict = inspect.getargvalues(frame)
+    try:
+        return str(value_dict['parent']).split()[0].split('<__main__.')[1]
+    except (KeyError, IndexError):
+        return "fs_filepicker"
 
 
 def get_extension_from_string(text):
