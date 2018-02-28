@@ -1,6 +1,15 @@
 Changelog
 =========
 
+Version 0.2.7
+~~~~~~~~~~~~~
+
+ - open files on double click
+ - bug fix, disable open button for nonexisting preselected file
+ - detect parent class and store settings based on that
+ - abspath for selected filename
+
+
 Version 0.2.6
 ~~~~~~~~~~~~~
 
