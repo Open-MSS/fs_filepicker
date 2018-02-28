@@ -162,6 +162,13 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         assert self.window.ui_Action.isEnabled() is False
 
+    def test_open_file_on_doubleClick(self):
+        _names = [list(name)[0] for name in self.window.dir_list_items + self.window.file_list_items]
+        index = _names.index(u'example.csv')
+        self.window.onCellDoubleClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        assert self.window.filename == "example.csv"
+
 
 class Test_Save_FilePicker(object):
     def setup(self):
