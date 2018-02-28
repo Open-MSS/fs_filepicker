@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.2.8
+~~~~~~~~~~~~~
+
+ - forcedir to fs urls added
+ - introduced fs_file_exists
+ - path issues for windows platform fixed
+
+
 Version 0.2.7
 ~~~~~~~~~~~~~
 
