@@ -386,6 +386,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 if "folder" in self.wparm.img:
                     self.directory_history.append(list(self.wparm.value.keys())[0])
                     self.browse_folder(subdir=list(self.wparm.value.keys())[0])
+                    self.selection_name()
         except AttributeError:
             pass
 

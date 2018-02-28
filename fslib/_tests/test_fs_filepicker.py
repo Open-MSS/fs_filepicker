@@ -148,6 +148,20 @@ class Test_Open_FilePicker(object):
         assert u"bar" in self.window.ui_DirList.currentText()
         assert u"bar/foo.txt" in _file_names
 
+    def test_selectedFileBeforeSelectingDir(self):
+        """
+        on Open the Action button has to become disabled if the other directory don't have a preselected file
+        """
+        _names = [list(name)[0] for name in self.window.dir_list_items + self.window.file_list_items]
+        index = _names.index(u'example.csv')
+        self.window.onCellClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        _folder_names = [list(name)[0] for name in self.window.dir_list_items]
+        index = _folder_names.index(u'bar')
+        self.window.onCellDoubleClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        assert self.window.ui_Action.isEnabled() is False
+
 
 class Test_Save_FilePicker(object):
     def setup(self):
