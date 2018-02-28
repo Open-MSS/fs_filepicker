@@ -25,6 +25,7 @@
 """
 
 import fs
+import fs.path
 
 
 def icons(name, origin=u"tango"):

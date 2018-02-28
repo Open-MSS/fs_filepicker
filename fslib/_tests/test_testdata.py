@@ -25,6 +25,7 @@
 """
 
 import fs
+import fs.path
 
 from conftest import ROOT_FS, ROOT_DIR, TESTDATA_DIR
 

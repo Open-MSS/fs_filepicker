@@ -25,6 +25,7 @@
 """
 import mock
 import fs
+import fs.path
 import pytest
 
 from PyQt5 import QtWidgets, QtTest

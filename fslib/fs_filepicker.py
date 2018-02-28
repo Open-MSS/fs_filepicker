@@ -30,6 +30,7 @@ import logging
 import argparse
 import inspect
 import fs
+import fs.path
 from fs.opener import parse
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage, QMessageBox

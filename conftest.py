@@ -27,6 +27,7 @@ from __future__ import print_function
 
 import pytest
 import fs
+import fs.path
 from fs.tempfs import TempFS
 
 try:

@@ -28,6 +28,7 @@ import sys
 import humanfriendly
 import re
 import fs
+import fs.path
 import inspect
 
 from PyQt5.QtCore import pyqtProperty
