@@ -106,6 +106,22 @@ def fs_url_exists(fs_url):
     return True
 
 
+def fs_file_exists(fs_url, filename):
+    """
+    verifies for a valid file
+
+    :param fs_url: fs_url string
+    :filename: file to verifa
+    :return: boolean
+    """
+    try:
+        _fs = fs.open_fs(fs_url)
+    except fs.errors.CreateFailed:
+        return False
+    # ToDo needs speedup
+    return filename in _fs.listdir(u'.')
+
+
 class WidgetImage(QWidget):
     # inspired by
     # https://stackoverflow.com/questions/45896291/how-to-show-image-and-text-at-same-cell-in-qtablewidget-in-pyqt

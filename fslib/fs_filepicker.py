@@ -38,7 +38,8 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 from fslib import ui_filepicker, __version__
 from fslib.utils import root_url, human_readable_info, match_extension, \
-    FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string, fs_url_exists, who_called_me
+    FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string,\
+    fs_url_exists, fs_file_exists, who_called_me
 from fslib.icons import icons
 
 
@@ -439,7 +440,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = u""
         if self.filename != u"":
             self.ui_SelectedName.setText(self.filename)
-            if fs_url_exists(fs.path.join(self.selected_dir, self.filename)):
+            if fs_file_exists(self.selected_dir, self.filename):
                 self.ui_Action.setEnabled(True)
 
     def cancel(self):
