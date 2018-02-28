@@ -24,9 +24,8 @@
     limitations under the License.
 """
 
-import fs
-import fs.path
+import os.path
 
 
 def icons(name, origin=u"tango"):
-    return fs.path.join(fs.path.abspath(fs.path.normpath(fs.path.dirname(__file__))), origin, name)
+    return os.path.join(os.path.abspath(os.path.normpath(os.path.dirname(__file__))), origin, name)
