@@ -45,7 +45,9 @@ else:
 ROOT_FS = TempFS(identifier=u"fs_filepicker_{}".format(SHA))
 ROOT_DIR = ROOT_FS.root_path
 TESTDATA_DIR = u'testdata'
-SUB_DIRS = [u'testdata/foo', u'testdata/bar', u'testdata/empty']
+SUB_DIRS = [fs.path.join(u"testdata", u"foo"),
+            fs.path.join(u"testdata", u"bar"),
+            fs.path.join(u"testdata", u"empty")]
 
 
 def setup_testdata():
@@ -61,7 +63,8 @@ def setup_testdata():
     with data_fs.open(u'foo.txt', 'w') as file_object:
         file_object.write(u'testdata')
 
-    for testdir in [u'testdata/foo', u'testdata/bar']:
+    testdirs = [fs.path.join(u"testdata", u"foo"), fs.path.join(u"testdata", u"bar")]
+    for testdir in testdirs:
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR,  testdir))
         with data_fs.open(u'foo.txt', 'w') as file_object:
             file_object.write(u'testdata')

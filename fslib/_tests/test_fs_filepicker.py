@@ -23,7 +23,6 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 """
-
 import mock
 import fs
 import pytest
@@ -70,7 +69,7 @@ class Test_Open_FilePicker(object):
         self.window.close()
 
     def test_selection_directory(self):
-        index = sorted(SUB_DIRS).index(u'testdata/foo')
+        index = sorted(SUB_DIRS).index(fs.path.join(u"testdata", u"foo"))
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
         self.window.onCellDoubleClicked(index, 0)
@@ -81,13 +80,13 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
-        assert u"foo/foo.txt" in _file_names
+        assert fs.path.join(u"foo", u"foo.txt") in _file_names
         assert len(self.window.file_list_items) == 1
 
     def test_showname_close(self):
         self.window.show_name()
         self.window.close()
-        assert self.window.filename is None
+        assert self.window.filename == u""
 
     def test_showname_on_filename(self):
         self.window.show_name()
@@ -132,7 +131,7 @@ class Test_Open_FilePicker(object):
         self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
-        assert _file_names[0] == "bar/foo.txt"
+        assert _file_names[0] == fs.path.join(u"bar", u"foo.txt")
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
         self.window.action()
@@ -146,7 +145,7 @@ class Test_Open_FilePicker(object):
         self.window.close()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
         assert u"bar" in self.window.ui_DirList.currentText()
-        assert u"bar/foo.txt" in _file_names
+        assert fs.path.join(u"bar", u"foo.txt") in _file_names
 
     def test_selectedFileBeforeSelectingDir(self):
         """
@@ -210,7 +209,7 @@ class Test_Save_FilePicker(object):
 
     def test_filename_high_light_by_selectedname(self):
         pytest.skip("this needs further investigation")
-        index = sorted(SUB_DIRS).index(u'testdata/foo')
+        index = sorted(SUB_DIRS).index(fs.path.join(u"testdata", u"foo"))
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
         self.window.onCellClicked(index, 0)
@@ -234,7 +233,7 @@ class Test_Save_FilePicker(object):
         assert filename == u"abc.txt"
 
     def test_save_in_empty_dir(self):
-        index = sorted(SUB_DIRS).index(u'testdata/empty')
+        index = sorted(SUB_DIRS).index(fs.path.join(u"testdata", u"empty"))
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
         self.window.onCellDoubleClicked(index, 0)
@@ -251,7 +250,7 @@ class Test_Save_FilePicker(object):
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
                 return_value=(u"exampledir", True))
     def test_makedir(self, mocktext):
-        index = sorted(SUB_DIRS).index(u'testdata/empty')
+        index = sorted(SUB_DIRS).index(fs.path.join(u"testdata", u"empty"))
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
         self.window.onCellDoubleClicked(index, 0)
@@ -260,7 +259,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.close()
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
-        assert u'empty/exampledir' in _folder_names
+        assert fs.path.join(u"empty", u"exampledir") in _folder_names
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
                 return_value=(u"thisexampledir", True))
@@ -280,7 +279,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
         self.window.close()
-        assert u'empty/thisexampledir' in _folder_names
+        assert fs.path.join(u"empty", u"thisexampledir") in _folder_names
         assert self.window.last_dir_index == 1
 
 
@@ -288,7 +287,7 @@ class Test_MoreUrls(object):
     def setup(self):
         self.application = QtWidgets.QApplication([])
         self.fs_url = [ROOT_FS.geturl(_dir) for _dir in SUB_DIRS]
-        self.fs_url.append(u"/never/never/exists")
+        self.fs_url.append(fs.path.join(u"never", u"never", u"exists"))
         self.window = fs_filepicker.FilePicker(fs_url=self.fs_url)
         self.window.show()
         QtWidgets.QApplication.processEvents()
@@ -300,7 +299,7 @@ class Test_MoreUrls(object):
         for index in xrange(self.window.ui_fs_serverlist.count()):
             items.append(self.window.ui_fs_serverlist.item(index).text())
         cmp_items = ','.join(items)
-        assert SUB_DIRS[0] in cmp_items
-        assert SUB_DIRS[1] in cmp_items
-        assert SUB_DIRS[2] in cmp_items
-        assert u"/never/never/exists" not in cmp_items
+        assert SUB_DIRS[0] in cmp_items.replace(u"\\", u"/")
+        assert SUB_DIRS[1] in cmp_items.replace(u"\\", u"/")
+        assert SUB_DIRS[2] in cmp_items.replace(u"\\", u"/")
+        assert fs.path.join(u"never", u"never", u"exists") not in cmp_items

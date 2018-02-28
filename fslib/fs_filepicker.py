@@ -36,7 +36,7 @@ from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage, QMes
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 from fslib import ui_filepicker, __version__
-from fslib.utils import root_url, human_readable_info, match_extension,\
+from fslib.utils import root_url, human_readable_info, match_extension, \
     FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string, fs_url_exists, who_called_me
 from fslib.icons import icons
 
@@ -238,7 +238,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         except fs.opener.errors.ParseError:
             parseresult = None
         if parseresult is not None and parseresult.username is not None:
-            self.authentification = "{}:{}@".format(parseresult.username,  parseresult.password)
+            self.authentification = "{}:{}@".format(parseresult.username, parseresult.password)
             self.active_url = self.active_url.replace(self.authentification, u"")
         self.browse_folder()
 
@@ -435,12 +435,11 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         try:
             self.filename = self.ui_SelectedName.text()
         except AttributeError:
-            self.filename = None
-        if self.filename == u"":
-            self.filename = None
-        self.ui_SelectedName.setText(self.filename)
-        if self.fs.exists(fs.path.join(self.selected_dir, self.filename)):
-            self.ui_Action.setEnabled(True)
+            self.filename = u""
+        if self.filename != u"":
+            self.ui_SelectedName.setText(self.filename)
+            if fs_url_exists(fs.path.join(self.selected_dir, self.filename)):
+                self.ui_Action.setEnabled(True)
 
     def cancel(self):
         """
@@ -517,10 +516,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
-            dirname = u'./'
+            dirname = u'.{}'.format(u"/")
             if self.wparm is not None:
-                if self.wparm.value == u'./{}'.format(self.wparm.text):
-                    dirname = fs.path.dirname(u'./{}'.format(self.wparm.text))
+                if self.wparm.value == u'.{}{}'.format(u"/", self.wparm.text):
+                    dirname = fs.path.dirname(u'.{}{}'.format(u"/", self.wparm.text))
                 else:
                     dirname = fs.path.dirname(self.wparm.value)
             filename = fs.path.join(dirname, self.filename)
@@ -586,7 +585,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
             active_url = u"{}://{}{}".format(parseresult.protocol, fp.authentification, parseresult.resource)
     filename = None
     if fp.filename is not None:
-        dirname = u'./'
+        dirname = u'.{}'.format(u"/")
         if fp.wparm is not None:
             dirname = fp.selected_dir
         if dirname.startswith(fp.active_url):
