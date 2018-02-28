@@ -187,7 +187,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Action fs button
         """
-        self.active_url = self.fs_url
+        self.active_url = fs.path.forcedir(self.fs_url)
         self.select_fs()
 
     def other_fs_button(self):
@@ -204,7 +204,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def fs_select_other(self):
         url = self.ui_fs_serverlist.currentItem().text()
-        self.active_url = url
+        # ToDo needs a check for archives
+        self.active_url = fs.path.forcedir(url)
         self.select_fs()
 
     def fs_select_other_context(self):
