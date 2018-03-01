@@ -48,9 +48,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                  default_filename=None, show_save_action=False, show_dirs_only=False):
         super(FilePicker, self).__init__(parent)
         frame = inspect.stack()[1][0]
-        scope = who_called_me(frame)
+        self.scope = who_called_me(frame)
         self.setupUi(self)
-        self.settings = QSettings("fs_filepicker", scope)
+        self.settings = QSettings("fs_filepicker", self.scope)
         self.setWindowIcon(QIcon(icons('fs_logo.png', origin='fs')))
         self.file_icon = icons('text-x-generic.png')
         self.dir_icon = icons('folder.png')
@@ -164,7 +164,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_root.setIcon(QIcon(icons('computer.png')))
         self.ui_fs.setText("")
         self.ui_fs.setIconSize(QtCore.QSize(64, 64))
-        self.ui_fs.setIcon(QIcon(icons('fs_logo.png', origin=u'fs')))
+        if self.scope == u"fs_filepicker":
+            self.ui_fs.setIcon(QIcon(icons('fs_logo.png', origin=u'fs')))
         self.ui_other_fs.setText("")
         self.ui_other_fs.setIconSize(QtCore.QSize(64, 64))
         self.ui_other_fs.setIcon(QIcon(icons('goto-other-computer.png')))
