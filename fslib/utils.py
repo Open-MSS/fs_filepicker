@@ -118,8 +118,12 @@ def fs_file_exists(fs_url, filename):
         _fs = fs.open_fs(fs_url)
     except fs.errors.CreateFailed:
         return False
-    # ToDo needs speedup
-    return filename in _fs.listdir(u'.')
+    try:
+        _fs.open(filename)
+        _fs.close
+        return True
+    except fs.errors.ResourceNotFound:
+        return False
 
 
 class WidgetImage(QWidget):
