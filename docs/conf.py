@@ -52,7 +52,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'fs_filepicker'
-copyright = u'2017, Reimar Bauer'
+copyright = u'2017-2018, Reimar Bauer'
 author = u'Reimar Bauer'
 
 # The version info for the project you're documenting, acts as replacement for
