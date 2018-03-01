@@ -119,8 +119,7 @@ def fs_file_exists(fs_url, filename):
     except fs.errors.CreateFailed:
         return False
     try:
-        _fs.open(filename)
-        _fs.close
+        _fs.exists(filename)
         return True
     except fs.errors.ResourceNotFound:
         return False
