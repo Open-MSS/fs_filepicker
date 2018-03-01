@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.2.9
+~~~~~~~~~~~~~
+
+ - bug fix, all remaining os.path replaced by fs.path
+ - set only logo if the application runs standalone
+ - improved fs_file_exists
+
 Version 0.2.8
 ~~~~~~~~~~~~~
 
