@@ -326,7 +326,7 @@ class Test_Filepicker(object):
     @mock.patch("fslib.fs_filepicker.FilePicker", return_value=fp)
     def test_fsfp_fileselected(self, mockresult):
         fn, tf = fsfp(parent=None, fs_url=self.fs_url)
-        assert fn.startswith(u'file:///')
+        assert fn.startswith(u'file://')
         assert u'testdata/foo/foo.txt' in fn
         assert tf == 'All Files (*)'
 
