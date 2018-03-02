@@ -29,8 +29,10 @@ import fs.path
 import pytest
 
 from PyQt5 import QtWidgets, QtTest
-from conftest import ROOT_FS, TESTDATA_DIR, ROOT_DIR, SUB_DIRS
+from conftest import ROOT_FS, TESTDATA_DIR, ROOT_DIR, SUB_DIRS, Dummy_Filepicker
 from fslib import fs_filepicker
+from fslib.fs_filepicker import fs_filepicker as fsfp
+from fslib.fs_filepicker import main as fsmain
 
 
 class Test_Open_FilePicker(object):
@@ -304,3 +306,30 @@ class Test_MoreUrls(object):
         assert SUB_DIRS[1] in cmp_items.replace(u"\\", u"/")
         assert SUB_DIRS[2] in cmp_items.replace(u"\\", u"/")
         assert fs.path.join(u"never", u"never", u"exists") not in cmp_items
+
+
+class Test_Filepicker(object):
+    def setup(self):
+        self.application = QtWidgets.QApplication([])
+        self.fs_url = [ROOT_FS.geturl(_dir) for _dir in SUB_DIRS]
+
+    def test_fsfp_nothing_selected(self):
+        result = fsfp(parent=None, fs_url=self.fs_url)
+        assert result == (None, None)
+
+    fp = Dummy_Filepicker(authentification=u"",
+                          filename=u"foo.txt",
+                          selected_file_pattern=["All Files (*)"],
+                          selected_dir=SUB_DIRS[0],
+                          wparm="something")
+
+    @mock.patch("fslib.fs_filepicker.FilePicker", return_value=fp)
+    def test_fsfp_fileselected(self, mockresult):
+        fn, tf = fsfp(parent=None, fs_url=self.fs_url)
+        assert fn.startswith(u'file:///')
+        assert u'testdata/foo/foo.txt' in fn
+        assert tf == 'All Files (*)'
+
+    @mock.patch("fslib.fs_filepicker.fs_filepicker", return_value=[None])
+    def test_main_call(self, mockresult):
+        assert fsmain() is None

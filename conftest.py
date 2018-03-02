@@ -85,4 +85,24 @@ def configure_testsetup(request):
         yield
 
 
+class Dummy_Filepicker(object):
+    def __init__(self, authentification=u"", active_url=ROOT_FS.geturl(TESTDATA_DIR), selected_dir=None,
+                 filename=u"foo.txt", wparm=None, selected_file_pattern=None):
+        self.authentification = authentification
+        self.active_url = active_url
+        self.selected_dir = selected_dir
+        self.filename = filename
+        self.wparm = wparm
+        if selected_file_pattern is None:
+            self.selected_file_pattern = ["All Files (*)"]
+        else:
+            self.selected_file_pattern = selected_file_pattern
+
+    def setModal(self, boolean):
+        pass
+
+    def exec_(self):
+        pass
+
+
 setup_testdata()
