@@ -87,12 +87,13 @@ def configure_testsetup(request):
 
 class Dummy_Filepicker(object):
     def __init__(self, authentification=u"", active_url=ROOT_FS.geturl(TESTDATA_DIR), selected_dir=None,
-                 filename=u"foo.txt", wparm=None, selected_file_pattern=None):
+                 filename=u"foo.txt", wparm=None, selected_file_pattern=None, show_save_action=False):
         self.authentification = authentification
         self.active_url = active_url
         self.selected_dir = selected_dir
         self.filename = filename
         self.wparm = wparm
+        self.show_save_action = show_save_action
         if selected_file_pattern is None:
             self.selected_file_pattern = ["All Files (*)"]
         else:

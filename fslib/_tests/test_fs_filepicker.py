@@ -319,9 +319,9 @@ class Test_Filepicker(object):
 
     fp = Dummy_Filepicker(authentification=u"",
                           filename=u"foo.txt",
-                          selected_file_pattern=["All Files (*)"],
+                          selected_file_pattern=[u"All Files (*)"],
                           selected_dir=SUB_DIRS[0],
-                          wparm="something")
+                          wparm=u"something")
 
     @mock.patch("fslib.fs_filepicker.FilePicker", return_value=fp)
     def test_fsfp_fileselected(self, mockresult):
