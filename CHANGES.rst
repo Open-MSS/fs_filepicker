@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.3.0
+~~~~~~~~~~~~~
+
+  - fs.path.join and fs.path.abspath can't be used because of protocol url
+  - bug fix, pattern can be None
+  - always use forcedir on active_url
+
 Version 0.2.9
 ~~~~~~~~~~~~~
 
