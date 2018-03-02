@@ -595,7 +595,8 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
         if dirname.startswith(fp.active_url):
             filename = u"{}{}".format(active_url, fp.filename)
         else:
-            filename = fs.path.abspath(fs.path.join(u"{}{}".format(active_url, dirname), fp.filename))
+            # We can't use fs.path.join and also not fs.path.abspath because of protocol url
+            filename = u"{}{}{}".format(fs.path.forcedir(active_url), fs.path.forcedir(dirname), fp.filename)
     return filename, fp.selected_file_pattern[0]
 
 
