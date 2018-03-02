@@ -588,6 +588,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
         if parseresult is not None:
             active_url = u"{}://{}{}".format(parseresult.protocol, fp.authentification, parseresult.resource)
     filename = None
+    selected_file_pattern = None
     if fp.filename is not None:
         dirname = u'.{}'.format(u"/")
         if fp.wparm is not None:
@@ -597,7 +598,11 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
         else:
             # We can't use fs.path.join and also not fs.path.abspath because of protocol url
             filename = u"{}{}{}".format(fs.path.forcedir(active_url), fs.path.forcedir(dirname), fp.filename)
-    return filename, fp.selected_file_pattern[0]
+        try:
+            selected_file_pattern = fp.selected_file_pattern[0]
+        except TypeError:
+            selected_file_pattern = file_pattern
+    return filename, selected_file_pattern
 
 
 def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker', **options):
