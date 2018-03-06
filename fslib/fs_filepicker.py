@@ -302,12 +302,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             try:
                 names = self.fs.listdir(_sel_dir)
                 # cleanup not valid names
-                # ToDo improve for other cases, e.g. fs.errors.PermissionDenied
+                # ToDo improve make those problematic files not clickable
                 for item in names:
                     _item = fs.path.combine(_sel_dir, item)
                     try:
                         self.fs.isdir(_item)
-                    except TypeError:
+                    except (TypeError, fs.errors.PermissionDenied):
                         names.remove(item)
                         logging.error("item name %s removed from list" % item)
                 for item in sorted(names):
