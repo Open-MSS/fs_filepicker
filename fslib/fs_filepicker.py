@@ -278,6 +278,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Fills the filenames based on file_type into a FileList, also directories
         """
+        if not self.show_save_action:
+            self.ui_SelectedName.setText(None)
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         self.selected_dir = self.ui_DirList.currentText()
         self.ui_FileList.clearContents()
@@ -390,6 +392,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 if "folder" in self.wparm.img:
                     self.directory_history.append(list(self.wparm.value.keys())[0])
                     self.browse_folder(subdir=list(self.wparm.value.keys())[0])
+                    if not self.show_save_action:
+                        self.ui_SelectedName.setText(None)
                     self.selection_name()
                 if "text" in self.wparm.img:
                     self.ui_SelectedName.setText(self.wparm.text)
@@ -414,6 +418,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Action for filename changes, line edit text input
         """
+        if not self.show_save_action:
+            self.ui_Action.setEnabled(False)
         self.filename = self.ui_SelectedName.text()
         dirname = u'./'
         if self.wparm is not None:
@@ -494,6 +500,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Action for top dir in history_list
         """
         self.browse_folder(self.active_url)
+        if not self.show_save_action:
+            self.ui_SelectedName.setText(None)
+        self.selection_name()
 
     def history_next(self):
         """
@@ -502,6 +511,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         index = list(reversed(self.directory_history)).index(self.selected_dir) - 1
         if index >= 0:
             self.ui_DirList.setCurrentIndex(index)
+        if not self.show_save_action:
+            self.ui_SelectedName.setText(None)
+        self.selection_name()
 
     def history_previous(self):
         """
@@ -510,6 +522,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         index = list(reversed(self.directory_history)).index(self.selected_dir) + 1
         if index < len(self.directory_history):
             self.ui_DirList.setCurrentIndex(index)
+        if not self.show_save_action:
+            self.ui_SelectedName.setText(None)
+        self.selection_name()
 
     def action(self):
         """

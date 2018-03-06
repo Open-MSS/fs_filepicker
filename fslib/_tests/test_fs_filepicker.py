@@ -164,6 +164,30 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         assert self.window.ui_Action.isEnabled() is False
 
+    def test_selectFileinSubDir_andChangeDir(self):
+        _folder_names = [list(name)[0] for name in self.window.dir_list_items]
+        index = _folder_names.index(u'bar')
+        self.window.onCellDoubleClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        _file_names = [list(name)[0] for name in self.window.file_list_items]
+        sel_name = _file_names[0]
+        assert sel_name == u"bar/foo.txt"
+        self.window.onCellClicked(0, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.history_previous()
+        QtWidgets.QApplication.processEvents()
+        _file_names = [list(name)[0] for name in self.window.file_list_items]
+        result = sel_name in _file_names
+        # history previous, name not there
+        assert self.window.ui_Action.isEnabled() is result
+        index = _folder_names.index(u'bar')
+        self.window.onCellDoubleClicked(index, 0)
+        QtWidgets.QApplication.processEvents()
+        _file_names = [list(name)[0] for name in self.window.file_list_items]
+        sel_name = self.window.ui_SelectedName.text()
+        assert sel_name == u""
+        assert self.window.ui_Action.isEnabled() is False
+
     def test_open_file_on_doubleClick(self):
         _names = [list(name)[0] for name in self.window.dir_list_items + self.window.file_list_items]
         index = _names.index(u'example.csv')
