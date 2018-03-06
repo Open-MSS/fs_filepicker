@@ -31,14 +31,16 @@ from fslib.utils import match_extension, get_extension_from_string, human_readab
 
 def test_human_readable_info():
     class info(object):
-        modified = datetime(2018, 02, 04, 10, 10, 10)
+        modified = datetime(2018, 2, 4, 10, 10, 10)
         size = 100
     assert human_readable_info(info) == ("2018-02-04 10:10:10", "100 bytes")
+    assert human_readable_info((u"D", u"D")) == (u" ", u" ")
 
 
 def test_get_extension_from_string():
     data = [(u"All Files (*)", ["*"]),
-            (u"Images (*.jpg *.png *.svg)", ["*.jpg", "*.png", "*.svg"])
+            (u'(*.*)', [u'*.*']),
+            (u"Images (*.jpg *.png *.svg)", ["*.jpg", "*.png", "*.svg"]),
             ]
     for text, pattern in data:
         assert get_extension_from_string(text) == pattern
@@ -49,7 +51,10 @@ def test_match_extensions():
             (u"example.csv", [u"*.txt"], False),
             (u"example.csv", [u"*.txt", u"*.csv"], True),
             (u"example.csv", [u"*.csv", u"*.txt"], True),
-            (u"example.csv", [u"*.txt", u"*.png"], False)]
+            (u"example.csv", [u"*.txt", u"*.png"], False),
+            (u"example.csv", None, True),
+            ]
+
     for name, pattern, state in data:
         assert match_extension(name, pattern) is state
 
@@ -60,3 +65,5 @@ def test_fs_url_exists():
 
 def test_fs_file_exists():
     assert fs_file_exists(fs.path.join(ROOT_DIR, TESTDATA_DIR), u'example.csv')
+    assert fs_file_exists(fs.path.join(ROOT_DIR, TESTDATA_DIR), u'not_exisisting.csv') is False
+    assert fs_file_exists(fs.path.join(ROOT_DIR, u"NONON"), u'neverexists.not') is False
