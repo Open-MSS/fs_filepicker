@@ -227,10 +227,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         loads the selected fs to the file list ui
         """
         self.directory_history = []
+        self.wparm = None
         if self.fs:
             self.fs.close()
-        if self.wparm is not None:
-            self.wparm = None
         try:
             self.fs = fs.open_fs(self.active_url)
         except IOError:
