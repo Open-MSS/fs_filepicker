@@ -214,8 +214,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         simple context option, removes item from list
         """
         url = self.ui_fs_serverlist.currentItem().text()
-        msg = QtWidgets.QMessageBox()
-        selected = msg.information(self, u"Remove FS Dir", url, QMessageBox.Ok | QMessageBox.Cancel)
+        selected = QMessageBox.information(self, u"Remove FS Dir", url, QMessageBox.Ok | QMessageBox.Cancel)
         if selected == QMessageBox.Ok:
             self.ui_fs_serverlist.clear()
             for item in self.settings.value("fs_urls"):

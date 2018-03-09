@@ -356,3 +356,53 @@ class Test_Filepicker(object):
     def test_main_call(self, mockresult):
         pytest.skip("won't work with coverage")
         assert fsmain() is None
+
+
+class Test_Navigation(object):
+    def setup(self):
+        self.other_fs_url = [ROOT_FS.geturl(_dir) for _dir in SUB_DIRS]
+        self.application = QtWidgets.QApplication([])
+        self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
+        self.window = fs_filepicker.FilePicker(fs_url=self.fs_url)
+        self.window.show()
+        QtWidgets.QApplication.processEvents()
+        QtTest.QTest.qWaitForWindowExposed(self.window)
+        QtWidgets.QApplication.processEvents()
+
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
+                return_value=(ROOT_FS.geturl(TESTDATA_DIR), True))
+    def test_other_fs_button(self, mockinput):
+        self.window.other_fs_button()
+        items = [self.window.ui_fs_serverlist.item(index).text()
+                 for index in xrange(self.window.ui_fs_serverlist.count())]
+        assert self.fs_url in items
+
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
+                return_value=(ROOT_FS.geturl(TESTDATA_DIR), True))
+    def test_fs_select_other(self, mockinput):
+        self.window.other_fs_button()
+        items = [self.window.ui_fs_serverlist.item(index).text()
+                 for index in xrange(self.window.ui_fs_serverlist.count())]
+        index = items.index(self.fs_url)
+        self.window.ui_fs_serverlist.setCurrentRow(index)
+        QtWidgets.QApplication.processEvents()
+        self.window.fs_select_other()
+        assert self.window.wparm is None
+        assert self.window.fs._closed is False
+
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
+                return_value=(ROOT_FS.geturl(TESTDATA_DIR), True))
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QMessageBox.information",
+                return_value=(QtWidgets.QMessageBox.Ok))
+    def test_fs_select_other_context(self, mockinput, mockremove):
+        self.window.other_fs_button()
+        items = [self.window.ui_fs_serverlist.item(index).text()
+                 for index in xrange(self.window.ui_fs_serverlist.count())]
+        assert self.fs_url in items
+        _index = items.index(self.fs_url)
+        self.window.ui_fs_serverlist.setCurrentRow(_index)
+        QtWidgets.QApplication.processEvents()
+        self.window.fs_select_other_context()
+        items = [self.window.ui_fs_serverlist.item(index).text()
+                 for index in xrange(self.window.ui_fs_serverlist.count())]
+        assert self.fs_url not in items
