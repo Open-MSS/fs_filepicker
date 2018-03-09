@@ -312,6 +312,24 @@ class Test_Save_FilePicker(object):
         assert self.window.last_dir_index == 1
 
 
+class Test_Save_FilePicker_default(object):
+    def setup(self):
+        self.application = QtWidgets.QApplication([])
+        self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
+        self.window = fs_filepicker.FilePicker(fs_url=self.fs_url, show_save_action=True, default_filename="result.txt")
+        self.window.show()
+        QtWidgets.QApplication.processEvents()
+        QtTest.QTest.qWaitForWindowExposed(self.window)
+        QtWidgets.QApplication.processEvents()
+
+    def teardown(self):
+        self.application.quit()
+
+    def test_default_filename(self):
+        self.window.close()
+        assert self.window.default_filename == u"result.txt"
+
+
 class Test_FilePicker_dirs(object):
     def setup(self):
         self.application = QtWidgets.QApplication([])
