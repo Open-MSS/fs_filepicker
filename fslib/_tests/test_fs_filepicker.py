@@ -319,6 +319,9 @@ class Test_MoreUrls(object):
         QtTest.QTest.qWaitForWindowExposed(self.window)
         QtWidgets.QApplication.processEvents()
 
+    def teardown(self):
+        self.application.quit()
+
     def test_dirs(self):
         items = []
         for index in xrange(self.window.ui_fs_serverlist.count()):
@@ -334,6 +337,9 @@ class Test_Filepicker(object):
     def setup(self):
         self.application = QtWidgets.QApplication([])
         self.fs_url = [ROOT_FS.geturl(_dir) for _dir in SUB_DIRS]
+
+    def teardown(self):
+        self.application.quit()
 
     def test_fsfp_nothing_selected(self):
         result = fsfp(parent=None, fs_url=self.fs_url)
@@ -368,6 +374,9 @@ class Test_Navigation(object):
         QtWidgets.QApplication.processEvents()
         QtTest.QTest.qWaitForWindowExposed(self.window)
         QtWidgets.QApplication.processEvents()
+
+    def teardown(self):
+        self.application.quit()
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
                 return_value=(ROOT_FS.geturl(TESTDATA_DIR), True))
