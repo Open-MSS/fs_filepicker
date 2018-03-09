@@ -426,13 +426,16 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.wparm.value == u'./{}'.format(self.wparm.text):
                 dirname = fs.path.dirname(u'./{}'.format(self.wparm.text))
             else:
-                dirname = fs.path.dirname(list(self.wparm.value)[0])
+                dirname = self.selected_dir
         if not self.show_dirs_only:
             _filename = fs.path.combine(dirname, self.filename)
             _file_names = [list(name)[0] for name in self.file_list_items]
-
+            if dirname == u'./':
+                _file_names = [fs.path.combine(dirname, list(name)[0]) for name in self.file_list_items]
             if self.fs.exists(_filename) and _filename in _file_names:
                 self.ui_Action.setEnabled(True)
+                index = _file_names.index(_filename) + len(self.dir_list_items)
+                self.ui_FileList.selectRow(index)
             else:
                 if not self.show_save_action:
                     self.ui_Action.setEnabled(False)

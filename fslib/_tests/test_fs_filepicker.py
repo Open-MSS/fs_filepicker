@@ -235,17 +235,15 @@ class Test_Save_FilePicker(object):
         assert filename == u"newexample.txt"
 
     def test_filename_high_light_by_selectedname(self):
-        pytest.skip("this needs further investigation")
         index = sorted(SUB_DIRS).index(fs.path.join(u"testdata", u"foo"))
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellClicked(index, 0)
+        self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
         self.window.ui_SelectedName.setText(u'foo.txt')
         QtWidgets.QApplication.processEvents()
         self.window.selection_name()
         QtWidgets.QApplication.processEvents()
-        # get the highlighted row
         index = self.window.ui_FileList.selectedIndexes()[0].row()
         assert index == 0
 
