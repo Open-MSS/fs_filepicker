@@ -316,7 +316,9 @@ class Test_Save_FilePicker_default(object):
     def setup(self):
         self.application = QtWidgets.QApplication([])
         self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
-        self.window = fs_filepicker.FilePicker(fs_url=self.fs_url, show_save_action=True, default_filename="result.txt")
+        self.window = fs_filepicker.FilePicker(fs_url=[self.fs_url, TESTDATA_DIR], show_save_action=True,
+                                               file_pattern=[u'All Files (*)', u'CSV Files (*.csv)'],
+                                               default_filename="result.txt")
         self.window.show()
         QtWidgets.QApplication.processEvents()
         QtTest.QTest.qWaitForWindowExposed(self.window)
