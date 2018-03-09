@@ -223,6 +223,7 @@ class Test_Save_FilePicker(object):
         self.window.cancel()
         QtWidgets.QApplication.processEvents()
         filename = self.window.filename
+        self.window.close()
         assert filename is None
 
     def test_filename_save_newname(self):
@@ -232,6 +233,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.close()
         filename = self.window.filename
+        self.window.close()
         assert filename == u"newexample.txt"
 
     def test_filename_high_light_by_selectedname(self):
@@ -245,6 +247,7 @@ class Test_Save_FilePicker(object):
         self.window.selection_name()
         QtWidgets.QApplication.processEvents()
         index = self.window.ui_FileList.selectedIndexes()[0].row()
+        self.window.close()
         assert index == 0
 
     def test_default_filename(self):
@@ -255,6 +258,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.close()
         filename = self.window.filename
+        self.window.close()
         assert filename == u"abc.txt"
 
     def test_save_in_empty_dir(self):
@@ -355,6 +359,7 @@ class Test_MoreUrls(object):
         for index in xrange(self.window.ui_fs_serverlist.count()):
             items.append(self.window.ui_fs_serverlist.item(index).text())
         cmp_items = ','.join(items)
+        self.window.close()
         assert SUB_DIRS[0] in cmp_items.replace(u"\\", u"/")
         assert SUB_DIRS[1] in cmp_items.replace(u"\\", u"/")
         assert SUB_DIRS[2] in cmp_items.replace(u"\\", u"/")
@@ -412,6 +417,7 @@ class Test_Navigation(object):
         self.window.other_fs_button()
         items = [self.window.ui_fs_serverlist.item(index).text()
                  for index in xrange(self.window.ui_fs_serverlist.count())]
+        self.window.close()
         assert self.fs_url in items
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
@@ -424,6 +430,7 @@ class Test_Navigation(object):
         self.window.ui_fs_serverlist.setCurrentRow(index)
         QtWidgets.QApplication.processEvents()
         self.window.fs_select_other()
+        self.window.close()
         assert self.window.wparm is None
         assert self.window.fs._closed is False
 
@@ -442,4 +449,5 @@ class Test_Navigation(object):
         self.window.fs_select_other_context()
         items = [self.window.ui_fs_serverlist.item(index).text()
                  for index in xrange(self.window.ui_fs_serverlist.count())]
+        self.window.close()
         assert self.fs_url not in items
