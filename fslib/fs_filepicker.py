@@ -419,18 +419,19 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if not self.show_save_action and not self.show_dirs_only:
             self.ui_Action.setEnabled(False)
         self.filename = self.ui_SelectedName.text()
-        dirname = u'./'
+        dirname = fs.path.forcedir(u'.')
         if self.wparm is not None:
-            if self.wparm.value == u'./{}'.format(self.wparm.text):
-                dirname = fs.path.dirname(u'./{}'.format(self.wparm.text))
+            _dirname = fs.path.forcedir(u'.')
+            if self.wparm.value == u'{}{}'.format(_dirname, self.wparm.text):
+                dirname = fs.path.dirname(u'{}{}'.format(_dirname, self.wparm.text))
             else:
                 dirname = self.selected_dir
         if not self.show_dirs_only:
             _filename = fs.path.combine(dirname, self.filename)
             _file_names = [list(name)[0] for name in self.file_list_items]
-            if dirname == u'./':
+            if dirname == fs.path.forcedir(u'.'):
                 _file_names = [fs.path.combine(dirname, list(name)[0]) for name in self.file_list_items]
-            if self.fs.exists(_filename) and _filename in _file_names:
+            if _filename in _file_names:
                 self.ui_Action.setEnabled(True)
                 index = _file_names.index(_filename) + len(self.dir_list_items)
                 self.ui_FileList.selectRow(index)
@@ -536,10 +537,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
-            dirname = u'.{}'.format(u"/")
+            dirname = fs.path.forcedir(u'.')
             if self.wparm is not None:
-                if self.wparm.value == u'.{}{}'.format(u"/", self.wparm.text):
-                    dirname = fs.path.dirname(u'.{}{}'.format(u"/", self.wparm.text))
+                _dirname = fs.path.forcedir(u'.')
+                if self.wparm.value == u'{}{}'.format(_dirname, self.wparm.text):
+
+                    dirname = fs.path.dirname(u'{}'.format(_dirname, self.wparm.text))
                 else:
                     dirname = fs.path.dirname(self.wparm.value)
             filename = fs.path.join(dirname, self.filename)
@@ -606,7 +609,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
     filename = None
     selected_file_pattern = None
     if fp.filename is not None:
-        dirname = u'.{}'.format(u"/")
+        dirname = fs.path.forcedir(u'.')
         if fp.wparm is not None:
             dirname = fp.selected_dir
         if dirname.startswith(fp.active_url):
