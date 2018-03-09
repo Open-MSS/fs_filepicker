@@ -308,6 +308,34 @@ class Test_Save_FilePicker(object):
         assert self.window.last_dir_index == 1
 
 
+class Test_FilePicker_dirs(object):
+    def setup(self):
+        self.application = QtWidgets.QApplication([])
+        self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
+        self.window = fs_filepicker.FilePicker(fs_url=self.fs_url, show_save_action=True, show_dirs_only=True)
+        self.window.show()
+        QtWidgets.QApplication.processEvents()
+        QtTest.QTest.qWaitForWindowExposed(self.window)
+        QtWidgets.QApplication.processEvents()
+
+    def teardown(self):
+        self.application.quit()
+
+    def test_show_action(self):
+        assert self.window.ui_Action.text() == u"Get Directory"
+        assert self.window.ui_Action.isEnabled() is True
+
+    def test_select_directory(self):
+        self.window.ui_FileList.selectRow(0)
+        QtWidgets.QApplication.processEvents()
+        self.window.onCellClicked(0, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        name = self.window.filename
+        self.window.close()
+        assert name.endswith(u'bar')
+
+
 class Test_MoreUrls(object):
     def setup(self):
         self.application = QtWidgets.QApplication([])

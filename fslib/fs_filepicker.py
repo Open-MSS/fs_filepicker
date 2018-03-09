@@ -416,7 +416,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Action for filename changes, line edit text input
         """
-        if not self.show_save_action:
+        if not self.show_save_action and not self.show_dirs_only:
             self.ui_Action.setEnabled(False)
         self.filename = self.ui_SelectedName.text()
         dirname = u'./'
