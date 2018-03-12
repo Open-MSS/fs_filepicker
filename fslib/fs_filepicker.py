@@ -547,7 +547,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 filename = u"{}{}{}".format(fs.path.forcedir(self.active_url),
                                             fs.path.forcedir(dirname), self.filename)
             filename = filename.replace(fs.path.forcedir(u'.'), u'')
-        if self.show_save_action:
+        if self.show_save_action and not self.show_dirs_only:
             self.save_settings()
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
@@ -572,14 +572,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 self.filename = filename
                 self.close()
         else:
-            try:
-                self.filename = self.ui_SelectedName.text()
-                if self.filename == u"":
-                    self.filename = None
-            except AttributeError:
-                pass
-            else:
-                self.close()
+            self.filename = filename
+            self.close()
 
     def save_settings(self):
         items = []

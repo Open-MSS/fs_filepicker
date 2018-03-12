@@ -126,7 +126,7 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
-        assert self.window.filename == u"example.txt"
+        assert self.window.filename[7:] == fs.path.join(ROOT_DIR, TESTDATA_DIR, u"example.txt")
 
     def test_subdirectory(self):
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
@@ -140,7 +140,7 @@ class Test_Open_FilePicker(object):
         self.window.action()
         QtWidgets.QApplication.processEvents()
         self.window.close()
-        assert self.window.filename == "foo.txt"
+        assert self.window.filename[7:] == fs.path.join(ROOT_DIR, TESTDATA_DIR, self.window.selected_dir, u"foo.txt")
 
     def test_onCellClicked(self):
         self.window.onCellDoubleClicked(0, 0)
@@ -193,7 +193,7 @@ class Test_Open_FilePicker(object):
         index = _names.index(u'example.csv')
         self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
-        assert self.window.filename == "example.csv"
+        assert self.window.filename[7:] == fs.path.join(ROOT_DIR, TESTDATA_DIR, u"example.csv")
 
 
 class Test_Save_FilePicker(object):
@@ -385,9 +385,7 @@ class Test_FilePicker_dirs(object):
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
         self.window.action()
-        name = self.window.filename
-        self.window.close()
-        assert name.endswith(u'bar')
+        assert self.window.filename[7:] == fs.path.join(ROOT_DIR, TESTDATA_DIR, self.window.ui_SelectedName.text())
 
 
 class Test_MoreUrls(object):
