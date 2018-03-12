@@ -25,6 +25,7 @@
 """
 from __future__ import print_function
 
+import sys
 import pytest
 import fs
 import fs.path
@@ -83,6 +84,12 @@ def configure_testsetup(request):
         VIRT_DISPLAY.stop()
     else:
         yield
+
+
+def force_dir(directory):
+    if sys.platform.startswith('win'):
+        return u"{}\\".format(directory)
+    return fs.path.forcedir(directory)
 
 
 class Dummy_Filepicker(object):
