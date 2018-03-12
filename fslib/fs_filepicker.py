@@ -553,17 +553,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.filename == u"":
                 return
 
-            if self.filename is not None:
-                dirname = fs.path.forcedir(u'.')
-                if self.wparm is not None:
-                    dirname = self.selected_dir
-                if dirname.startswith(self.active_url):
-                    filename = u"{}{}".format(fs.path.forcedir(self.active_url), self.filename)
-                else:
-                    # We can't use fs.path.join and also not fs.path.abspath because of protocol url
-                    filename = u"{}{}{}".format(fs.path.forcedir(self.active_url),
-                                                fs.path.forcedir(dirname), self.filename)
-                filename = filename.replace(fs.path.forcedir(u'.'), u'')
             if fs_url_exists(filename):
                 sel = QtWidgets.QMessageBox.warning(
                     self, u"Warning",
