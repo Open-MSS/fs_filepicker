@@ -532,31 +532,50 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Action on Open / Save button
         """
+        self.filename = self.ui_SelectedName.text()
+        if self.filename == u"":
+            return
+
+        if self.filename is not None:
+            dirname = fs.path.forcedir(u'.')
+            if self.wparm is not None:
+                dirname = self.selected_dir
+            if dirname.startswith(self.active_url):
+                filename = u"{}{}".format(fs.path.forcedir(self.active_url), self.filename)
+            else:
+                # We can't use fs.path.join and also not fs.path.abspath because of protocol url
+                filename = u"{}{}{}".format(fs.path.forcedir(self.active_url),
+                                            fs.path.forcedir(dirname), self.filename)
+            filename = filename.replace(fs.path.forcedir(u'.'), u'')
         if self.show_save_action:
             self.save_settings()
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
-            dirname = fs.path.forcedir(u'.')
-            if self.wparm is not None:
-                _dirname = fs.path.forcedir(u'.')
-                if self.wparm.value == u'{}{}'.format(_dirname, self.wparm.text):
 
-                    dirname = fs.path.dirname(u'{}'.format(_dirname, self.wparm.text))
+            if self.filename is not None:
+                dirname = fs.path.forcedir(u'.')
+                if self.wparm is not None:
+                    dirname = self.selected_dir
+                if dirname.startswith(self.active_url):
+                    filename = u"{}{}".format(fs.path.forcedir(self.active_url), self.filename)
                 else:
-                    dirname = fs.path.dirname(self.wparm.value)
-            filename = fs.path.join(dirname, self.filename)
-            if self.fs.isdir(filename):
+                    # We can't use fs.path.join and also not fs.path.abspath because of protocol url
+                    filename = u"{}{}{}".format(fs.path.forcedir(self.active_url),
+                                                fs.path.forcedir(dirname), self.filename)
+                filename = filename.replace(fs.path.forcedir(u'.'), u'')
+            if fs_url_exists(filename):
                 sel = QtWidgets.QMessageBox.warning(
                     self, u"Warning",
                     u"You can't create a file with this name: {0}".format(self.filename),
                     QtWidgets.QMessageBox.No)
-            elif self.fs.exists(filename):
+            elif fs_file_exists(fs.path.split(filename)):
                 sel = QtWidgets.QMessageBox.question(
                     self, u"Replace Filename",
                     u"This will replace the filename: {0}. Continue?".format(self.filename),
                     QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
                 if sel == QtWidgets.QMessageBox.Yes:
+                    self.filename = filename
                     self.close()
                 else:
                     pass

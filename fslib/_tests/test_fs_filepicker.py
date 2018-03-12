@@ -58,7 +58,7 @@ class Test_Open_FilePicker(object):
         self.window.action()
         filename = self.window.filename
         self.window.close()
-        assert filename is None
+        assert filename == u""
 
     def test_fs_filepicker_files_selected_ok(self):
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
@@ -330,6 +330,24 @@ class Test_Save_FilePicker_default(object):
     def test_default_filename(self):
         self.window.close()
         assert self.window.default_filename == u"result.txt"
+
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QMessageBox.warning",
+                return_value=QtWidgets.QMessageBox.No)
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QMessageBox.question",
+                return_value=QtWidgets.QMessageBox.Yes)
+    def test_action(self, mockwarning, mockinformation):
+        self.window.ui_SelectedName.setText(u"foo")
+        QtWidgets.QApplication.processEvents()
+        assert self.window.show_save_action is True
+        self.window.action()
+        assert QtWidgets.QMessageBox.No
+        self.window.ui_SelectedName.setText(u"example.csv")
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        QtWidgets.QApplication.processEvents()
+        assert QtWidgets.QMessageBox.Yes
+        tmp_filename = u"{}{}".format(fs.path.forcedir(u'.'), u"example.csv")
+        assert self.window.filename[7:] == fs.path.join(ROOT_DIR, TESTDATA_DIR, fs.path.forcedir(u'.'), tmp_filename)
 
 
 class Test_FilePicker_dirs(object):

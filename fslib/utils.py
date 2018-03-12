@@ -106,7 +106,7 @@ def fs_url_exists(fs_url):
     return True
 
 
-def fs_file_exists(fs_url, filename):
+def fs_file_exists(fs_url, filename=None):
     """
     verifies for a valid file
 
@@ -114,6 +114,8 @@ def fs_file_exists(fs_url, filename):
     :filename: file to verifa
     :return: boolean
     """
+    if isinstance(fs_url, tuple):
+        fs_url, filename = fs_url
     try:
         _fs = fs.open_fs(fs_url)
     except fs.errors.CreateFailed:
