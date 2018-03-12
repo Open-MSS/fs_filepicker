@@ -612,14 +612,7 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
     filename = None
     selected_file_pattern = None
     if fp.filename is not None:
-        dirname = fs.path.forcedir(u'.')
-        if fp.wparm is not None:
-            dirname = fp.selected_dir
-        if dirname.startswith(fp.active_url):
-            filename = u"{}{}".format(fs.path.forcedir(active_url), fp.filename)
-        else:
-            # We can't use fs.path.join and also not fs.path.abspath because of protocol url
-            filename = u"{}{}{}".format(fs.path.forcedir(active_url), fs.path.forcedir(dirname), fp.filename)
+        filename = fp.filename.replace(fp.active_url, active_url)
         try:
             selected_file_pattern = fp.selected_file_pattern[0]
         except TypeError:
