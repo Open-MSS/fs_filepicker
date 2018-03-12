@@ -349,6 +349,24 @@ class Test_Save_FilePicker_default(object):
         tmp_filename = u"{}{}".format(fs.path.forcedir(u'.'), u"example.csv")
         assert self.window.filename[7:] == fs.path.join(ROOT_DIR, TESTDATA_DIR, fs.path.forcedir(u'.'), tmp_filename)
 
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QMessageBox.warning",
+                return_value=QtWidgets.QMessageBox.No)
+    @mock.patch("fslib.fs_filepicker.QtWidgets.QMessageBox.question",
+                return_value=QtWidgets.QMessageBox.Yes)
+    def test_action_in_subdir(self, mockwarning, mockinformation):
+        self.window.ui_FileList.selectRow(0)
+        QtWidgets.QApplication.processEvents()
+        self.window.onCellDoubleClicked(0, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.ui_FileList.selectRow(0)
+        QtWidgets.QApplication.processEvents()
+        self.window.onCellClicked(0, 0)
+        QtWidgets.QApplication.processEvents()
+        self.window.action()
+        QtWidgets.QApplication.processEvents()
+        assert QtWidgets.QMessageBox.Yes
+        assert self.window.filename[7:] == fs.path.join(ROOT_DIR, TESTDATA_DIR, self.window.selected_dir, u"foo.txt")
+
 
 class Test_FilePicker_dirs(object):
     def setup(self):
