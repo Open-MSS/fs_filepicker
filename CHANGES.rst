@@ -1,6 +1,14 @@
 Changelog
 =========
 
+Version 0.3.1
+~~~~~~~~~~~~~
+
+  - small refactoring for improved tests
+  - bug fix for overwriting files
+  - select and highlight entered filename
+  - exclude dirs because of PermissionDenied
+
 Version 0.3.0
 ~~~~~~~~~~~~~
 
