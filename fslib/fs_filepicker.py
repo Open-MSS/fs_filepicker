@@ -580,6 +580,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 else:
                     pass
             else:
+                self.filename = filename
                 self.close()
         else:
             try:

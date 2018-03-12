@@ -231,10 +231,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
-        self.window.close()
-        filename = self.window.filename
-        self.window.close()
-        assert filename == u"newexample.txt"
+        assert self.window.filename[7:] == fs.path.join(ROOT_DIR, TESTDATA_DIR, u"newexample.txt")
 
     def test_filename_high_light_by_selectedname(self):
         index = sorted(SUB_DIRS).index(fs.path.join(u"testdata", u"foo"))
@@ -256,10 +253,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
-        self.window.close()
-        filename = self.window.filename
-        self.window.close()
-        assert filename == u"abc.txt"
+        assert self.window.filename[7:] == fs.path.join(ROOT_DIR, TESTDATA_DIR, self.window.default_filename)
 
     def test_save_in_empty_dir(self):
         index = sorted(SUB_DIRS).index(fs.path.join(u"testdata", u"empty"))
