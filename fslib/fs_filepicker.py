@@ -553,7 +553,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.filename == u"":
                 return
 
-            if fs_url_exists(filename):
+            if self.fs.isdir(fs.path.split(filename)[1]):
                 sel = QtWidgets.QMessageBox.warning(
                     self, u"Warning",
                     u"You can't create a file with this name: {0}".format(self.filename),
