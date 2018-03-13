@@ -552,13 +552,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
-
-            if self.fs.isdir(fs.path.split(filename)[1]):
+            info = self.get_info(fs.path.split(filename)[1])
+            if info is not None and info.is_dir:
                 sel = QtWidgets.QMessageBox.warning(
                     self, u"Warning",
                     u"You can't create a file with this name: {0}".format(self.filename),
                     QtWidgets.QMessageBox.No)
-            elif fs_file_exists(fs.path.split(filename)):
+            elif info is not None and info.is_file:
                 sel = QtWidgets.QMessageBox.question(
                     self, u"Replace Filename",
                     u"This will replace the filename: {0}. Continue?".format(self.filename),
