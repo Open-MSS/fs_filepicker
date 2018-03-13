@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.3.2
+~~~~~~~~~~~~~
+
+ -  use builtin methods checking is_dir and is_file
+
+
 Version 0.3.1
 ~~~~~~~~~~~~~
 
