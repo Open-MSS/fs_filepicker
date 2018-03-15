@@ -23,10 +23,8 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 """
-import fs.path
-from conftest import ROOT_DIR, TESTDATA_DIR
 from datetime import datetime
-from fslib.utils import match_extension, get_extension_from_string, human_readable_info, fs_url_exists, fs_file_exists
+from fslib.utils import match_extension, get_extension_from_string, human_readable_info, fs_url_exists
 
 
 def test_human_readable_info():
@@ -61,9 +59,3 @@ def test_match_extensions():
 
 def test_fs_url_exists():
     assert fs_url_exists(u"~/")
-
-
-def test_fs_file_exists():
-    assert fs_file_exists(fs.path.join(ROOT_DIR, TESTDATA_DIR), u'example.csv')
-    assert fs_file_exists(fs.path.join(ROOT_DIR, TESTDATA_DIR), u'not_exisisting.csv') is False
-    assert fs_file_exists(fs.path.join(ROOT_DIR, u"NONON"), u'neverexists.not') is False
