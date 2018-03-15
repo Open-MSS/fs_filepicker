@@ -354,9 +354,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
         self.ui_FileList.setItem(index, 2, QtWidgets.QTableWidgetItem(_mod_time))
 
-    def get_info(self, _item):
+    def get_info(self, _item, namespaces=[u'details', u'access', u'stat']):
         try:
-            info = self.fs.getinfo(_item, namespaces=[u'details', u'access', u'stat'])
+            info = self.fs.getinfo(_item, namespaces=namespaces)
             time.sleep(0.001)
         except (fs.errors.ResourceNotFound, UnicodeEncodeError):
             info = None
@@ -452,7 +452,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = u""
         if self.filename != u"":
             self.ui_SelectedName.setText(self.filename)
-            info = self.get_info(self.filename)
+            info = self.get_info(self.filename, namespaces=None)
             if info is not None and info.is_file:
                 self.ui_Action.setEnabled(True)
 
@@ -555,7 +555,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.filename = self.ui_SelectedName.text()
             if self.filename == u"":
                 return
-            info = self.get_info(fs.path.split(filename)[1])
+            info = self.get_info(fs.path.split(filename)[1], namespaces=None)
             if info is not None and info.is_dir:
                 sel = QtWidgets.QMessageBox.warning(
                     self, u"Warning",
