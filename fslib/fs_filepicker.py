@@ -63,10 +63,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if isinstance(fs_url, list):
             self.fs_url = fs_url[0]
             if isinstance(stored_fs_url, list):
-                for _fs_url in stored_fs_url:
-                    if fs_url_exists(_fs_url):
-                        self.ui_fs_serverlist.addItem(_fs_url)
-                for _fs_url in fs_url:
+                for _fs_url in list(set(stored_fs_url + fs_url)):
                     if fs_url_exists(_fs_url):
                         self.ui_fs_serverlist.addItem(_fs_url)
         else:
@@ -536,20 +533,19 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Action on Open / Save button
         """
         self.filename = self.ui_SelectedName.text()
-        if self.filename == u"":
+        if self.filename == u"" or self.filename is None:
             return
 
-        if self.filename is not None:
-            dirname = fs.path.forcedir(u'.')
-            if self.wparm is not None:
-                dirname = self.selected_dir
-            if dirname.startswith(self.active_url):
-                filename = u"{}{}".format(fs.path.forcedir(self.active_url), self.filename)
-            else:
-                # We can't use fs.path.join and also not fs.path.abspath because of protocol url
-                filename = u"{}{}{}".format(fs.path.forcedir(self.active_url),
-                                            fs.path.forcedir(dirname), self.filename)
-            filename = filename.replace(fs.path.forcedir(u'.'), u'')
+        dirname = fs.path.forcedir(u'.')
+        if self.wparm is not None:
+            dirname = self.selected_dir
+        if dirname.startswith(self.active_url):
+            filename = u"{}{}".format(fs.path.forcedir(self.active_url), self.filename)
+        else:
+            # We can't use fs.path.join and also not fs.path.abspath because of protocol url
+            filename = u"{}{}{}".format(fs.path.forcedir(self.active_url),
+                                        fs.path.forcedir(dirname), self.filename)
+        filename = filename.replace(fs.path.forcedir(u'.'), u'')
         if self.show_save_action and not self.show_dirs_only:
             self.save_settings()
             self.filename = self.ui_SelectedName.text()
