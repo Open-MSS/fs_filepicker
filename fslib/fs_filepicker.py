@@ -196,7 +196,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if ok:
             if fs_url_exists(fs_url):
                 self.ui_fs_serverlist.setVisible(True)
-                self.ui_fs_serverlist.addItem(fs_url)
+                all_urls = [self.ui_fs_serverlist.item(idx).text() for idx in range(self.ui_fs_serverlist.count())]
+                if fs_url not in all_urls:
+                    self.ui_fs_serverlist.addItem(fs_url)
                 self.save_settings()
             else:
                 msg = u'"%s" Url not valid' % fs_url
