@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.3.3
+~~~~~~~~~~~~~
+
+ - simplified check for existing file
+ - don't add fs_url more than once
+ - refactored stored fs urls
+
 Version 0.3.2
 ~~~~~~~~~~~~~
 
