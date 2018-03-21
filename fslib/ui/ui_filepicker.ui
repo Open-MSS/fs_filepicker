@@ -64,6 +64,9 @@
              <height>32</height>
             </size>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="text">
             <string>OTHER</string>
            </property>
@@ -190,7 +193,11 @@
             </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QComboBox" name="ui_FileType"/>
+            <widget class="QComboBox" name="ui_FileType">
+             <property name="editable">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
