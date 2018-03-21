@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.3.4
+~~~~~~~~~~~~~
+
+ - editable files of type
+ - removed duplicated directory navigation
+ - UI navigation of different fs filesystems simplified
+
 Version 0.3.3
 ~~~~~~~~~~~~~
 
