@@ -92,9 +92,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.action_buttons()
         self.ui_FileList.itemClicked.connect(self.show_name)
         self.ui_mkdir.clicked.connect(self.make_dir)
-        self.ui_history_top.clicked.connect(self.history_top)
-        self.ui_history_previous.clicked.connect(self.history_previous)
-        self.ui_history_next.clicked.connect(self.history_next)
         self.ui_other_fs.clicked.connect(self.other_fs_button)
         self.ui_FileList.cellClicked.connect(self.onCellClicked)
         self.ui_FileList.cellDoubleClicked.connect(self.onCellDoubleClicked)
@@ -135,12 +132,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Set icon image to button
         """
-        self.ui_history_top.setText("")
-        self.ui_history_top.setIcon(QIcon(icons('go-top.png')))
-        self.ui_history_next.setText("")
-        self.ui_history_next.setIcon(QIcon(icons('go-next.png')))
-        self.ui_history_previous.setText("")
-        self.ui_history_previous.setIcon(QIcon(icons('go-previous.png')))
         self.ui_mkdir.setText("")
         self.ui_mkdir.setIcon(QIcon(icons('folder-new.png')))
         self.ui_other_fs.setText("")
