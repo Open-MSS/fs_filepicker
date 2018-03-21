@@ -60,22 +60,17 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.wparm = None
         self.setWindowTitle(title)
         stored_fs_url = self.settings.value("fs_urls", fs_url)
-        if isinstance(fs_url, list):
-            self.fs_url = fs_url[0]
-            if isinstance(stored_fs_url, list):
-                for _fs_url in list(set(stored_fs_url + fs_url)):
-                    if fs_url_exists(_fs_url):
-                        self.ui_fs_serverlist.addItem(_fs_url)
-        else:
-            if isinstance(stored_fs_url, list):
-                for _fs_url in stored_fs_url:
-                    if fs_url_exists(_fs_url):
-                        self.ui_fs_serverlist.addItem(_fs_url)
-            else:
-                self.ui_fs_serverlist.hide()
-            self.fs_url = fs_url
         self.fs_home_url = u"~/"
         self.fs_root_url = root_url()
+        if isinstance(fs_url, list):
+            fs_url = fs_url + [self.fs_home_url, self.fs_root_url]
+        else:
+            fs_url = [fs_url] + [self.fs_home_url, self.fs_root_url]
+        self.fs_url = fs_url[0]
+        if isinstance(stored_fs_url, list):
+            for _fs_url in list(set(stored_fs_url + fs_url)):
+                if fs_url_exists(_fs_url):
+                    self.ui_fs_serverlist.addItem(_fs_url)
         self.active_url = self.fs_url
         self.authentification = None
         self.parent_url = self.fs_url
@@ -91,7 +86,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.button_icons()
         self.show_action()
         self.configure()
-        self.fs_button()
         self.ui_FileType.currentIndexChanged.connect(self.selection_file_type)
         self.ui_SelectedName.textChanged.connect(self.selection_name)
         self.ui_Cancel.clicked.connect(self.cancel)
@@ -101,15 +95,11 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_history_top.clicked.connect(self.history_top)
         self.ui_history_previous.clicked.connect(self.history_previous)
         self.ui_history_next.clicked.connect(self.history_next)
-        self.ui_home.clicked.connect(self.home_button)
-        self.ui_root.clicked.connect(self.root_button)
-        self.ui_fs.clicked.connect(self.fs_button)
         self.ui_other_fs.clicked.connect(self.other_fs_button)
         self.ui_FileList.cellClicked.connect(self.onCellClicked)
         self.ui_FileList.cellDoubleClicked.connect(self.onCellDoubleClicked)
         self.ui_FileList.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
-
         self.ui_fs_serverlist.clicked.connect(self.fs_select_other)
         self.ui_fs_serverlist.customContextMenuRequested.connect(self.fs_select_other_context)
         # ToDo check order of calls
@@ -153,40 +143,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_history_previous.setIcon(QIcon(icons('go-previous.png')))
         self.ui_mkdir.setText("")
         self.ui_mkdir.setIcon(QIcon(icons('folder-new.png')))
-        self.ui_home.setText("")
-        self.ui_home.setIconSize(QtCore.QSize(64, 64))
-        self.ui_home.setIcon(QIcon(icons('go-home.png')))
-        self.ui_root.setText("")
-        self.ui_root.setIconSize(QtCore.QSize(64, 64))
-        self.ui_root.setIcon(QIcon(icons('computer.png')))
-        self.ui_fs.setText("")
-        self.ui_fs.setIconSize(QtCore.QSize(64, 64))
-        if self.scope == u"fs_filepicker":
-            self.ui_fs.setIcon(QIcon(icons('fs_logo.png', origin=u'fs')))
         self.ui_other_fs.setText("")
         self.ui_other_fs.setIconSize(QtCore.QSize(64, 64))
-        self.ui_other_fs.setIcon(QIcon(icons('goto-other-computer.png')))
-
-    def home_button(self):
-        """
-        Action home button
-        """
-        self.active_url = self.fs_home_url
-        self.select_fs()
-
-    def root_button(self):
-        """
-        Action root button
-        """
-        self.active_url = self.fs_root_url
-        self.select_fs()
-
-    def fs_button(self):
-        """
-        Action fs button
-        """
-        self.active_url = fs.path.forcedir(self.fs_url)
-        self.select_fs()
+        self.ui_other_fs.setIcon(QIcon(icons('fs_logo.png', origin=u'fs')))
 
     def other_fs_button(self):
         fs_url, ok = QInputDialog.getText(self, 'Other FS Urls', 'Enter FS Url:')

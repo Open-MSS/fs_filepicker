@@ -29,91 +29,6 @@
      <item>
       <layout class="QVBoxLayout" name="fs_buttons_vertical">
        <item>
-        <widget class="QPushButton" name="ui_home">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::NoFocus</enum>
-         </property>
-         <property name="text">
-          <string>HOME</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="ui_root">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::NoFocus</enum>
-         </property>
-         <property name="text">
-          <string>ROOT</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="ui_fs">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-         <property name="focusPolicy">
-          <enum>Qt::NoFocus</enum>
-         </property>
-         <property name="text">
-          <string>FS</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="ui_other_fs">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>64</width>
-           <height>64</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>OTHER</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <widget class="QListWidget" name="ui_fs_serverlist">
          <property name="enabled">
           <bool>true</bool>
@@ -135,6 +50,25 @@
       <layout class="QVBoxLayout" name="Files_vertical">
        <item>
         <layout class="QHBoxLayout" name="TopNavgation_horizontal">
+         <item>
+          <widget class="QPushButton" name="ui_other_fs">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>32</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>OTHER</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QLabel" name="ui_label_Lookin">
            <property name="text">
@@ -265,6 +199,9 @@
          </property>
          <property name="sortingEnabled">
           <bool>true</bool>
+         </property>
+         <property name="wordWrap">
+          <bool>false</bool>
          </property>
          <property name="columnCount">
           <number>3</number>
