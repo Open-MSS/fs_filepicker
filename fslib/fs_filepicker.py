@@ -578,32 +578,34 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
     return filename, selected_file_pattern
 
 
-def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker', **options):
+def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)',
+                    title=u'FS File Picker', **options):  # pragma: no cover
     return fs_filepicker(parent, fs_url, file_pattern, title=title)[0]
 
 
 def getOpenFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)',
-                             title=u'FS File Picker', **options):
+                             title=u'FS File Picker', **options):  # pragma: no cover
     return fs_filepicker(parent, fs_url, file_pattern, title=title)
 
 
 def getSaveFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                    default_filename=None, show_save_action=True, **options):
+                    default_filename=None, show_save_action=True, **options):  # pragma: no cover
     return fs_filepicker(parent, fs_url, file_pattern, title,
                          default_filename, show_save_action)[0]
 
 
 def getSaveFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                             default_filename=None, show_save_action=True, **options):
+                             default_filename=None, show_save_action=True, **options):  # pragma: no cover
     return fs_filepicker(parent, fs_url, file_pattern, title,
                          default_filename, show_save_action)
 
 
-def getExistingDirectory(parent=None, fs_url=u'~/', title=u'FS File Picker', show_dirs_only=True, **options):
+def getExistingDirectory(parent=None, fs_url=u'~/', title=u'FS File Picker',
+                         show_dirs_only=True, **options):  # pragma: no cover
     return fs_filepicker(parent, fs_url, title=title, show_dirs_only=show_dirs_only)
 
 
-def main():
+def main():  # pragma: no cover
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", help="show version", action="store_true", default=False)
     parser.add_argument("-s", "--save", help="show save button", action="store_true", default=False)
