@@ -49,7 +49,10 @@ def who_called_me(frame):
 
 
 def get_extension_from_string(text):
-    pattern = re.search(r'\((.*?)\)', text).group(1)
+    try:
+        pattern = re.search(r'\((.*?)\)', text).group(1)
+    except AttributeError:
+        return u".*"
     pattern = pattern.split()
     if isinstance(pattern, list):
         return pattern
