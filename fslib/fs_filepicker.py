@@ -436,10 +436,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         new_dir_name, ok = QtWidgets.QInputDialog.getText(self, u"New Folder", u"Enter a new folder name:",
                                                           QtWidgets.QLineEdit.Normal, "")
         if ok:
-            if self.wparm is None:
-                dirname = u''
+            if self.ui_DirList.currentText() == self.active_url:
+                dirname = u""
             else:
-                dirname = self.selected_dir
+                dirname = self.ui_DirList.currentText()
             new_dir = fs.path.combine(dirname, new_dir_name)
             if not self.fs.isdir(new_dir):
                 try:

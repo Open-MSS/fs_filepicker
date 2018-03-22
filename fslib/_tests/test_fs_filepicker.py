@@ -302,7 +302,7 @@ class Test_Save_FilePicker(object):
         assert u"example.txt" in self.window.filename
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
-                return_value=(u"empty/exampledir", True))
+                return_value=(u"exampledir", True))
     def test_makedir(self, mocktext):
         index = sorted(SUB_DIRS).index(fs.path.join(u"testdata", u"empty"))
         self.window.ui_FileList.selectRow(index)
@@ -317,7 +317,7 @@ class Test_Save_FilePicker(object):
         assert fs.path.join(u"empty", u"exampledir") in _folder_names
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
-                return_value=(u"empty/thisexampledir", True))
+                return_value=(u"thisexampledir", True))
     def test_history_makedir(self, mocktext):
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
         index = _folder_names.index(u'empty')
