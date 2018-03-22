@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.3.6
+~~~~~~~~~~~~~
+
+  - fixed creation of sub directories
+  - don't crash on a not existing fs url
+  - removed history navigation functions
+
 Version 0.3.5
 ~~~~~~~~~~~~~
 
