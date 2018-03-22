@@ -28,6 +28,7 @@ import fs
 import fs.path
 import pytest
 import os
+import time
 
 from PyQt5 import QtWidgets, QtTest
 from conftest import ROOT_FS, TESTDATA_DIR, ROOT_DIR, SUB_DIRS, Dummy_Filepicker, force_dir
@@ -213,8 +214,6 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.ui_SelectedName.setText(u'this.txt')
         QtWidgets.QApplication.processEvents()
-        self.window.selection_name()
-        QtWidgets.QApplication.processEvents()
         index = self.window.ui_FileList.selectedIndexes()[0].row()
         assert index == 1
         assert self.window.ui_Action.isEnabled()
@@ -222,6 +221,7 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.ui_SelectedName.setText(u'example.csv')
         QtWidgets.QApplication.processEvents()
+        time.sleep(0.1)
         index = self.window.ui_FileList.selectedIndexes()[0].row()
         assert index == 3
         assert self.window.ui_Action.isEnabled()
@@ -274,8 +274,7 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.ui_SelectedName.setText(u'this.txt')
         QtWidgets.QApplication.processEvents()
-        self.window.selection_name()
-        QtWidgets.QApplication.processEvents()
+        time.sleep(0.1)
         index = self.window.ui_FileList.selectedIndexes()[0].row()
         self.window.close()
         assert index == 1

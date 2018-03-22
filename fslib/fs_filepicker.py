@@ -369,7 +369,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if not self.show_save_action and not self.show_dirs_only:
             self.ui_Action.setEnabled(False)
         self.filename = self.ui_SelectedName.text()
-        dirname = fs.path.forcedir(u'.')
+        if self.ui_DirList.currentText() == self.active_url:
+            dirname = u""
+        else:
+            dirname = self.ui_DirList.currentText()
         if self.wparm is not None:
             _dirname = fs.path.forcedir(u'.')
             if self.wparm.value == u'{}{}'.format(_dirname, self.wparm.text):
