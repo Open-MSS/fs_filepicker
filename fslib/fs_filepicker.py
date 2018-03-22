@@ -225,8 +225,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Fills the filenames based on file_type into a FileList, also directories
         """
+        self.wparm = None
         if not self.show_save_action:
-            self.ui_SelectedName.setText(None)
+            self.ui_SelectedName.setText(u"")
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         self.selected_dir = self.ui_DirList.currentText()
         self.ui_FileList.clearContents()
