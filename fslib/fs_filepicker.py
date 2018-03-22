@@ -68,7 +68,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             fs_url = [fs_url] + [self.fs_home_url, self.fs_root_url]
         self.fs_url = fs_url[0]
         if isinstance(stored_fs_url, list):
-            for _fs_url in list(set(stored_fs_url + fs_url)):
+            for _fs_url in sorted(list(set(stored_fs_url + fs_url))):
                 if fs_url_exists(_fs_url):
                     self.ui_fs_serverlist.addItem(_fs_url)
         self.active_url = self.fs_url
