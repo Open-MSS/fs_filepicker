@@ -451,37 +451,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             else:
                 ok = QtWidgets.QMessageBox.warning(self, u"New Folder", u"Can't create this Folder: {}".format(new_dir))
 
-    def history_top(self):
-        """
-        Action for top dir in history_list
-        """
-        self.browse_folder(self.active_url)
-        if not self.show_save_action:
-            self.ui_SelectedName.setText(None)
-        self.selection_name()
-
-    def history_next(self):
-        """
-        Action for next dir in history_list
-        """
-        index = list(reversed(self.directory_history)).index(self.selected_dir) - 1
-        if index >= 0:
-            self.ui_DirList.setCurrentIndex(index)
-        if not self.show_save_action:
-            self.ui_SelectedName.setText(None)
-        self.selection_name()
-
-    def history_previous(self):
-        """
-        Action for previous dir in history_list
-        """
-        index = list(reversed(self.directory_history)).index(self.selected_dir) + 1
-        if index < len(self.directory_history):
-            self.ui_DirList.setCurrentIndex(index)
-        if not self.show_save_action:
-            self.ui_SelectedName.setText(None)
-        self.selection_name()
-
     def action(self):
         """
         Action on Open / Save button

@@ -179,7 +179,7 @@ class Test_Open_FilePicker(object):
         assert sel_name == u"bar/foo.txt"
         self.window.onCellClicked(0, 0)
         QtWidgets.QApplication.processEvents()
-        self.window.history_previous()
+        self.window.ui_DirList.setCurrentIndex(1)
         QtWidgets.QApplication.processEvents()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
         result = sel_name in _file_names
@@ -323,11 +323,13 @@ class Test_Save_FilePicker(object):
         index = _folder_names.index(u'empty')
         self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
-        self.window.history_previous()
+        self.window.ui_DirList.setCurrentIndex(1)
+        QtWidgets.QApplication.processEvents()
         index = _folder_names.index(u'bar')
         self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
-        self.window.history_previous()
+        self.window.ui_DirList.setCurrentIndex(1)
+        QtWidgets.QApplication.processEvents()
         assert self.window.ui_DirList.currentText() == 'empty'
         QtWidgets.QApplication.processEvents()
         self.window.make_dir()
