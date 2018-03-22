@@ -295,13 +295,11 @@ class Test_Save_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.onCellDoubleClicked(index, 0)
         QtWidgets.QApplication.processEvents()
-        self.window.selection_directory()
         self.window.ui_SelectedName.setText(u"example.txt")
         QtWidgets.QApplication.processEvents()
         self.window.action()
         QtWidgets.QApplication.processEvents()
         self.window.close()
-        assert list(self.window.wparm.value)[0] == u"empty"
         assert u"example.txt" in self.window.filename
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
