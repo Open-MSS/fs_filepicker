@@ -181,7 +181,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.fs.close()
         try:
             self.fs = fs.open_fs(self.active_url)
-        except IOError:
+        except (IOError, fs.errors.CreateFailed):
             logging.error(u"{} does not exist!".format(self.active_url))
             exit()
         try:
