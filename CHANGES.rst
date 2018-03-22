@@ -1,6 +1,13 @@
 Changelog
 =========
 
+Version 0.3.5
+~~~~~~~~~~~~~
+
+ - bug fix for selected dir and enable action by filename
+ - sorted stored fs_urls
+ - tests refactored
+
 Version 0.3.4
 ~~~~~~~~~~~~~
 
