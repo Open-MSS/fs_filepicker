@@ -499,7 +499,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def save_settings(self):
         items = []
-        for index in xrange(self.ui_fs_serverlist.count()):
+        for index in range(self.ui_fs_serverlist.count()):
             items.append(self.ui_fs_serverlist.item(index).text())
         self.settings.setValue('fs_urls', items)
         selected_file_pattern = self.ui_FileType.currentText()

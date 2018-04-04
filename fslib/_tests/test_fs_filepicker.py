@@ -444,7 +444,7 @@ class Test_MoreUrls(object):
 
     def test_dirs(self):
         items = []
-        for index in xrange(self.window.ui_fs_serverlist.count()):
+        for index in range(self.window.ui_fs_serverlist.count()):
             items.append(self.window.ui_fs_serverlist.item(index).text())
         cmp_items = ','.join(items)
         self.window.close()
@@ -503,7 +503,7 @@ class Test_Navigation(object):
     def test_other_fs_button(self, mockinput):
         self.window.other_fs_button()
         items = [self.window.ui_fs_serverlist.item(index).text()
-                 for index in xrange(self.window.ui_fs_serverlist.count())]
+                 for index in range(self.window.ui_fs_serverlist.count())]
         self.window.close()
         assert self.fs_url in items
 
@@ -512,7 +512,7 @@ class Test_Navigation(object):
     def test_fs_select_other(self, mockinput):
         self.window.other_fs_button()
         items = [self.window.ui_fs_serverlist.item(index).text()
-                 for index in xrange(self.window.ui_fs_serverlist.count())]
+                 for index in range(self.window.ui_fs_serverlist.count())]
         index = items.index(self.fs_url)
         self.window.ui_fs_serverlist.setCurrentRow(index)
         QtWidgets.QApplication.processEvents()
@@ -528,13 +528,13 @@ class Test_Navigation(object):
     def test_fs_select_other_context(self, mockinput, mockremove):
         self.window.other_fs_button()
         items = [self.window.ui_fs_serverlist.item(index).text()
-                 for index in xrange(self.window.ui_fs_serverlist.count())]
+                 for index in range(self.window.ui_fs_serverlist.count())]
         assert self.fs_url in items
         _index = items.index(self.fs_url)
         self.window.ui_fs_serverlist.setCurrentRow(_index)
         QtWidgets.QApplication.processEvents()
         self.window.fs_select_other_context()
         items = [self.window.ui_fs_serverlist.item(index).text()
-                 for index in xrange(self.window.ui_fs_serverlist.count())]
+                 for index in range(self.window.ui_fs_serverlist.count())]
         self.window.close()
         assert self.fs_url not in items
