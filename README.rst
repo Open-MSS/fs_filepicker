@@ -22,7 +22,7 @@ fs_filepicker
 This project is based on `PyFilesystem2 <http://pyfilesystem2.readthedocs.io/>`_
 As fs_url you can enter any valid url which the fs.open_fs accepts.
 
-.. image:docs/ui.png
+.. image:: docs/ui.png
 
 Example for commandline::
 
