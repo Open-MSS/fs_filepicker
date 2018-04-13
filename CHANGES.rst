@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.3.7
+~~~~~~~~~~~~~
+
+ - bug fix for python 3
+ - documentation improved
+
 Version 0.3.6
 ~~~~~~~~~~~~~
 
