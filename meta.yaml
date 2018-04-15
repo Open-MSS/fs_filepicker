@@ -19,19 +19,19 @@ build:
   script: python setup.py install --single-version-externally-managed --record record.txt
 
 requirements:
-  build:
+    build:
     - python
     - setuptools
     - future
 
   run:
     - python
-    - setuptools
+    - pyqt 5.*
     - humanfriendly
-    - pyqt
     - fs
     - fs.webdavfs
     - fs.sshfs
+    - future
 
 test:
   imports:
@@ -44,6 +44,7 @@ about:
   license: APACHE 2.0
   license_file: LICENSE
   summary: 'QT Filepicker for PyFilesystem2'
+  dev_url: https://github.com/ReimarBauer/fs_filepicker
 
 extra:
   recipe-maintainers:
