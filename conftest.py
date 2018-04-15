@@ -67,7 +67,7 @@ def setup_testdata():
 
     testdirs = [fs.path.join(u"testdata", u"foo"), fs.path.join(u"testdata", u"bar")]
     for testdir in testdirs:
-        data_fs = fs.open_fs(fs.path.join(ROOT_DIR,  testdir))
+        data_fs = fs.open_fs(fs.path.join(ROOT_DIR, testdir))
         with data_fs.open(u'foo.txt', 'w') as file_object:
             file_object.write(u'testdata')
     testdir = fs.path.join(u"testdata", u"foo")
