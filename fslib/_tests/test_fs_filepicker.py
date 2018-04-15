@@ -505,7 +505,7 @@ class Test_Navigation(object):
         items = [self.window.ui_fs_serverlist.item(index).text()
                  for index in range(self.window.ui_fs_serverlist.count())]
         self.window.close()
-        assert self.fs_url in items
+        assert ROOT_FS.geturl(TESTDATA_DIR) in items
 
     @mock.patch("fslib.fs_filepicker.QtWidgets.QInputDialog.getText",
                 return_value=(ROOT_FS.geturl(TESTDATA_DIR), True))
