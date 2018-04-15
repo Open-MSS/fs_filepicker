@@ -32,7 +32,7 @@ import fs.path
 import inspect
 
 from PyQt5.QtCore import pyqtProperty
-from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QLabel, QHBoxLayout, QTableWidgetItem
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 
@@ -138,3 +138,15 @@ class WidgetImage(QWidget):
     @pyqtProperty(str)
     def value(self):
         return self._value
+
+
+class TableWidgetItem(QTableWidgetItem):
+    def __lt__(self, y):
+        """
+        sorting by directories/files and by uppercase
+        whatsThis is used for classification
+        :return: boolean
+        """
+        if self.whatsThis() + self.text().upper() < self.whatsThis() + y.text().upper():
+            return True
+        return False

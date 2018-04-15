@@ -38,7 +38,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 from fslib import ui_filepicker, __version__
 from fslib.utils import root_url, human_readable_info, match_extension, \
-    FOLDER_SPACES, FILES_SPACES, WidgetImage, get_extension_from_string,\
+    FOLDER_SPACES, FILES_SPACES, TableWidgetItem, WidgetImage, get_extension_from_string,\
     fs_url_exists, who_called_me
 from fslib.icons import icons
 
@@ -298,9 +298,14 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                                                              icon, item))
         time.sleep(0.001)
         _item = " " * spaces + fs.path.basename(list(item)[0])
-        self.ui_FileList.setItem(index, 0, QtWidgets.QTableWidgetItem(_item))
-        self.ui_FileList.setItem(index, 1, QtWidgets.QTableWidgetItem(_size))
-        self.ui_FileList.setItem(index, 2, QtWidgets.QTableWidgetItem(_mod_time))
+        _ti = TableWidgetItem(_item)
+        if _size == u"Folder":
+            _ti.setWhatsThis("Directory")
+        else:
+            _ti.setWhatsThis(u"File")
+        self.ui_FileList.setItem(index, 0, TableWidgetItem(_ti))
+        self.ui_FileList.setItem(index, 1, TableWidgetItem(_size))
+        self.ui_FileList.setItem(index, 2, TableWidgetItem(_mod_time))
 
     def get_info(self, _item, namespaces=[u'details', u'access', u'stat']):
         try:
