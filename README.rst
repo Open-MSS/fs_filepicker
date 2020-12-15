@@ -1,13 +1,16 @@
 fs_filepicker
 ~~~~~~~~~~~~~
 
-|Source| |Conda| |Codecov| |Codacy| |License|
+|Source| |Platforms| |Downloads| |Codecov| |Codacy| |License|
 
 .. |Source| image:: https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=300&style=flat-square
-   :target: https://github.com/ReimarBauer/fs_filepicker
+   :target: https://github.com/open-mss/fs_filepicker
 
-.. |Conda| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/installer/conda.svg
+.. |Platforms| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/platforms.svg
    :target: https://anaconda.org/conda-forge/fs_filepicker
+
+.. |Downloads| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/downloads.svg
+   :target: https://anaconda.org/conda-forge/fs_filepicker   
 
 .. |License| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/license.svg
    :target: https://choosealicense.com/licenses/apache-2.0/
