@@ -1,10 +1,13 @@
 fs_filepicker
 ~~~~~~~~~~~~~
 
-|Source| |Platforms| |Downloads| |Codecov| |Codacy| |License|
+|Source| |Install| |Platforms| |Downloads| |Codecov| |Codacy| |License|
 
 .. |Source| image:: https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=300&style=flat-square
    :target: https://github.com/open-mss/fs_filepicker
+
+.. |Install| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/installer/conda.svg
+   :target: https://anaconda.org/conda-forge/fs_filepicker
 
 .. |Platforms| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/platforms.svg
    :target: https://anaconda.org/conda-forge/fs_filepicker
