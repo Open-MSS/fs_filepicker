@@ -50,5 +50,9 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=["fs", "future"],  # we use conda build recipe
-    entry_points={}
+    entry_points={
+        "console_scripts": [
+            "fs_filepicker=fslib.fs_filepicker:main",
+        ]
+    }
 )
