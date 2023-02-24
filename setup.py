@@ -28,8 +28,9 @@
 # it to generate your project's PyPI page.
 from past.builtins import execfile
 from setuptools import setup, find_packages
-long_description = open('README.rst').read()
-execfile('fslib/version.py')
+
+long_description = open("README.rst").read()
+execfile("fslib/version.py")
 
 setup(
     name="fs_filepicker",
@@ -54,5 +55,5 @@ setup(
         "console_scripts": [
             "fs_filepicker=fslib.fs_filepicker:main",
         ]
-    }
+    },
 )

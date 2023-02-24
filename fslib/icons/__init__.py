@@ -27,5 +27,7 @@
 import os.path
 
 
-def icons(name, origin=u"tango"):
-    return os.path.join(os.path.abspath(os.path.normpath(os.path.dirname(__file__))), origin, name)
+def icons(name, origin="tango"):
+    return os.path.join(
+        os.path.abspath(os.path.normpath(os.path.dirname(__file__))), origin, name
+    )

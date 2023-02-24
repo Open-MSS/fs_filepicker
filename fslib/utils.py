@@ -43,16 +43,16 @@ FILES_SPACES = 12
 def who_called_me(frame):
     _, _, _, value_dict = inspect.getargvalues(frame)
     try:
-        return str(value_dict['parent']).split()[0].split('<__main__.')[1]
+        return str(value_dict["parent"]).split()[0].split("<__main__.")[1]
     except (KeyError, IndexError):
         return "fs_filepicker"
 
 
 def get_extension_from_string(text):
     try:
-        pattern = re.search(r'\((.*?)\)', text).group(1)
+        pattern = re.search(r"\((.*?)\)", text).group(1)
     except AttributeError:
-        return u".*"
+        return ".*"
     pattern = pattern.split()
     if isinstance(pattern, list):
         return pattern
@@ -69,7 +69,7 @@ def match_extension(name, extensions=None):
     :return: boolean True, if match is successful
     """
     if extensions is None:
-        extensions = [u"*.*"]
+        extensions = ["*.*"]
     state = []
     for pattern in extensions:
         state.append(fnmatch.fnmatch(name, pattern))
@@ -77,21 +77,21 @@ def match_extension(name, extensions=None):
 
 
 def root_url():
-    if sys.platform.startswith('win'):
-        return u"file:///"
+    if sys.platform.startswith("win"):
+        return "file:///"
     else:
-        return u"/"
+        return "/"
 
 
 def human_readable_info(info):
     try:
-        _mod_time = info.modified.strftime(u"%Y-%m-%d %H:%M:%S")
+        _mod_time = info.modified.strftime("%Y-%m-%d %H:%M:%S")
     except (AttributeError, TypeError):
-        _mod_time = u" "
+        _mod_time = " "
     try:
         _size = humanfriendly.format_size(info.size)
     except (AttributeError, TypeError):
-        _size = u" "
+        _size = " "
     return _mod_time, _size
 
 
@@ -125,7 +125,9 @@ class WidgetImage(QWidget):
         self.initUi()
 
     def initUi(self):
-        self.lbPixmap.setPixmap(QPixmap(self._img).scaled(self.lbPixmap.size(), Qt.KeepAspectRatio))
+        self.lbPixmap.setPixmap(
+            QPixmap(self._img).scaled(self.lbPixmap.size(), Qt.KeepAspectRatio)
+        )
 
     @pyqtProperty(str)
     def img(self):

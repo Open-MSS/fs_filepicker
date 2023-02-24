@@ -37,30 +37,47 @@ from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage, QMes
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 from fslib import ui_filepicker, __version__
-from fslib.utils import root_url, human_readable_info, match_extension, \
-    FOLDER_SPACES, FILES_SPACES, TableWidgetItem, WidgetImage, get_extension_from_string,\
-    fs_url_exists, who_called_me
+from fslib.utils import (
+    root_url,
+    human_readable_info,
+    match_extension,
+    FOLDER_SPACES,
+    FILES_SPACES,
+    TableWidgetItem,
+    WidgetImage,
+    get_extension_from_string,
+    fs_url_exists,
+    who_called_me,
+)
 from fslib.icons import icons
 
 
 class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
-    def __init__(self, parent=None, fs_url=u"~/", file_pattern=u'All Files (*)', title=u'FS File Picker',
-                 default_filename=None, show_save_action=False, show_dirs_only=False):
+    def __init__(
+        self,
+        parent=None,
+        fs_url="~/",
+        file_pattern="All Files (*)",
+        title="FS File Picker",
+        default_filename=None,
+        show_save_action=False,
+        show_dirs_only=False,
+    ):
         super(FilePicker, self).__init__(parent)
         frame = inspect.stack()[1][0]
         self.scope = who_called_me(frame)
         self.setupUi(self)
         self.settings = QSettings("fs_filepicker", self.scope)
-        self.setWindowIcon(QIcon(icons('fs_logo.png', origin='fs')))
-        self.file_icon = icons('text-x-generic.png')
-        self.dir_icon = icons('folder.png')
+        self.setWindowIcon(QIcon(icons("fs_logo.png", origin="fs")))
+        self.file_icon = icons("text-x-generic.png")
+        self.dir_icon = icons("folder.png")
         self.selected_dir = None
         self.selected_file_pattern = None
         self.filename = None
         self.wparm = None
         self.setWindowTitle(title)
         stored_fs_url = self.settings.value("fs_urls", fs_url)
-        self.fs_home_url = u"~/"
+        self.fs_home_url = "~/"
         self.fs_root_url = root_url()
         if isinstance(fs_url, list):
             fs_url = fs_url + [self.fs_home_url, self.fs_root_url]
@@ -98,14 +115,18 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.setSelectionBehavior(QAbstractItemView.SelectRows)
         self.ui_DirList.currentIndexChanged.connect(self.selection_directory)
         self.ui_fs_serverlist.clicked.connect(self.fs_select_other)
-        self.ui_fs_serverlist.customContextMenuRequested.connect(self.fs_select_other_context)
+        self.ui_fs_serverlist.customContextMenuRequested.connect(
+            self.fs_select_other_context
+        )
         # ToDo check order of calls
         self.active_url = self.fs_url
         self.select_fs()
 
     def configure(self):
         if isinstance(self.file_pattern, list):
-            stored_file_type = self.settings.value("selected_file_pattern", self.file_pattern[0])
+            stored_file_type = self.settings.value(
+                "selected_file_pattern", self.file_pattern[0]
+            )
             try:
                 index = self.file_pattern.index(stored_file_type)
             except ValueError:
@@ -116,10 +137,10 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         else:
             self.ui_FileType.addItems([self.file_pattern])
         if self.default_filename is not None:
-            name, extension = self.default_filename.split('.')
+            name, extension = self.default_filename.split(".")
             idx = 0
             for pattern in self.file_pattern:
-                if u".{}".format(extension) in pattern:
+                if ".{}".format(extension) in pattern:
                     self.ui_FileType.setCurrentIndex(idx)
                 idx += 1
         if self.show_dirs_only:
@@ -133,22 +154,25 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         Set icon image to button
         """
         self.ui_mkdir.setText("")
-        self.ui_mkdir.setIcon(QIcon(icons('folder-new.png')))
+        self.ui_mkdir.setIcon(QIcon(icons("folder-new.png")))
         self.ui_other_fs.setText("")
         self.ui_other_fs.setIconSize(QtCore.QSize(64, 64))
-        self.ui_other_fs.setIcon(QIcon(icons('fs_logo.png', origin=u'fs')))
+        self.ui_other_fs.setIcon(QIcon(icons("fs_logo.png", origin="fs")))
 
     def other_fs_button(self):
-        fs_url, ok = QInputDialog.getText(self, 'Other FS Urls', 'Enter FS Url:')
+        fs_url, ok = QInputDialog.getText(self, "Other FS Urls", "Enter FS Url:")
         if ok:
             if fs_url_exists(fs_url):
                 self.ui_fs_serverlist.setVisible(True)
-                all_urls = [self.ui_fs_serverlist.item(idx).text() for idx in range(self.ui_fs_serverlist.count())]
+                all_urls = [
+                    self.ui_fs_serverlist.item(idx).text()
+                    for idx in range(self.ui_fs_serverlist.count())
+                ]
                 if fs_url not in all_urls:
                     self.ui_fs_serverlist.addItem(fs_url)
                 self.save_settings()
             else:
-                msg = u'"%s" Url not valid' % fs_url
+                msg = '"%s" Url not valid' % fs_url
                 QErrorMessage(self).showMessage(msg)
                 logging.info(msg)
 
@@ -163,7 +187,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         simple context option, removes item from list
         """
         url = self.ui_fs_serverlist.currentItem().text()
-        selected = QMessageBox.information(self, u"Remove FS Dir", url, QMessageBox.Ok | QMessageBox.Cancel)
+        selected = QMessageBox.information(
+            self, "Remove FS Dir", url, QMessageBox.Ok | QMessageBox.Cancel
+        )
         if selected == QMessageBox.Ok:
             self.ui_fs_serverlist.clear()
             for item in self.settings.value("fs_urls"):
@@ -182,15 +208,17 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         try:
             self.fs = fs.open_fs(self.active_url)
         except (IOError, fs.errors.CreateFailed):
-            logging.error(u"{} does not exist!".format(self.active_url))
+            logging.error("{} does not exist!".format(self.active_url))
             exit()
         try:
             parseresult = parse(self.active_url)
         except fs.opener.errors.ParseError:
             parseresult = None
         if parseresult is not None and parseresult.username is not None:
-            self.authentification = "{}:{}@".format(parseresult.username, parseresult.password)
-            self.active_url = self.active_url.replace(self.authentification, u"")
+            self.authentification = "{}:{}@".format(
+                parseresult.username, parseresult.password
+            )
+            self.active_url = self.active_url.replace(self.authentification, "")
         self.browse_folder()
 
     def action_buttons(self):
@@ -202,7 +230,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         except AttributeError:
             pass
 
-    def browse_folder(self, subdir=u"."):
+    def browse_folder(self, subdir="."):
         """
         list folder in drop down
         """
@@ -211,7 +239,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         if self.show_dirs_only:
             self.ui_Action.setEnabled(True)
         self.ui_DirList.clear()
-        if subdir == u".":
+        if subdir == ".":
             _sub_dir = self.active_url
         else:
             _sub_dir = subdir
@@ -227,7 +255,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         self.wparm = None
         if not self.show_save_action:
-            self.ui_SelectedName.setText(u"")
+            self.ui_SelectedName.setText("")
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         self.selected_dir = self.ui_DirList.currentText()
         self.ui_FileList.clearContents()
@@ -236,13 +264,14 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.dir_list_items = []
         self.ui_FileList.verticalHeader().setVisible(False)
         self.ui_FileList.horizontalHeader().setVisible(True)
-        self.ui_FileList.setHorizontalHeaderLabels([u'Name', u'Size', u'Modified'])
+        self.ui_FileList.setHorizontalHeaderLabels(["Name", "Size", "Modified"])
         self.ui_FileList.setShowGrid(False)
         self.ui_FileList.setSizeAdjustPolicy(
-            QtWidgets.QAbstractScrollArea.AdjustToContents)
+            QtWidgets.QAbstractScrollArea.AdjustToContents
+        )
 
         if self.selected_dir == self.active_url:
-            _sel_dir = u""
+            _sel_dir = ""
         else:
             _sel_dir = self.selected_dir
         # on clearing ui_DirList also index changes and makes an additional call of that method
@@ -261,8 +290,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 for item in sorted(names):
                     _item = fs.path.combine(_sel_dir, item)
                     try:
-                        self.selected_file_pattern = get_extension_from_string(file_type)
-                        if not self.fs.isdir(_item) and match_extension(item, self.selected_file_pattern):
+                        self.selected_file_pattern = get_extension_from_string(
+                            file_type
+                        )
+                        if not self.fs.isdir(_item) and match_extension(
+                            item, self.selected_file_pattern
+                        ):
                             if not self.show_dirs_only:
                                 info = self.get_info(_item)
                                 self.file_list_items.append({_item: info})
@@ -270,11 +303,13 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                             info = self.get_info(_item)
                             self.dir_list_items.append({_item: info})
                     except (fs.errors.PermissionDenied, fs.errors.OperationFailed):
-                        logging.info(u"can't access {}".format(item))
+                        logging.info("can't access {}".format(item))
             except UnicodeDecodeError as e:
-                logging.error(u"Error: {}".format(e))
+                logging.error("Error: {}".format(e))
 
-        self.ui_FileList.setRowCount(len(self.file_list_items) + len(self.dir_list_items))
+        self.ui_FileList.setRowCount(
+            len(self.file_list_items) + len(self.dir_list_items)
+        )
         index = 0
         for item in self.dir_list_items:
             self.table_row(item, index, self.dir_icon, FOLDER_SPACES, folder=True)
@@ -293,21 +328,22 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         info = list(item.values())[0]
         _mod_time, _size = human_readable_info(info)
         if folder:
-            _size = u"Folder"
-        self.ui_FileList.setCellWidget(index, 0, WidgetImage(fs.path.basename(list(item)[0]),
-                                                             icon, item))
+            _size = "Folder"
+        self.ui_FileList.setCellWidget(
+            index, 0, WidgetImage(fs.path.basename(list(item)[0]), icon, item)
+        )
         time.sleep(0.001)
         _item = " " * spaces + fs.path.basename(list(item)[0])
         _ti = TableWidgetItem(_item)
-        if _size == u"Folder":
+        if _size == "Folder":
             _ti.setWhatsThis("Directory")
         else:
-            _ti.setWhatsThis(u"File")
+            _ti.setWhatsThis("File")
         self.ui_FileList.setItem(index, 0, TableWidgetItem(_ti))
         self.ui_FileList.setItem(index, 1, TableWidgetItem(_size))
         self.ui_FileList.setItem(index, 2, TableWidgetItem(_mod_time))
 
-    def get_info(self, _item, namespaces=[u'details', u'access', u'stat']):
+    def get_info(self, _item, namespaces=["details", "access", "stat"]):
         try:
             info = self.fs.getinfo(_item, namespaces=namespaces)
             time.sleep(0.001)
@@ -364,7 +400,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.ui_SelectedName.setText(None)
         if self.show_save_action:
             text = self.ui_SelectedName.text()
-            new_text = text.split('.')[0]
+            new_text = text.split(".")[0]
             self.ui_SelectedName.setText(new_text)
 
     def selection_name(self):
@@ -375,20 +411,23 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.ui_Action.setEnabled(False)
         self.filename = self.ui_SelectedName.text()
         if self.ui_DirList.currentText() == self.active_url:
-            dirname = u""
+            dirname = ""
         else:
             dirname = self.ui_DirList.currentText()
         if self.wparm is not None:
-            _dirname = fs.path.forcedir(u'.')
-            if self.wparm.value == u'{}{}'.format(_dirname, self.wparm.text):
-                dirname = fs.path.dirname(u'{}{}'.format(_dirname, self.wparm.text))
+            _dirname = fs.path.forcedir(".")
+            if self.wparm.value == "{}{}".format(_dirname, self.wparm.text):
+                dirname = fs.path.dirname("{}{}".format(_dirname, self.wparm.text))
             else:
                 dirname = self.selected_dir
         if not self.show_dirs_only:
             _filename = fs.path.combine(dirname, self.filename)
             _file_names = [list(name)[0] for name in self.file_list_items]
-            if dirname == fs.path.forcedir(u'.'):
-                _file_names = [fs.path.combine(dirname, list(name)[0]) for name in self.file_list_items]
+            if dirname == fs.path.forcedir("."):
+                _file_names = [
+                    fs.path.combine(dirname, list(name)[0])
+                    for name in self.file_list_items
+                ]
             if _filename in _file_names:
                 self.ui_Action.setEnabled(True)
                 index = _file_names.index(_filename) + len(self.dir_list_items)
@@ -405,8 +444,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         try:
             self.filename = self.ui_SelectedName.text()
         except AttributeError:
-            self.filename = u""
-        if self.filename != u"":
+            self.filename = ""
+        if self.filename != "":
             self.ui_SelectedName.setText(self.filename)
             info = self.get_info(self.filename, namespaces=None)
             if info is not None and info.is_file:
@@ -438,11 +477,16 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Shows the make dir dialog und creates a new directory
         """
-        new_dir_name, ok = QtWidgets.QInputDialog.getText(self, u"New Folder", u"Enter a new folder name:",
-                                                          QtWidgets.QLineEdit.Normal, "")
+        new_dir_name, ok = QtWidgets.QInputDialog.getText(
+            self,
+            "New Folder",
+            "Enter a new folder name:",
+            QtWidgets.QLineEdit.Normal,
+            "",
+        )
         if ok:
             if self.ui_DirList.currentText() == self.active_url:
-                dirname = u""
+                dirname = ""
             else:
                 dirname = self.ui_DirList.currentText()
             new_dir = fs.path.combine(dirname, new_dir_name)
@@ -450,46 +494,59 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 try:
                     self.fs.makedir(new_dir)
                 except fs.errors.ResourceNotFound:
-                    logging.error(u"Can't create {}".format(new_dir))
-                self.last_dir_index = list(reversed(self.directory_history)).index(self.selected_dir)
+                    logging.error("Can't create {}".format(new_dir))
+                self.last_dir_index = list(reversed(self.directory_history)).index(
+                    self.selected_dir
+                )
                 self.browse_folder(subdir=self.selected_dir)
             else:
-                ok = QtWidgets.QMessageBox.warning(self, u"New Folder", u"Can't create this Folder: {}".format(new_dir))
+                ok = QtWidgets.QMessageBox.warning(
+                    self, "New Folder", "Can't create this Folder: {}".format(new_dir)
+                )
 
     def action(self):
         """
         Action on Open / Save button
         """
         self.filename = self.ui_SelectedName.text()
-        if self.filename == u"" or self.filename is None:
+        if self.filename == "" or self.filename is None:
             return
 
-        dirname = fs.path.forcedir(u'.')
+        dirname = fs.path.forcedir(".")
         if self.wparm is not None:
             dirname = self.selected_dir
         if dirname.startswith(self.active_url):
-            filename = u"{}{}".format(fs.path.forcedir(self.active_url), self.filename)
+            filename = "{}{}".format(fs.path.forcedir(self.active_url), self.filename)
         else:
             # We can't use fs.path.join and also not fs.path.abspath because of protocol url
-            filename = u"{}{}{}".format(fs.path.forcedir(self.active_url),
-                                        fs.path.forcedir(dirname), self.filename)
-        filename = filename.replace(fs.path.forcedir(u'.'), u'')
+            filename = "{}{}{}".format(
+                fs.path.forcedir(self.active_url),
+                fs.path.forcedir(dirname),
+                self.filename,
+            )
+        filename = filename.replace(fs.path.forcedir("."), "")
         if self.show_save_action and not self.show_dirs_only:
             self.save_settings()
             self.filename = self.ui_SelectedName.text()
-            if self.filename == u"":
+            if self.filename == "":
                 return
             info = self.get_info(fs.path.split(filename)[1], namespaces=None)
             if info is not None and info.is_dir:
                 sel = QtWidgets.QMessageBox.warning(
-                    self, u"Warning",
-                    u"You can't create a file with this name: {0}".format(self.filename),
-                    QtWidgets.QMessageBox.No)
+                    self,
+                    "Warning",
+                    "You can't create a file with this name: {0}".format(self.filename),
+                    QtWidgets.QMessageBox.No,
+                )
             elif info is not None and info.is_file:
                 sel = QtWidgets.QMessageBox.question(
-                    self, u"Replace Filename",
-                    u"This will replace the filename: {0}. Continue?".format(self.filename),
-                    QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No)
+                    self,
+                    "Replace Filename",
+                    "This will replace the filename: {0}. Continue?".format(
+                        self.filename
+                    ),
+                    QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,
+                )
                 if sel == QtWidgets.QMessageBox.Yes:
                     self.filename = filename
                     self.close()
@@ -506,14 +563,21 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         items = []
         for index in range(self.ui_fs_serverlist.count()):
             items.append(self.ui_fs_serverlist.item(index).text())
-        self.settings.setValue('fs_urls', items)
+        self.settings.setValue("fs_urls", items)
         selected_file_pattern = self.ui_FileType.currentText()
         self.settings.setValue("selected_file_pattern", selected_file_pattern)
         self.settings.sync()
 
 
-def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                  default_filename=None, show_save_action=False, show_dirs_only=False):
+def fs_filepicker(
+    parent=None,
+    fs_url="~/",
+    file_pattern="All Files (*)",
+    title="FS File Picker",
+    default_filename=None,
+    show_save_action=False,
+    show_dirs_only=False,
+):
     """
     Selects a file by FilePicker for a given pyfilesystem2 Url.
 
@@ -523,9 +587,15 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
     :param title: title of QtWidget
     :return: selected filename
     """
-    fp = FilePicker(parent, fs_url, file_pattern, title=title,
-                    default_filename=default_filename, show_save_action=show_save_action,
-                    show_dirs_only=show_dirs_only)
+    fp = FilePicker(
+        parent,
+        fs_url,
+        file_pattern,
+        title=title,
+        default_filename=default_filename,
+        show_save_action=show_save_action,
+        show_dirs_only=show_dirs_only,
+    )
     fp.setModal(True)
     fp.exec_()
     active_url = fp.active_url
@@ -535,7 +605,9 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
         except fs.opener.errors.ParseError:
             parseresult = None
         if parseresult is not None:
-            active_url = u"{}://{}{}".format(parseresult.protocol, fp.authentification, parseresult.resource)
+            active_url = "{}://{}{}".format(
+                parseresult.protocol, fp.authentification, parseresult.resource
+            )
     filename = None
     selected_file_pattern = None
     if fp.filename is not None:
@@ -547,42 +619,81 @@ def fs_filepicker(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', titl
     return filename, selected_file_pattern
 
 
-def getOpenFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)',
-                    title=u'FS File Picker', **options):  # pragma: no cover
+def getOpenFileName(
+    parent=None,
+    fs_url="~/",
+    file_pattern="All Files (*)",
+    title="FS File Picker",
+    **options
+):  # pragma: no cover
     return fs_filepicker(parent, fs_url, file_pattern, title=title)[0]
 
 
-def getOpenFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)',
-                             title=u'FS File Picker', **options):  # pragma: no cover
+def getOpenFileNameAndFilter(
+    parent=None,
+    fs_url="~/",
+    file_pattern="All Files (*)",
+    title="FS File Picker",
+    **options
+):  # pragma: no cover
     return fs_filepicker(parent, fs_url, file_pattern, title=title)
 
 
-def getSaveFileName(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                    default_filename=None, show_save_action=True, **options):  # pragma: no cover
-    return fs_filepicker(parent, fs_url, file_pattern, title,
-                         default_filename, show_save_action)[0]
+def getSaveFileName(
+    parent=None,
+    fs_url="~/",
+    file_pattern="All Files (*)",
+    title="FS File Picker",
+    default_filename=None,
+    show_save_action=True,
+    **options
+):  # pragma: no cover
+    return fs_filepicker(
+        parent, fs_url, file_pattern, title, default_filename, show_save_action
+    )[0]
 
 
-def getSaveFileNameAndFilter(parent=None, fs_url=u'~/', file_pattern=u'All Files (*)', title=u'FS File Picker',
-                             default_filename=None, show_save_action=True, **options):  # pragma: no cover
-    return fs_filepicker(parent, fs_url, file_pattern, title,
-                         default_filename, show_save_action)
+def getSaveFileNameAndFilter(
+    parent=None,
+    fs_url="~/",
+    file_pattern="All Files (*)",
+    title="FS File Picker",
+    default_filename=None,
+    show_save_action=True,
+    **options
+):  # pragma: no cover
+    return fs_filepicker(
+        parent, fs_url, file_pattern, title, default_filename, show_save_action
+    )
 
 
-def getExistingDirectory(parent=None, fs_url=u'~/', title=u'FS File Picker',
-                         show_dirs_only=True, **options):  # pragma: no cover
+def getExistingDirectory(
+    parent=None, fs_url="~/", title="FS File Picker", show_dirs_only=True, **options
+):  # pragma: no cover
     return fs_filepicker(parent, fs_url, title=title, show_dirs_only=show_dirs_only)
 
 
 def main():  # pragma: no cover
     parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--version", help="show version", action="store_true", default=False)
-    parser.add_argument("-s", "--save", help="show save button", action="store_true", default=False)
-    parser.add_argument("-fo", "--folder", help="show folders only", action="store_true", default=False)
-    parser.add_argument("-d", "--default_name", help="default name for saving", default=None)
-    parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default=u"~/")
-    parser.add_argument("-f", "--file_pattern", help="file pattern", default=u"All Files (*)")
-    parser.add_argument("-t", "--title", help="title of window", default=u'FS File Picker')
+    parser.add_argument(
+        "-v", "--version", help="show version", action="store_true", default=False
+    )
+    parser.add_argument(
+        "-s", "--save", help="show save button", action="store_true", default=False
+    )
+    parser.add_argument(
+        "-fo", "--folder", help="show folders only", action="store_true", default=False
+    )
+    parser.add_argument(
+        "-d", "--default_name", help="default name for saving", default=None
+    )
+    parser.add_argument("-u", "--fs_url", help="fs url to filesystem", default="~/")
+    parser.add_argument(
+        "-f", "--file_pattern", help="file pattern", default="All Files (*)"
+    )
+    parser.add_argument(
+        "-t", "--title", help="title of window", default="FS File Picker"
+    )
     args = parser.parse_args()
     if args.version:
         print("***********************************************************************")
@@ -591,12 +702,18 @@ def main():  # pragma: no cover
         print("Version:", __version__)
         sys.exit()
     app = QtWidgets.QApplication([])
-    return fs_filepicker(parent=None, fs_url=args.fs_url, file_pattern=args.file_pattern,
-                         title=args.title, default_filename=args.default_name,
-                         show_save_action=args.save, show_dirs_only=args.folder)[0]
+    return fs_filepicker(
+        parent=None,
+        fs_url=args.fs_url,
+        file_pattern=args.file_pattern,
+        title=args.title,
+        default_filename=args.default_name,
+        show_save_action=args.save,
+        show_dirs_only=args.folder,
+    )[0]
     # ToDO, solve this without del
     del app
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(main())
