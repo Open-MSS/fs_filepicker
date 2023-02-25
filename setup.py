@@ -53,7 +53,7 @@ setup(
         "fs==2.4.16",
         "future==0.18.3",
         "humanfriendly==10.0",
-        "PyQt5==5.15.7",
+        "PyQt5==5.15.9",
         ""
     ],  # we use conda build recipe
     entry_points={
