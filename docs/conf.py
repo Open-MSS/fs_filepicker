@@ -21,10 +21,9 @@ import os
 # sys.path.insert(0, os.path.abspath('.'))
 # readthedocs has no past.builtins
 try:
-    from past.builtins import execfile
+    from fslib.version import __version__
 except ImportError:
     pass
-execfile('../fslib/version.py')
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 
 # -- General configuration ------------------------------------------------
