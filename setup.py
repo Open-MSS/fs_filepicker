@@ -26,11 +26,10 @@
 
 # The README.txt file should be written in reST so that PyPI can use
 # it to generate your project's PyPI page.
-from past.builtins import execfile
+from fslib.version import __version__
 from setuptools import setup, find_packages
 
 long_description = open("README.rst").read()
-execfile("fslib/version.py")
 
 setup(
     name="fs_filepicker",
@@ -50,7 +49,13 @@ setup(
     namespace_packages=[],
     include_package_data=True,
     zip_safe=False,
-    install_requires=["fs", "future"],  # we use conda build recipe
+    install_requires=[
+        "fs==2.4.16",
+        "future==0.18.3",
+        "humanfriendly==10.0",
+        "PyQt5==5.15.9",
+        ""
+    ],  # we use conda build recipe
     entry_points={
         "console_scripts": [
             "fs_filepicker=fslib.fs_filepicker:main",
