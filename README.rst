@@ -1,7 +1,7 @@
 fs_filepicker
 ~~~~~~~~~~~~~
 
-|Source| |Install| |Platforms| |Downloads| |Codecov| |Codacy| |License|
+|Source| |Install| |Platforms| |Downloads| |Codecov| |Codacy| |License| |Documentation|
 
 .. |Source| image:: https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=300&style=flat-square
    :target: https://github.com/open-mss/fs_filepicker
@@ -24,6 +24,8 @@ fs_filepicker
 .. |Codacy| image:: https://api.codacy.com/project/badge/Grade/665867585be14a4c971f2baa463312ad
    :target: https://www.codacy.com/app/ReimarBauer/fs_filepicker?utm_source=github.com&utm_medium=referral&utm_content=ReimarBauer/fs_filepicker&utm_campaign=badger
 
+.. |Documentation| image:: https://readthedocs.org/projects/fs_filepicker/badge/?version=latest
+   :target: https://fs-filepicker.readthedocs.io/en/latest/?badge=latest
 
 This project is based on `PyFilesystem2 <http://pyfilesystem2.readthedocs.io/>`_
 As fs_url you can enter any valid url which the fs.open_fs accepts.
