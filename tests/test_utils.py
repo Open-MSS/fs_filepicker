@@ -24,38 +24,46 @@
     limitations under the License.
 """
 from datetime import datetime
-from fslib.utils import match_extension, get_extension_from_string, human_readable_info, fs_url_exists
+from fslib.utils import (
+    match_extension,
+    get_extension_from_string,
+    human_readable_info,
+    fs_url_exists,
+)
 
 
 def test_human_readable_info():
     class info(object):
         modified = datetime(2018, 2, 4, 10, 10, 10)
         size = 100
+
     assert human_readable_info(info) == ("2018-02-04 10:10:10", "100 bytes")
-    assert human_readable_info((u"D", u"D")) == (u" ", u" ")
+    assert human_readable_info(("D", "D")) == (" ", " ")
 
 
 def test_get_extension_from_string():
-    data = [(u"All Files (*)", ["*"]),
-            (u'(*.*)', [u'*.*']),
-            (u"Images (*.jpg *.png *.svg)", ["*.jpg", "*.png", "*.svg"]),
-            ]
+    data = [
+        ("All Files (*)", ["*"]),
+        ("(*.*)", ["*.*"]),
+        ("Images (*.jpg *.png *.svg)", ["*.jpg", "*.png", "*.svg"]),
+    ]
     for text, pattern in data:
         assert get_extension_from_string(text) == pattern
 
 
 def test_match_extensions():
-    data = [(u"example.csv", [u"*.csv"], True),
-            (u"example.csv", [u"*.txt"], False),
-            (u"example.csv", [u"*.txt", u"*.csv"], True),
-            (u"example.csv", [u"*.csv", u"*.txt"], True),
-            (u"example.csv", [u"*.txt", u"*.png"], False),
-            (u"example.csv", None, True),
-            ]
+    data = [
+        ("example.csv", ["*.csv"], True),
+        ("example.csv", ["*.txt"], False),
+        ("example.csv", ["*.txt", "*.csv"], True),
+        ("example.csv", ["*.csv", "*.txt"], True),
+        ("example.csv", ["*.txt", "*.png"], False),
+        ("example.csv", None, True),
+    ]
 
     for name, pattern, state in data:
         assert match_extension(name, pattern) is state
 
 
 def test_fs_url_exists():
-    assert fs_url_exists(u"~/")
+    assert fs_url_exists("~/")
