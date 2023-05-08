@@ -21,7 +21,6 @@ If applicable, add screenshots to help explain your problem.
 ### Versions
 
 - Operating System :
-- Browser [e.g. chrome, safari]:
 
 ### Logs
 

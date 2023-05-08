@@ -25,8 +25,8 @@ try:
     from fslib.version import __version__
 except ImportError:
     pass
-__version__ = "0.3.7"
-on_rtd = os.environ.get("READTHEDOCS") == "True"
+
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
 
 # -- General configuration ------------------------------------------------
 
