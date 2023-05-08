@@ -8,14 +8,13 @@ pytest
 pytest-cache
 pytest-pep8
 pytest-flake8
-pytest-xdist
-pytest-cov
+# pytest-xdist
+# pytest-cov
 pytest-timeout
-pytest-reverse
+# pytest-reverse
 conda-verify
 sphinx
 sphinx_rtd_theme
 gitpython
 mock
-pytest-cov
 pyvirtualdisplay
