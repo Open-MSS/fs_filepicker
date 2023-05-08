@@ -24,7 +24,7 @@ requirements:
 
   run:
     - python
-    - pyqt 5.*
+    - pyqt >=5
     - humanfriendly
     - fs
     - fs.webdavfs
@@ -38,12 +38,12 @@ test:
     - fs_filepicker -h
 
 about:
-  home: https://github.com/ReimarBauer/fs_filepicker
+  home: https://github.com/Open-MSS/fs_filepicker
   license: "Apache 2.0"
   license_family: "APACHE"
   license_file: LICENSE
   summary: 'QT file picker (Open|Save|GetDirectory) for accessing a pyfilesystem2'
-  dev_url: https://github.com/ReimarBauer/fs_filepicker
+  dev_url: https://github.com/Open-MSS/fs_filepicker
 
 extra:
   recipe-maintainers:
