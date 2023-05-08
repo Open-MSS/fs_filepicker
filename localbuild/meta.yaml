@@ -1,0 +1,50 @@
+{% set name = "fs_filepicker" %}
+{% set version = "alpha" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  path: ../
+
+
+build:
+  number: 1000
+  entry_points:
+    - fs_filepicker = fslib.fs_filepicker:main
+  script: python -m pip install --no-deps  --ignore-installed .
+
+requirements:
+  host:
+    - pip
+    - python
+    - setuptools
+    - future
+
+  run:
+    - python
+    - pyqt 5.*
+    - humanfriendly
+    - fs
+    - fs.webdavfs
+    - fs.sshfs
+    - future
+
+test:
+  imports:
+    - fslib.fs_filepicker
+  commands:
+    - fs_filepicker -h
+
+about:
+  home: https://github.com/ReimarBauer/fs_filepicker
+  license: "Apache 2.0"
+  license_family: "APACHE"
+  license_file: LICENSE
+  summary: 'QT file picker (Open|Save|GetDirectory) for accessing a pyfilesystem2'
+  dev_url: https://github.com/ReimarBauer/fs_filepicker
+
+extra:
+  recipe-maintainers:
+    - ReimarBauer
