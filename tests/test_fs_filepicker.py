@@ -45,7 +45,7 @@ from fslib.fs_filepicker import main as fsmain
 
 
 class Test_Open_FilePicker(object):
-    def setup(self):
+    def setup_method(self):
         self.application = QtWidgets.QApplication([])
         self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
         self.window = fs_filepicker.FilePicker(fs_url=self.fs_url)
@@ -54,7 +54,7 @@ class Test_Open_FilePicker(object):
         QtTest.QTest.qWaitForWindowExposed(self.window)
         QtWidgets.QApplication.processEvents()
 
-    def teardown(self):
+    def teardown_method(self)::
         self.application.quit()
 
     def test_fs_filepicker_cancel(self):
@@ -249,7 +249,7 @@ class Test_Open_FilePicker(object):
 
 
 class Test_Save_FilePicker(object):
-    def setup(self):
+    def setup_method(self):
         self.application = QtWidgets.QApplication([])
         self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
         self.window = fs_filepicker.FilePicker(
@@ -260,7 +260,7 @@ class Test_Save_FilePicker(object):
         QtTest.QTest.qWaitForWindowExposed(self.window)
         QtWidgets.QApplication.processEvents()
 
-    def teardown(self):
+    def teardown_method(self)::
         self.application.quit()
 
     def test_fs_filepicker_cancel(self):
@@ -375,7 +375,7 @@ class Test_Save_FilePicker(object):
 
 
 class Test_Save_FilePicker_default(object):
-    def setup(self):
+    def setup_method(self):
         self.application = QtWidgets.QApplication([])
         self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
         self.window = fs_filepicker.FilePicker(
@@ -389,7 +389,7 @@ class Test_Save_FilePicker_default(object):
         QtTest.QTest.qWaitForWindowExposed(self.window)
         QtWidgets.QApplication.processEvents()
 
-    def teardown(self):
+    def teardown_method(self)::
         self.application.quit()
 
     def test_default_filename(self):
@@ -449,7 +449,7 @@ class Test_Save_FilePicker_default(object):
 
 
 class Test_FilePicker_dirs(object):
-    def setup(self):
+    def setup_method(self):
         self.application = QtWidgets.QApplication([])
         self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
         self.window = fs_filepicker.FilePicker(
@@ -460,7 +460,7 @@ class Test_FilePicker_dirs(object):
         QtTest.QTest.qWaitForWindowExposed(self.window)
         QtWidgets.QApplication.processEvents()
 
-    def teardown(self):
+    def teardown_method(self)::
         self.application.quit()
 
     def test_show_action(self):
@@ -482,7 +482,7 @@ class Test_FilePicker_dirs(object):
 
 
 class Test_MoreUrls(object):
-    def setup(self):
+    def setup_method(self):
         self.application = QtWidgets.QApplication([])
         self.fs_url = [ROOT_FS.geturl(_dir) for _dir in SUB_DIRS]
         self.fs_url.append(fs.path.join("never", "never", "exists"))
@@ -492,7 +492,7 @@ class Test_MoreUrls(object):
         QtTest.QTest.qWaitForWindowExposed(self.window)
         QtWidgets.QApplication.processEvents()
 
-    def teardown(self):
+    def teardown_method(self)::
         self.application.quit()
 
     def test_dirs(self):
@@ -508,11 +508,11 @@ class Test_MoreUrls(object):
 
 
 class Test_Filepicker(object):
-    def setup(self):
+    def setup_method(self):
         self.application = QtWidgets.QApplication([])
         self.fs_url = [ROOT_FS.geturl(_dir) for _dir in SUB_DIRS]
 
-    def teardown(self):
+    def teardown_method(self)::
         self.application.quit()
 
     def test_fsfp_nothing_selected(self):
@@ -540,7 +540,7 @@ class Test_Filepicker(object):
 
 
 class Test_Navigation(object):
-    def setup(self):
+    def setup_method(self):
         self.other_fs_url = [ROOT_FS.geturl(_dir) for _dir in SUB_DIRS]
         self.application = QtWidgets.QApplication([])
         self.fs_url = ROOT_FS.geturl(TESTDATA_DIR)
@@ -550,7 +550,7 @@ class Test_Navigation(object):
         QtTest.QTest.qWaitForWindowExposed(self.window)
         QtWidgets.QApplication.processEvents()
 
-    def teardown(self):
+    def teardown_method(self)::
         self.application.quit()
 
     @mock.patch(
