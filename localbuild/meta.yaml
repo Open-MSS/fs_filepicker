@@ -10,6 +10,7 @@ source:
 
 
 build:
+  skip: true  # [py>310]
   number: 1000
   entry_points:
     - fs_filepicker = fslib.fs_filepicker:main
@@ -18,12 +19,12 @@ build:
 requirements:
   host:
     - pip
-    - python
+    - python <3.11.0
     - setuptools
     - future
 
   run:
-    - python
+    - python <3.11.0
     - pyqt >=5
     - humanfriendly
     - fs
