@@ -41,8 +41,11 @@ try:
 except ImportError:
     SHA = ""
 else:
-    REPO = git.Repo(search_parent_directories=True)
-    SHA = REPO.head.object.hexsha
+    try:
+        REPO = git.Repo(search_parent_directories=True)
+        SHA = REPO.head.object.hexsha
+    except ValueError:
+        SHA = ""
 
 ROOT_FS = TempFS(identifier="fs_filepicker_{}".format(SHA))
 ROOT_DIR = ROOT_FS.root_path
