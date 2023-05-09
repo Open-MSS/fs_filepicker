@@ -21,7 +21,7 @@ env:
   EVENT: ${{ inputs.event_name }}
 
 jobs:
-  Test-MSS:
+  Test-fs_filepicker:
     runs-on: ubuntu-latest
 
     defaults:
