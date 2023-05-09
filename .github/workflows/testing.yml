@@ -82,7 +82,7 @@ jobs:
         && source /opt/conda/etc/profile.d/conda.sh \
         && source /opt/conda/etc/profile.d/mamba.sh \
         && mamba activate fsfp-${{ inputs.branch_name }}-env \
-        && pytest -v --durations=20 --reverse --cov=mslib tests \
+        && pytest -v --durations=20 --reverse --cov=fslib tests \
         || (for i in {1..5} \
           ; do pytest tests -v --durations=0 --reverse --last-failed --lfnf=none \
           && break \
