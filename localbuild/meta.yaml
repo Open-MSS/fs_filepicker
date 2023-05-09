@@ -25,7 +25,8 @@ requirements:
 
   run:
     - python <3.11.0
-    - pyqt >=5
+    - pyqt >=5, <5.13
+    - qt >=5.10, <5.13
     - humanfriendly
     - fs
     - fs.webdavfs
