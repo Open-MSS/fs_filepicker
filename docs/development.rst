@@ -28,26 +28,26 @@ You can easily use our testing docker images which have all libraries pre instal
 We provide two images. In openmss/fsfp-testing-stable we have fsfp-stable-env and in openmss/fsfp-testing-develop we have fsfp-develop-env defined.
 
 
-You can either mount your MSS workdir in the container or use the environment from the container as environment on your machine.
+You can either mount your fs_filepicker workdir in the container or use the environment from the container as environment on your machine.
 
 
 Running pytest inside the docker container
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We mount the MSS workdir into the docker container and use an env var to access the directory for running pytest on that dir. ::
+We mount the fs_filepicker workdir into the docker container and use an env var to access the directory for running pytest on that dir. ::
 
     ~/workspace/fs_filepicker$ docker pull openmss/fsfp-testing-develop:latest  # get recent version
     ~/workspace/fs_filepicker$ docker run -it --mount src=`pwd`,target=`pwd`,type=bind -e FSDIR=`pwd` openmss/fsfp-testing-develop  # mount dir into container, create env var MSSDIR with dir
     (base) root@78f42ac9ded7:/# cd $FSDIR  # change directory to the mounted dir
     (base) root@78f42ac9ded7:~/workspace/fs_filepicker# conda activate fsfp-develop-env  # activate env
-    (mss-stable-env) root@78f42ac9ded7:/# pytest tests  # run pytest
+    (fsfp-develop-env) root@78f42ac9ded7:/# pytest tests  # run pytest
 
 
 
 Use the docker env on your computer, initial setup
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This example shows by using mss-stable-env how to set it up for testing and development of stable branch. The images gets updates
+This example shows by using fsfp-develop-env how to set it up for testing on the development branch. The images gets updates
 when we have to add new dependencies or have do pinning of existing modules. On an updated image you need to redo these steps ::
 
     rm -rf $HOME/mambaforge/envs/fsfp-develop-env # cleanup the existing env
@@ -57,7 +57,7 @@ when we have to add new dependencies or have do pinning of existing modules. On 
     exit                                          # we are in the container, escape :)
     sudo ln -s $HOME/mambaforge/envs/fsfp-develop-env /opt/conda/envs/fsfp-develop-env # we need the origin location linked because hashbangs interpreters are with that path. (only once needed)
     conda activate fsfp-develop-env               # activate env
-    cd workspace/fs_filepicker                    # go to your workspace MSS dir
+    cd workspace/fs_filepicker                    # go to your workspace fs_filepicker dir
     export PYTHONPATH=`pwd`                       # add it to the PYTHONPATH
     python fslib/fs_filepicker.py                 # test if the UI starts
     pytest tests                                  # run pytest
@@ -67,7 +67,7 @@ After the image was configured you can use it like a self installed env ::
 
     xhost +local:docker                 # may be needed
     conda activate fsfp-develop-env     # activate env
-    cd workspace/fs_filepicker          # go to your workspace MSS dir
+    cd workspace/fs_filepicker          # go to your workspace fs_filepicker dir
     export PYTHONPATH=`pwd`             # add it to the PYTHONPATH
     pytest tests                        # run pytest
 
@@ -97,7 +97,7 @@ Manual Installing dependencies
 
 fs_filepicker is based on the software of the conda-forge channel located. The channel is predefined in Mambaforge.
 
-Create an environment and install the dependencies needed for the mss package::
+Create an environment and install the dependencies needed for the fs_filepicker package::
 
   $ mamba create -n fsfp-develop-env
   $ mamba activate fsfp-develop-env
