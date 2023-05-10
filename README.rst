@@ -1,13 +1,10 @@
 fs_filepicker
 ~~~~~~~~~~~~~
 
-|Source| |Install| |Platforms| |Downloads| |Codecov| |Codacy| |License| |Documentation|
+|Source| |Coveralls| |Platforms| |Downloads| |License| |Documentation|
 
 .. |Source| image:: https://img.shields.io/badge/source-GitHub-303030.svg?maxAge=300&style=flat-square
    :target: https://github.com/open-mss/fs_filepicker
-
-.. |Install| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/installer/conda.svg
-   :target: https://anaconda.org/conda-forge/fs_filepicker
 
 .. |Platforms| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/platforms.svg
    :target: https://anaconda.org/conda-forge/fs_filepicker
@@ -18,11 +15,9 @@ fs_filepicker
 .. |License| image:: https://anaconda.org/conda-forge/fs_filepicker/badges/license.svg
    :target: https://choosealicense.com/licenses/apache-2.0/
 
-.. |Codecov| image:: https://codecov.io/gh/ReimarBauer/fs_filepicker/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/ReimarBauer/fs_filepicker
+.. |Coveralls| image:: https://coveralls.io/repos/github/Open-MSS/fs_filepicker/badge.svg?branch=develop
+   :target: https://coveralls.io/github/Open-MSS/fs_filepicker?branch=develop
 
-.. |Codacy| image:: https://api.codacy.com/project/badge/Grade/665867585be14a4c971f2baa463312ad
-   :target: https://www.codacy.com/app/ReimarBauer/fs_filepicker?utm_source=github.com&utm_medium=referral&utm_content=ReimarBauer/fs_filepicker&utm_campaign=badger
 
 .. |Documentation| image:: https://readthedocs.org/projects/fs_filepicker/badge/?version=latest
    :target: https://fs-filepicker.readthedocs.io/en/latest/?badge=latest
