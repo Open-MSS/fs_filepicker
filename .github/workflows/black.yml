@@ -1,0 +1,19 @@
+name: black-action
+on:
+  push:
+    branches:
+    - develop
+    - stable
+  pull_request:
+    branches:
+    - develop
+    - stable
+
+jobs:
+  lint:
+    name: runner / black
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: psf/black@stable
+        with: "--check --verbose"
