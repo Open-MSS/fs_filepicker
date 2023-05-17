@@ -9,13 +9,31 @@ on:
     - develop
     - stable
 
+env:
+  PAT: ${{ secrets.PAT }}
+  EVENT: ${{ inputs.event_name }}
+
+    
 jobs:
-  lint:
+  linter_name:
     name: runner / black
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Format code with black
-        run: |
-          pip install black
-          black . --exclude="docs/*"
+      - name: Check files using the black formatter
+        uses: psf/black@stable 
+        id: action_black
+        with:
+          black_args: ". --exclude docs/*"
+      - name: Create Pull Request
+        if: steps.action_black.outputs.is_formatted == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.PAT }}
+          title: "Format Python code with psf/black push"
+          commit-message: ":art: Python code formatted with psf/black"
+          body: |
+            There appear to be some python formatting errors in ${{ github.sha }}. This pull request
+            uses the [psf/black](https://github.com/psf/black) formatter to fix these issues.
+          base: ${{ github.head_ref }} # Creates pull request onto pull request or commit branch
+          branch: actions/black
