@@ -18,4 +18,4 @@ jobs:
       - name: Format code with black
         run: |
           pip install black
-          black .
+          black . --exclude="docs/*"
