@@ -25,7 +25,7 @@ try:
 except ImportError as ex:
     logging.error("%s", ex)
 try:
-    execfile("../fslib/version.py")
+    execfile('../fslib/version.py')
 except NameError:
     exec(open("../fslib/version.py").read())
 
