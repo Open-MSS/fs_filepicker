@@ -24,7 +24,10 @@ try:
     from past.builtins import execfile
 except ImportError as ex:
     logging.error("%s", ex)
-execfile('../fslib/version.py')
+try:
+    execfile('../fslib/version.py')
+except NameError:
+    exec(open("../fslib/version.py").read())
 
 on_rtd = os.environ.get("READTHEDOCS") == "True"
 
