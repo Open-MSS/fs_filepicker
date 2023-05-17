@@ -32,16 +32,16 @@ from conftest import ROOT_FS, ROOT_DIR, TESTDATA_DIR
 
 class TestTestdata(object):
     def test_data_available(self):
-        assert ROOT_FS.exists(u'.')
+        assert ROOT_FS.exists(".")
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
-        assert len(data_fs.listdir(u'.')) == 6
+        assert len(data_fs.listdir(".")) == 6
 
     def test_dir_available(self):
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
         dirs = []
-        for item in data_fs.listdir(u'.'):
+        for item in data_fs.listdir("."):
             if data_fs.isdir(item):
                 dirs.append(item)
         assert len(dirs) == 3
-        assert u'foo' in dirs
-        assert u'bar' in dirs
+        assert "foo" in dirs
+        assert "bar" in dirs

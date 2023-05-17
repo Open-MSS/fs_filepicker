@@ -41,15 +41,20 @@ try:
 except ImportError:
     SHA = ""
 else:
-    REPO = git.Repo(search_parent_directories=True)
-    SHA = REPO.head.object.hexsha
+    try:
+        REPO = git.Repo(search_parent_directories=True)
+        SHA = REPO.head.object.hexsha
+    except ValueError:
+        SHA = ""
 
-ROOT_FS = TempFS(identifier=u"fs_filepicker_{}".format(SHA))
+ROOT_FS = TempFS(identifier="fs_filepicker_{}".format(SHA))
 ROOT_DIR = ROOT_FS.root_path
-TESTDATA_DIR = u'testdata'
-SUB_DIRS = [fs.path.join(u"testdata", u"foo"),
-            fs.path.join(u"testdata", u"bar"),
-            fs.path.join(u"testdata", u"empty")]
+TESTDATA_DIR = "testdata"
+SUB_DIRS = [
+    fs.path.join("testdata", "foo"),
+    fs.path.join("testdata", "bar"),
+    fs.path.join("testdata", "empty"),
+]
 
 
 def setup_testdata():
@@ -58,22 +63,22 @@ def setup_testdata():
             ROOT_FS.makedirs(testdir)
 
     data_fs = fs.open_fs(fs.path.join(ROOT_DIR, TESTDATA_DIR))
-    with data_fs.open(u'example.csv', 'w') as file_object:
-        file_object.write(u'testdata')
-    with data_fs.open(u'example.txt', 'w') as file_object:
-        file_object.write(u'testdata')
-    with data_fs.open(u'foo.txt', 'w') as file_object:
-        file_object.write(u'testdata')
+    with data_fs.open("example.csv", "w") as file_object:
+        file_object.write("testdata")
+    with data_fs.open("example.txt", "w") as file_object:
+        file_object.write("testdata")
+    with data_fs.open("foo.txt", "w") as file_object:
+        file_object.write("testdata")
 
-    testdirs = [fs.path.join(u"testdata", u"foo"), fs.path.join(u"testdata", u"bar")]
+    testdirs = [fs.path.join("testdata", "foo"), fs.path.join("testdata", "bar")]
     for testdir in testdirs:
         data_fs = fs.open_fs(fs.path.join(ROOT_DIR, testdir))
-        with data_fs.open(u'foo.txt', 'w') as file_object:
-            file_object.write(u'testdata')
-    testdir = fs.path.join(u"testdata", u"foo")
+        with data_fs.open("foo.txt", "w") as file_object:
+            file_object.write("testdata")
+    testdir = fs.path.join("testdata", "foo")
     data_fs = fs.open_fs(fs.path.join(ROOT_DIR, testdir))
-    with data_fs.open(u'this.txt', 'w') as file_object:
-        file_object.write(u'testdata')
+    with data_fs.open("this.txt", "w") as file_object:
+        file_object.write("testdata")
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -91,14 +96,22 @@ def configure_testsetup(request):
 
 
 def force_dir(directory):
-    if sys.platform.startswith('win'):
-        return u"{}\\".format(directory)
+    if sys.platform.startswith("win"):
+        return "{}\\".format(directory)
     return fs.path.forcedir(directory)
 
 
 class Dummy_Filepicker(object):
-    def __init__(self, authentification=u"", active_url=ROOT_FS.geturl(TESTDATA_DIR), selected_dir=None,
-                 filename=u"foo.txt", wparm=None, selected_file_pattern=None, show_save_action=False):
+    def __init__(
+        self,
+        authentification="",
+        active_url=ROOT_FS.geturl(TESTDATA_DIR),
+        selected_dir=None,
+        filename="foo.txt",
+        wparm=None,
+        selected_file_pattern=None,
+        show_save_action=False,
+    ):
         self.authentification = authentification
         self.active_url = active_url
         self.selected_dir = selected_dir

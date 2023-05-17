@@ -24,4 +24,4 @@
     limitations under the License.
 """
 
-from .version import __version__
+from .version import __version__  # noqa: F401

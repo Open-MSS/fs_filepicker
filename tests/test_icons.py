@@ -29,5 +29,5 @@ from fslib.icons import icons
 
 
 def test_icons():
-    assert os.path.exists(icons('text-x-generic.png'))
-    assert os.path.exists(icons('fs_logo.png', origin='fs'))
+    assert os.path.exists(icons("text-x-generic.png"))
+    assert os.path.exists(icons("fs_logo.png", origin="fs"))
