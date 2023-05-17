@@ -1,6 +1,14 @@
 Changelog
 =========
 
+
+Version 0.3.8
+~~~~~~~~~~~~~
+
+ - version pinning
+ - bug fix for using docker
+
+
 Version 0.3.7
 ~~~~~~~~~~~~~
 
