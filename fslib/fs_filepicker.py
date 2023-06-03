@@ -153,8 +153,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         """
         Set icon image to button
         """
-        self.ui_mkdir.setText("")
-        self.ui_mkdir.setIcon(QIcon(icons("folder-new.png")))
         self.ui_other_fs.setText("")
         self.ui_other_fs.setIconSize(QtCore.QSize(64, 64))
         self.ui_other_fs.setIcon(QIcon(icons("fs_logo.png", origin="fs")))
