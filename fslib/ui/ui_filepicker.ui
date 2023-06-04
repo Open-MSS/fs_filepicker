@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>714</width>
-    <height>400</height>
+    <width>847</width>
+    <height>577</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,43 +21,97 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../fsfp/Menu/fsfp.ico</normaloff>../../fsfp/Menu/fsfp.ico</iconset>
+    <normaloff>../../../../fsfp/Menu/fsfp.ico</normaloff>../../../../fsfp/Menu/fsfp.ico</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="main_horizontal">
      <item>
       <layout class="QVBoxLayout" name="fs_buttons_vertical">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
        <item>
-        <widget class="QListWidget" name="ui_fs_serverlist">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="contextMenuPolicy">
-          <enum>Qt::CustomContextMenu</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="Files_vertical">
-       <item>
-        <layout class="QHBoxLayout" name="TopNavgation_horizontal">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QPushButton" name="ui_other_fs">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="spacing">
+            <number>3</number>
            </property>
+           <property name="leftMargin">
+            <number>5</number>
+           </property>
+           <property name="topMargin">
+            <number>5</number>
+           </property>
+           <property name="rightMargin">
+            <number>5</number>
+           </property>
+           <property name="bottomMargin">
+            <number>5</number>
+           </property>
+           <item>
+            <widget class="QPushButton" name="ui_other_fs">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>20</width>
+               <height>33</height>
+              </size>
+             </property>
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">background: rgba(255, 255, 255, 0)</string>
+             </property>
+             <property name="text">
+              <string>OTHER</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="ui_label_Lookin">
+             <property name="text">
+              <string>Look in:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="ui_DirList">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>11</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>120</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="top_buttongroup_right">
+         <item>
+          <widget class="QPushButton" name="ui_mkdir">
            <property name="minimumSize">
             <size>
              <width>32</width>
@@ -67,59 +121,144 @@
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(28, 113, 195);
+color: white;
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+font: bold 16px;
+border-color: black;
+padding: 7px;
+width: 105px</string>
+           </property>
            <property name="text">
-            <string>OTHER</string>
+            <string>New Folder</string>
            </property>
           </widget>
          </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QListWidget" name="ui_fs_serverlist">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>270</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="Files_vertical" stretch="0,0,0">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="spacing">
+          <number>6</number>
+         </property>
+         <property name="leftMargin">
+          <number>270</number>
+         </property>
+         <property name="topMargin">
+          <number>5</number>
+         </property>
+         <property name="rightMargin">
+          <number>5</number>
+         </property>
+         <property name="bottomMargin">
+          <number>8</number>
+         </property>
          <item>
-          <widget class="QLabel" name="ui_label_Lookin">
-           <property name="text">
-            <string>Look in:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="ui_DirList">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+          <widget class="QPushButton" name="ui_Action">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
            <property name="minimumSize">
             <size>
-             <width>380</width>
-             <height>0</height>
+             <width>100</width>
+             <height>32</height>
             </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>104</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton:enabled {
+    background-color: lightgreen;
+    color: black;
+    border-style: outset;
+    border-width: 1px;
+    border-radius: 10px;
+    font: bold 14px;
+    border-color: black;
+    padding: 6px;
+    max-width: 90px;
+}
+
+QPushButton:disabled {
+    background-color: grey;
+    color: black;
+    border-style: outset;
+    border-width: 1px;
+    border-radius: 10px;
+    font: bold 14px;
+    border-color: black;
+    padding: 6px;
+    max-width: 90px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Open</string>
            </property>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="top_buttongroup_right">
-           <item>
-            <widget class="QPushButton" name="ui_mkdir">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>32</width>
-               <height>32</height>
-              </size>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::NoFocus</enum>
-             </property>
-             <property name="text">
-              <string>MD</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <widget class="QPushButton" name="ui_Cancel">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>32</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>200</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">background-color: red;
+color: white;
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+font: bold 14px;
+border-color: black;
+max-width: 90px;
+
+</string>
+           </property>
+           <property name="text">
+            <string>Cancel</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -196,45 +335,6 @@
             <widget class="QComboBox" name="ui_FileType">
              <property name="editable">
               <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QGridLayout" name="Open_Cancel_grid">
-           <item row="0" column="0">
-            <widget class="QPushButton" name="ui_Action">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::NoFocus</enum>
-             </property>
-             <property name="text">
-              <string>Open</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QPushButton" name="ui_Cancel">
-             <property name="minimumSize">
-              <size>
-               <width>80</width>
-               <height>25</height>
-              </size>
-             </property>
-             <property name="focusPolicy">
-              <enum>Qt::NoFocus</enum>
-             </property>
-             <property name="text">
-              <string>Cancel</string>
              </property>
             </widget>
            </item>
