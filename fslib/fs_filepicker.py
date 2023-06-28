@@ -263,6 +263,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.verticalHeader().setVisible(False)
         self.ui_FileList.horizontalHeader().setVisible(True)
         self.ui_FileList.setHorizontalHeaderLabels(["Name", "Size", "Modified"])
+        self.ui_FileList.setColumnWidth(1, 110)
         self.ui_FileList.setShowGrid(False)
         self.ui_FileList.setSizeAdjustPolicy(
             QtWidgets.QAbstractScrollArea.AdjustToContents
@@ -331,7 +332,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             index, 0, WidgetImage(fs.path.basename(list(item)[0]), icon, item)
         )
         time.sleep(0.001)
-        _item = " " * spaces + fs.path.basename(list(item)[0])
+        _item = " " * spaces + "    " + fs.path.basename(list(item)[0])
         _ti = TableWidgetItem(_item)
         if _size == "Folder":
             _ti.setWhatsThis("Directory")
