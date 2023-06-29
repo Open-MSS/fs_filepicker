@@ -33,7 +33,7 @@ import fs
 import fs.path
 from fs.opener import parse
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage, QMessageBox
+from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage, QMessageBox, QMenu
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 from fslib import ui_filepicker, __version__
@@ -71,6 +71,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.setWindowIcon(QIcon(icons("fs_logo.png", origin="fs")))
         self.file_icon = icons("text-x-generic.png")
         self.dir_icon = icons("folder.png")
+        self.remove_icon = icons("remove.png")
         self.selected_dir = None
         self.selected_file_pattern = None
         self.filename = None
@@ -110,6 +111,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.itemClicked.connect(self.show_name)
         self.ui_mkdir.clicked.connect(self.make_dir)
         self.ui_other_fs.clicked.connect(self.other_fs_button)
+        self.search_icon.clicked.connect(self.activate_search)
         self.ui_FileList.cellClicked.connect(self.onCellClicked)
         self.ui_FileList.cellDoubleClicked.connect(self.onCellDoubleClicked)
         self.ui_FileList.setSelectionBehavior(QAbstractItemView.SelectRows)
@@ -118,7 +120,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_fs_serverlist.customContextMenuRequested.connect(
             self.fs_select_other_context
         )
-        # ToDo check order of calls
+        self.filterRemoveAction = self.filelist_search.addAction(QIcon(self.remove_icon),
+                                                                  QtWidgets.QLineEdit.TrailingPosition)
+        self.filterRemoveAction.setVisible(True)
+        self.filterRemoveAction.setToolTip("Click to remove the filter")
+        self.filterRemoveAction.triggered.connect(lambda: self.filelist_search.setText(""))
+        self.filelist_search.textChanged.connect(self.search_files)
         self.active_url = self.fs_url
         self.select_fs()
 
@@ -156,6 +163,15 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_other_fs.setText("")
         self.ui_other_fs.setIconSize(QtCore.QSize(64, 64))
         self.ui_other_fs.setIcon(QIcon(icons("fs_logo.png", origin="fs")))
+        search_icon = QIcon(icons("search.png", origin="fs"))
+        search_icon = search_icon.pixmap(QtCore.QSize(64, 64)).scaled(32, 32, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+        self.search_icon.setText("")
+        self.search_icon.setIcon(QIcon(search_icon))
+        self.search_icon.setEnabled(False)
+        self.search_icon.setIconSize(QtCore.QSize(32, 32))
+
+    def activate_search(self):
+        self.filelist_search.setFocus()
 
     def other_fs_button(self):
         fs_url, ok = QInputDialog.getText(self, "Other FS Urls", "Enter FS Url:")
@@ -247,10 +263,39 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.ui_DirList.addItem(item)
         self.ui_DirList.setCurrentIndex(self.last_dir_index)
 
+    def search_files(self):
+        text = self.filelist_search.text()
+        for row in range(self.ui_FileList.rowCount()):
+            item = self.ui_FileList.item(row, 0)
+            name = item.text()
+            if text.lower() in name.lower():
+                self.ui_FileList.setRowHidden(row, False)
+            else:
+                self.ui_FileList.setRowHidden(row, True)
+
+    def add_files_and_folders(self):
+        for key in self.file_tree:
+            temp = self.file_tree[key]
+            if temp["Type"] == "Folder":
+                item = QtWidgets.QTreeWidgetItem(self.ui_fs_filelist)
+                item.setIcon(0, QIcon(self.dir_icon))
+                item.setText(0, key)
+                item.setExpanded(False)
+            elif temp["Type"] == "File":
+                item = QtWidgets.QTreeWidgetItem(self.ui_fs_filelist)
+                item.setIcon(0, QIcon(self.file_icon))
+                item.setText(0, key)
+
+            if temp["Type"] == "Folder":
+                for values in temp["Files"]:
+                    items = QtWidgets.QTreeWidgetItem(item)
+                    items.setText(0, values)
     def selection_directory(self):
         """
         Fills the filenames based on file_type into a FileList, also directories
         """
+        self.file_tree = {}
+        self.ui_fs_filelist.clear()
         self.wparm = None
         if not self.show_save_action:
             self.ui_SelectedName.setText("")
@@ -263,6 +308,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.verticalHeader().setVisible(False)
         self.ui_FileList.horizontalHeader().setVisible(True)
         self.ui_FileList.setHorizontalHeaderLabels(["Name", "Size", "Modified"])
+        self.ui_FileList.setColumnWidth(1, 110)
         self.ui_FileList.setShowGrid(False)
         self.ui_FileList.setSizeAdjustPolicy(
             QtWidgets.QAbstractScrollArea.AdjustToContents
@@ -297,9 +343,11 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                             if not self.show_dirs_only:
                                 info = self.get_info(_item)
                                 self.file_list_items.append({_item: info})
+                                self.file_tree[_item] = dict(Type = "File")
                         elif self.fs.isdir(_item):
                             info = self.get_info(_item)
                             self.dir_list_items.append({_item: info})
+                            self.file_tree[_item] = dict(Type = "Folder", Files = ["a", "b", "c", "d"])
                     except (fs.errors.PermissionDenied, fs.errors.OperationFailed):
                         logging.info("can't access {}".format(item))
             except UnicodeDecodeError as e:
@@ -308,6 +356,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.setRowCount(
             len(self.file_list_items) + len(self.dir_list_items)
         )
+        # print(self.file_list_items, "files")
+        # print(self.dir_list_items, "directories")
         index = 0
         for item in self.dir_list_items:
             self.table_row(item, index, self.dir_icon, FOLDER_SPACES, folder=True)
@@ -320,6 +370,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.ui_FileList.currentItem() is not None:
                 self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
         self.ui_FileList.resizeRowsToContents()
+        self.add_files_and_folders()
         QtWidgets.QApplication.restoreOverrideCursor()
 
     def table_row(self, item, index, icon, spaces, folder):
@@ -331,7 +382,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             index, 0, WidgetImage(fs.path.basename(list(item)[0]), icon, item)
         )
         time.sleep(0.001)
-        _item = " " * spaces + fs.path.basename(list(item)[0])
+        _item = " " * spaces + "    " + fs.path.basename(list(item)[0])
         _ti = TableWidgetItem(_item)
         if _size == "Folder":
             _ti.setWhatsThis("Directory")
