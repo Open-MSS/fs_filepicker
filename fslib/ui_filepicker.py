@@ -194,13 +194,3 @@ class Ui_Dialog(object):
         self.ui_FileList.setSortingEnabled(True)
         self.ui_label_filename.setText(_translate("Dialog", "File name: "))
         self.ui_label_filetype.setText(_translate("Dialog", "Files of type:"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())
