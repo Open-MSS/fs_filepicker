@@ -8,6 +8,8 @@
     <y>0</y>
     <width>847</width>
     <height>577</height>
+    <width>847</width>
+    <height>577</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,13 +23,16 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../fsfp/Menu/fsfp.ico</normaloff>../../fsfp/Menu/fsfp.ico</iconset>
+    <normaloff>../../../../fsfp/Menu/fsfp.ico</normaloff>../../../../fsfp/Menu/fsfp.ico</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <layout class="QHBoxLayout" name="main_horizontal">
      <item>
       <layout class="QVBoxLayout" name="fs_buttons_vertical">
+       <property name="topMargin">
+        <number>0</number>
+       </property>
        <property name="topMargin">
         <number>0</number>
        </property>
