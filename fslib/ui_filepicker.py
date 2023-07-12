@@ -21,7 +21,11 @@ class Ui_Dialog(object):
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../../../fsfp/Menu/fsfp.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap("../../fsfp/Menu/fsfp.ico"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         Dialog.setWindowIcon(icon)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -80,8 +84,20 @@ class Ui_Dialog(object):
         self.ui_mkdir.setObjectName("ui_mkdir")
         self.top_buttongroup_right.addWidget(self.ui_mkdir)
         self.fs_buttons_vertical.addLayout(self.top_buttongroup_right)
+        self.horizontalLayout_4 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_4.setObjectName("horizontalLayout_4")
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_4.addItem(spacerItem)
+        self.back_bt = QtWidgets.QPushButton(Dialog)
+        self.back_bt.setObjectName("back_bt")
+        self.horizontalLayout_4.addWidget(self.back_bt)
+        self.forward_bt = QtWidgets.QPushButton(Dialog)
+        self.forward_bt.setObjectName("forward_bt")
+        self.horizontalLayout_4.addWidget(self.forward_bt)
+        self.fs_buttons_vertical.addLayout(self.horizontalLayout_4)
         self.ui_fs_filelist = QtWidgets.QTreeWidget(Dialog)
         self.ui_fs_filelist.setObjectName("ui_fs_filelist")
+        self.ui_fs_filelist.headerItem().setText(0, "Folders")
         self.fs_buttons_vertical.addWidget(self.ui_fs_filelist)
         self.ui_fs_serverlist = QtWidgets.QListWidget(Dialog)
         self.ui_fs_serverlist.setEnabled(True)
@@ -100,7 +116,7 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.search_icon = QtWidgets.QPushButton(Dialog)
         self.search_icon.setMinimumSize(QtCore.QSize(56, 33))
-        self.search_icon.setStyleSheet("background: rgba(255, 255, 255, 0)")
+        self.search_icon.setStyleSheet("")
         self.search_icon.setObjectName("search_icon")
         self.horizontalLayout_2.addWidget(self.search_icon, 0, QtCore.Qt.AlignLeft)
         self.filelist_search = QtWidgets.QLineEdit(Dialog)
@@ -143,7 +159,6 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.ui_Action)
         self.ui_Cancel = QtWidgets.QPushButton(Dialog)
         self.ui_Cancel.setMinimumSize(QtCore.QSize(100, 32))
-        self.ui_Cancel.setMaximumSize(QtCore.QSize(92, 16777215))
         self.ui_Cancel.setFocusPolicy(QtCore.Qt.NoFocus)
         self.ui_Cancel.setStyleSheet("background-color: red;\n"
 "color: white;\n"
@@ -207,19 +222,12 @@ class Ui_Dialog(object):
         self.ui_other_fs.setText(_translate("Dialog", "OTHER"))
         self.ui_label_Lookin.setText(_translate("Dialog", "Look in:"))
         self.ui_mkdir.setText(_translate("Dialog", "New Folder"))
+        self.back_bt.setText(_translate("Dialog", "Back"))
+        self.forward_bt.setText(_translate("Dialog", "Forward"))
+        self.search_icon.setToolTip(_translate("Dialog", "Click to switch betwen files and folder search."))
         self.search_icon.setText(_translate("Dialog", "Search"))
         self.ui_Action.setText(_translate("Dialog", "Open"))
         self.ui_Cancel.setText(_translate("Dialog", "Cancel"))
         self.ui_FileList.setSortingEnabled(True)
         self.ui_label_filename.setText(_translate("Dialog", "File name: "))
         self.ui_label_filetype.setText(_translate("Dialog", "Files of type:"))
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())

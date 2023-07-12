@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../fsfp/Menu/fsfp.ico</normaloff>../../../../../fsfp/Menu/fsfp.ico</iconset>
+    <normaloff>../../fsfp/Menu/fsfp.ico</normaloff>../../fsfp/Menu/fsfp.ico</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -140,7 +140,44 @@ width: 105px</string>
         </layout>
        </item>
        <item>
-        <widget class="QTreeWidget" name="ui_fs_filelist"/>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QPushButton" name="back_bt">
+           <property name="text">
+            <string>Back</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="forward_bt">
+           <property name="text">
+            <string>Forward</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QTreeWidget" name="ui_fs_filelist">
+         <column>
+          <property name="text">
+           <string notr="true">Folders</string>
+          </property>
+         </column>
+        </widget>
        </item>
        <item>
         <widget class="QListWidget" name="ui_fs_serverlist">
@@ -190,8 +227,11 @@ width: 105px</string>
              <height>33</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Click to switch betwen files and folder search.</string>
+           </property>
            <property name="styleSheet">
-            <string notr="true">background: rgba(255, 255, 255, 0)</string>
+            <string notr="true"/>
            </property>
            <property name="text">
             <string>Search</string>
@@ -264,12 +304,6 @@ QPushButton:disabled {
             <size>
              <width>100</width>
              <height>32</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>92</width>
-             <height>16777215</height>
             </size>
            </property>
            <property name="focusPolicy">
