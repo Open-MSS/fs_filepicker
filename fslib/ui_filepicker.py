@@ -21,7 +21,11 @@ class Ui_Dialog(object):
         sizePolicy.setHeightForWidth(Dialog.sizePolicy().hasHeightForWidth())
         Dialog.setSizePolicy(sizePolicy)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("../../../../fsfp/Menu/fsfp.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(
+            QtGui.QPixmap("../../fsfp/Menu/fsfp.ico"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
+        )
         Dialog.setWindowIcon(icon)
         self.verticalLayout = QtWidgets.QVBoxLayout(Dialog)
         self.verticalLayout.setObjectName("verticalLayout")
@@ -29,14 +33,7 @@ class Ui_Dialog(object):
         self.main_horizontal.setObjectName("main_horizontal")
         self.fs_buttons_vertical = QtWidgets.QVBoxLayout()
         self.fs_buttons_vertical.setContentsMargins(-1, 0, -1, -1)
-        self.fs_buttons_vertical.setContentsMargins(-1, 0, -1, -1)
         self.fs_buttons_vertical.setObjectName("fs_buttons_vertical")
-        self.verticalLayout_2 = QtWidgets.QVBoxLayout()
-        self.verticalLayout_2.setObjectName("verticalLayout_2")
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setContentsMargins(5, 5, 5, 5)
-        self.horizontalLayout.setSpacing(3)
-        self.horizontalLayout.setObjectName("horizontalLayout")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout()
         self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -46,28 +43,19 @@ class Ui_Dialog(object):
         self.ui_other_fs = QtWidgets.QPushButton(Dialog)
         self.ui_other_fs.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        self.ui_other_fs.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.ui_other_fs.sizePolicy().hasHeightForWidth())
         self.ui_other_fs.setSizePolicy(sizePolicy)
         self.ui_other_fs.setMinimumSize(QtCore.QSize(20, 33))
-        self.ui_other_fs.setMinimumSize(QtCore.QSize(20, 33))
         self.ui_other_fs.setFocusPolicy(QtCore.Qt.NoFocus)
         self.ui_other_fs.setStyleSheet("background: rgba(255, 255, 255, 0)")
-        self.ui_other_fs.setStyleSheet("background: rgba(255, 255, 255, 0)")
         self.ui_other_fs.setObjectName("ui_other_fs")
-        self.horizontalLayout.addWidget(self.ui_other_fs)
         self.horizontalLayout.addWidget(self.ui_other_fs)
         self.ui_label_Lookin = QtWidgets.QLabel(Dialog)
         self.ui_label_Lookin.setObjectName("ui_label_Lookin")
         self.horizontalLayout.addWidget(self.ui_label_Lookin)
-        self.horizontalLayout.addWidget(self.ui_label_Lookin)
         self.ui_DirList = QtWidgets.QComboBox(Dialog)
-        self.ui_DirList.setEnabled(True)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(11)
         self.ui_DirList.setEnabled(True)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(11)
@@ -75,11 +63,7 @@ class Ui_Dialog(object):
         sizePolicy.setHeightForWidth(self.ui_DirList.sizePolicy().hasHeightForWidth())
         self.ui_DirList.setSizePolicy(sizePolicy)
         self.ui_DirList.setMinimumSize(QtCore.QSize(120, 0))
-        self.ui_DirList.setMinimumSize(QtCore.QSize(120, 0))
         self.ui_DirList.setObjectName("ui_DirList")
-        self.horizontalLayout.addWidget(self.ui_DirList)
-        self.verticalLayout_2.addLayout(self.horizontalLayout)
-        self.fs_buttons_vertical.addLayout(self.verticalLayout_2)
         self.horizontalLayout.addWidget(self.ui_DirList)
         self.verticalLayout_2.addLayout(self.horizontalLayout)
         self.fs_buttons_vertical.addLayout(self.verticalLayout_2)
@@ -88,15 +72,6 @@ class Ui_Dialog(object):
         self.ui_mkdir = QtWidgets.QPushButton(Dialog)
         self.ui_mkdir.setMinimumSize(QtCore.QSize(32, 32))
         self.ui_mkdir.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.ui_mkdir.setStyleSheet("background-color: rgb(28, 113, 195);\n"
-"color: white;\n"
-"border-style: outset;\n"
-"border-width: 1px;\n"
-"border-radius: 10px;\n"
-"font: bold 16px;\n"
-"border-color: black;\n"
-"padding: 7px;\n"
-"width: 105px")
         self.ui_mkdir.setStyleSheet("background-color: rgb(28, 113, 195);\n"
 "color: white;\n"
 "border-style: outset;\n"
@@ -256,5 +231,3 @@ class Ui_Dialog(object):
         self.ui_FileList.setSortingEnabled(True)
         self.ui_label_filename.setText(_translate("Dialog", "File name: "))
         self.ui_label_filetype.setText(_translate("Dialog", "Files of type:"))
-        self.ui_Action.setText(_translate("Dialog", "Open"))
-        self.ui_Cancel.setText(_translate("Dialog", "Cancel"))
