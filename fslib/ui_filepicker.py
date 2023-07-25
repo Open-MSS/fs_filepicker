@@ -224,7 +224,7 @@ class Ui_Dialog(object):
         self.ui_mkdir.setText(_translate("Dialog", "New Folder"))
         self.back_bt.setText(_translate("Dialog", "Back"))
         self.forward_bt.setText(_translate("Dialog", "Forward"))
-        self.search_icon.setToolTip(_translate("Dialog", "Click to switch betwen files and folder search."))
+        self.search_icon.setToolTip(_translate("Dialog", "Click to switch betwen files and folder search. Search in current dir only."))
         self.search_icon.setText(_translate("Dialog", "Search"))
         self.ui_Action.setText(_translate("Dialog", "Open"))
         self.ui_Cancel.setText(_translate("Dialog", "Cancel"))

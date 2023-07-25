@@ -33,7 +33,7 @@ import fs
 import fs.path
 from fs.opener import parse
 from PyQt5 import QtWidgets, QtCore
-from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage, QMessageBox, QMenu
+from PyQt5.QtWidgets import QAbstractItemView, QInputDialog, QErrorMessage, QMessageBox
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSettings
 from fslib import ui_filepicker, __version__
@@ -69,8 +69,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.setupUi(self)
         self.settings = QSettings("fs_filepicker", self.scope)
         self.setWindowIcon(QIcon(icons("fs_logo.png", origin="fs")))
-        self.file_icon = icons("text-x-generic.png")
-        self.dir_icon = icons("folder.png")
+        self.file_icon = icons("text-x-generic.png", origin="flaticon")
+        self.dir_icon = icons("folder.png", origin="flaticon")
         self.remove_icon = icons("remove.png")
         self.selected_dir = None
         self.selected_file_pattern = None
@@ -155,6 +155,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                     self.ui_FileType.setCurrentIndex(idx)
                 idx += 1
         if self.show_dirs_only:
+            self.search_icon.setIcon(QIcon(self.search_icon_folder))
+            self.search_icon.setEnabled(False)
+            self.ui_fs_filelist.hide()
             self.ui_label_filename.hide()
             self.ui_label_filetype.hide()
             self.ui_FileType.hide()
@@ -167,9 +170,9 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_other_fs.setText("")
         self.ui_other_fs.setIconSize(QtCore.QSize(64, 64))
         self.ui_other_fs.setIcon(QIcon(icons("fs_logo.png", origin="fs")))
-        self.search_icon_file = QIcon(icons("search_file.png", origin="fs"))
+        self.search_icon_file = QIcon(icons("search_file.png", origin="flaticon"))
         self.search_icon_file = self.search_icon_file.pixmap(QtCore.QSize(64, 64)).scaled(32, 32, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
-        self.search_icon_folder = QIcon(icons("search_folder.png", origin="fs"))
+        self.search_icon_folder = QIcon(icons("search_folder.png", origin="flaticon"))
         self.search_icon_folder = self.search_icon_folder.pixmap(QtCore.QSize(64, 64)).scaled(32, 32, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
         self.search_icon.setText("")
         self.search_icon.setIcon(QIcon(self.search_icon_file))
@@ -389,6 +392,12 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_FileList.setRowCount(
             len(self.file_list_items))
         index = 0
+        if self.show_dirs_only:
+            self.ui_FileList.setRowCount(
+            len(self.dir_list_items))
+            for item in self.dir_list_items:
+                self.table_row(item, index, self.dir_icon, FOLDER_SPACES, folder=True)
+                index = index + 1
         for item in self.file_list_items:
             self.table_row(item, index, self.file_icon, FILES_SPACES, folder=False)
             index = index + 1
@@ -397,7 +406,8 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             if self.ui_FileList.currentItem() is not None:
                 self.ui_SelectedName.setText(self.ui_FileList.currentItem().text())
         self.ui_FileList.resizeRowsToContents()
-        self.add_files_and_folders()
+        if not self.show_dirs_only:
+            self.add_files_and_folders()
         QtWidgets.QApplication.restoreOverrideCursor()
 
     def table_row(self, item, index, icon, spaces, folder):

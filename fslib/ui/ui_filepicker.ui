@@ -228,7 +228,7 @@ width: 105px</string>
             </size>
            </property>
            <property name="toolTip">
-            <string>Click to switch betwen files and folder search.</string>
+            <string>Click to switch betwen files and folder search. Search in current dir only.</string>
            </property>
            <property name="styleSheet">
             <string notr="true"/>
