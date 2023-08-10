@@ -92,8 +92,8 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         self.window.action()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
-        assert fs.path.join("foo", "foo.txt") in _file_names
-        assert len(self.window.file_list_items) == 2
+        assert "foo.txt" in _file_names
+        assert len(self.window.file_list_items) == 3
 
     def test_showname_close(self):
         self.window.show_name()
