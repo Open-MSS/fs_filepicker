@@ -522,7 +522,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
                 ]
             if _filename in _file_names:
                 self.ui_Action.setEnabled(True)
-                index = _file_names.index(_filename) + len(self.dir_list_items)
+                index = _file_names.index(_filename)
                 self.ui_FileList.selectRow(index)
             else:
                 if not self.show_save_action:
