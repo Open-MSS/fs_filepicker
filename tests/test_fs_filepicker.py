@@ -442,7 +442,8 @@ class Test_Save_FilePicker_default(object):
     def test_action_in_subdir(self, mockwarning, mockinformation):
         self.window.ui_FileList.selectRow(0)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellDoubleClicked(0, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(0)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         self.window.ui_FileList.selectRow(0)
         QtWidgets.QApplication.processEvents()
