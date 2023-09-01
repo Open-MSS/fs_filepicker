@@ -73,14 +73,14 @@ class Ui_Dialog(object):
         self.ui_mkdir.setMinimumSize(QtCore.QSize(32, 32))
         self.ui_mkdir.setFocusPolicy(QtCore.Qt.NoFocus)
         self.ui_mkdir.setStyleSheet("background-color: rgb(28, 113, 195);\n"
-"color: white;\n"
-"border-style: outset;\n"
-"border-width: 1px;\n"
-"border-radius: 10px;\n"
-"font: bold 16px;\n"
-"border-color: black;\n"
-"padding: 7px;\n"
-"width: 105px")
+                                    "color: white;\n"
+                                    "border-style: outset;\n"
+                                    "border-width: 1px;\n"
+                                    "border-radius: 10px;\n"
+                                    "font: bold 16px;\n"
+                                    "border-color: black;\n"
+                                    "padding: 7px;\n"
+                                    "width: 105px")
         self.ui_mkdir.setObjectName("ui_mkdir")
         self.top_buttongroup_right.addWidget(self.ui_mkdir)
         self.fs_buttons_vertical.addLayout(self.top_buttongroup_right)
@@ -133,43 +133,43 @@ class Ui_Dialog(object):
         self.ui_Action.setMinimumSize(QtCore.QSize(100, 32))
         self.ui_Action.setFocusPolicy(QtCore.Qt.NoFocus)
         self.ui_Action.setStyleSheet("QPushButton:enabled {\n"
-"    background-color: lightgreen;\n"
-"    color: black;\n"
-"    border-style: outset;\n"
-"    border-width: 1px;\n"
-"    border-radius: 10px;\n"
-"    font: bold 14px;\n"
-"    border-color: black;\n"
-"    padding: 6px;\n"
-"    max-width: 90px;\n"
-"}\n"
-"\n"
-"QPushButton:disabled {\n"
-"    background-color: grey;\n"
-"    color: black;\n"
-"    border-style: outset;\n"
-"    border-width: 1px;\n"
-"    border-radius: 10px;\n"
-"    font: bold 14px;\n"
-"    border-color: black;\n"
-"    padding: 6px;\n"
-"    max-width: 90px;\n"
-"}")
+                                     "    background-color: lightgreen;\n"
+                                     "    color: black;\n"
+                                     "    border-style: outset;\n"
+                                     "    border-width: 1px;\n"
+                                     "    border-radius: 10px;\n"
+                                     "    font: bold 14px;\n"
+                                     "    border-color: black;\n"
+                                     "    padding: 6px;\n"
+                                     "    max-width: 90px;\n"
+                                     "}\n"
+                                     "\n"
+                                     "QPushButton:disabled {\n"
+                                     "    background-color: grey;\n"
+                                     "    color: black;\n"
+                                     "    border-style: outset;\n"
+                                     "    border-width: 1px;\n"
+                                     "    border-radius: 10px;\n"
+                                     "    font: bold 14px;\n"
+                                     "    border-color: black;\n"
+                                     "    padding: 6px;\n"
+                                     "    max-width: 90px;\n"
+                                     "}")
         self.ui_Action.setObjectName("ui_Action")
         self.horizontalLayout_2.addWidget(self.ui_Action)
         self.ui_Cancel = QtWidgets.QPushButton(Dialog)
         self.ui_Cancel.setMinimumSize(QtCore.QSize(100, 32))
         self.ui_Cancel.setFocusPolicy(QtCore.Qt.NoFocus)
         self.ui_Cancel.setStyleSheet("background-color: red;\n"
-"color: white;\n"
-"border-style: outset;\n"
-"border-width: 1px;\n"
-"border-radius: 10px;\n"
-"font: bold 14px;\n"
-"border-color: black;\n"
-"max-width: 90px;\n"
-"\n"
-"")
+                                     "color: white;\n"
+                                     "border-style: outset;\n"
+                                     "border-width: 1px;\n"
+                                     "border-radius: 10px;\n"
+                                     "font: bold 14px;\n"
+                                     "border-color: black;\n"
+                                     "max-width: 90px;\n"
+                                     "\n"
+                                     "")
         self.ui_Cancel.setObjectName("ui_Cancel")
         self.horizontalLayout_2.addWidget(self.ui_Cancel)
         self.Files_vertical.addLayout(self.horizontalLayout_2)
@@ -224,7 +224,10 @@ class Ui_Dialog(object):
         self.ui_mkdir.setText(_translate("Dialog", "New Folder"))
         self.back_bt.setText(_translate("Dialog", "Back"))
         self.forward_bt.setText(_translate("Dialog", "Forward"))
-        self.search_icon.setToolTip(_translate("Dialog", "Click to switch betwen files and folder search. Search in current dir only."))
+        self.search_icon.setToolTip(
+            _translate("Dialog",
+                       "Click to switch between files and folder search. "
+                       "Search in current dir only."))
         self.search_icon.setText(_translate("Dialog", "Search"))
         self.ui_Action.setText(_translate("Dialog", "Open"))
         self.ui_Cancel.setText(_translate("Dialog", "Cancel"))

@@ -124,7 +124,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             self.fs_select_other_context
         )
         self.filterRemoveAction = self.filelist_search.addAction(QIcon(self.remove_icon),
-                                                                  QtWidgets.QLineEdit.TrailingPosition)
+                                                                 QtWidgets.QLineEdit.TrailingPosition)
         self.filterRemoveAction.setVisible(True)
         self.filterRemoveAction.setToolTip("Click to remove the filter")
         self.filterRemoveAction.triggered.connect(lambda: self.filelist_search.setText(""))
@@ -171,20 +171,40 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         self.ui_other_fs.setIconSize(QtCore.QSize(64, 64))
         self.ui_other_fs.setIcon(QIcon(icons("fs_logo.png", origin="fs")))
         self.search_icon_file = QIcon(icons("search_file.png", origin="flaticon"))
-        self.search_icon_file = self.search_icon_file.pixmap(QtCore.QSize(64, 64)).scaled(32, 32, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+        self.search_icon_file = self.search_icon_file.pixmap(QtCore.QSize(64, 64)).scaled(32, 32,
+                                                                                          QtCore.Qt.
+                                                                                          AspectRatioMode.
+                                                                                          KeepAspectRatio,
+                                                                                          QtCore.Qt.
+                                                                                          SmoothTransformation)
         self.search_icon_folder = QIcon(icons("search_folder.png", origin="flaticon"))
-        self.search_icon_folder = self.search_icon_folder.pixmap(QtCore.QSize(64, 64)).scaled(32, 32, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+        self.search_icon_folder = self.search_icon_folder.pixmap(QtCore.QSize(64, 64)).scaled(32, 32,
+                                                                                              QtCore.Qt.
+                                                                                              AspectRatioMode.
+                                                                                              KeepAspectRatio,
+                                                                                              QtCore.Qt.
+                                                                                              SmoothTransformation)
         self.search_icon.setText("")
         self.search_icon.setIcon(QIcon(self.search_icon_file))
         self.search_icon.setEnabled(True)
         self.search_icon.setIconSize(QtCore.QSize(32, 32))
         back_icon = QIcon(icons("go-previous.png", origin="tango"))
-        back_icon = back_icon.pixmap(QtCore.QSize(64, 64)).scaled(32, 32, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+        back_icon = back_icon.pixmap(QtCore.QSize(64, 64)).scaled(32, 32,
+                                                                  QtCore.Qt.
+                                                                  AspectRatioMode.
+                                                                  KeepAspectRatio,
+                                                                  QtCore.Qt.
+                                                                  SmoothTransformation)
         self.back_bt.setText("")
         self.back_bt.setIcon(QIcon(back_icon))
         self.back_bt.setIconSize(QtCore.QSize(32, 32))
         forward_icon = QIcon(icons("go-next.png", origin="tango"))
-        forward_icon = forward_icon.pixmap(QtCore.QSize(64, 64)).scaled(32, 32, QtCore.Qt.AspectRatioMode.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
+        forward_icon = forward_icon.pixmap(QtCore.QSize(64, 64)).scaled(32, 32,
+                                                                        QtCore.Qt.
+                                                                        AspectRatioMode.
+                                                                        KeepAspectRatio,
+                                                                        QtCore.Qt.
+                                                                        SmoothTransformation)
         self.forward_bt.setText("")
         self.forward_bt.setIcon(QIcon(forward_icon))
         self.forward_bt.setIconSize(QtCore.QSize(32, 32))
@@ -320,7 +340,6 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
 
     def add_files_and_folders(self):
         for item in self.dir_list_items:
-            info = list(item.values())[0]
             path = list(item.keys())[0]
             name = fs.path.basename(list(item)[0])
             item1 = QtWidgets.QTreeWidgetItem(self.ui_fs_filelist)
@@ -329,6 +348,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
             item1.setText(0, name)
             item1.setData(0, QtCore.Qt.UserRole, path)
             item1.setChildIndicatorPolicy(QtWidgets.QTreeWidgetItem.ShowIndicator)
+
     def selection_directory(self):
         """
         Fills the filenames based on file_type into a FileList, also directories
@@ -394,7 +414,7 @@ class FilePicker(QtWidgets.QDialog, ui_filepicker.Ui_Dialog):
         index = 0
         if self.show_dirs_only:
             self.ui_FileList.setRowCount(
-            len(self.dir_list_items))
+                len(self.dir_list_items))
             for item in self.dir_list_items:
                 self.table_row(item, index, self.dir_icon, FOLDER_SPACES, folder=True)
                 index = index + 1
