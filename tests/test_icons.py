@@ -29,5 +29,11 @@ from fslib.icons import icons
 
 
 def test_icons():
-    assert os.path.exists(icons("text-x-generic.png"))
+    assert os.path.exists(icons("text-x-generic.png", origin="flaticon"))
     assert os.path.exists(icons("fs_logo.png", origin="fs"))
+    assert os.path.exists(icons("folder.png", origin="flaticon"))
+    assert os.path.exists(icons("search_file.png", origin="flaticon"))
+    assert os.path.exists(icons("search_folder.png", origin="flaticon"))
+    assert os.path.exists(icons("go-next.png", origin="tango"))
+    assert os.path.exists(icons("go-previous.png", origin="tango"))
+    assert os.path.exists(icons("remove.png", origin="tango"))

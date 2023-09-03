@@ -92,7 +92,7 @@ jobs:
         ; done)
 
     - name: Collect coverage
-      if: ${{ success() && inputs.event_name == 'push' && inputs.branch_name == 'develop' }}
+      if: ${{ success() }}
       env: 
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |

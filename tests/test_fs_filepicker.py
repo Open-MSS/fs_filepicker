@@ -84,7 +84,8 @@ class Test_Open_FilePicker(object):
         index = sorted(SUB_DIRS).index(fs.path.join("testdata", "foo"))
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellDoubleClicked(index, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(index)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         self.window.selection_directory()
 
@@ -104,7 +105,7 @@ class Test_Open_FilePicker(object):
         self.window.show_name()
         filename = "example.csv"
         _file_names = [list(name)[0] for name in self.window.file_list_items]
-        all_items = self.window.dir_list_items + _file_names
+        all_items = _file_names
         index = all_items.index(filename)
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
@@ -143,8 +144,10 @@ class Test_Open_FilePicker(object):
     def test_subdirectory(self):
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
         index = _folder_names.index("bar")
-        self.window.onCellDoubleClicked(index, 0)
-        QtWidgets.QApplication.processEvents()
+        item = self.window.ui_fs_filelist.topLevelItem(index)
+        if item:
+            self.window.onCellDoubleClickedRight(item)
+            QtWidgets.QApplication.processEvents()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
         assert _file_names[0] == fs.path.join("bar", "foo.txt")
         self.window.onCellClicked(0, 0)
@@ -160,7 +163,8 @@ class Test_Open_FilePicker(object):
         assert self.window.filename[7:] == filename
 
     def test_onCellClicked(self):
-        self.window.onCellDoubleClicked(0, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(0)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         self.window.close()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
@@ -187,7 +191,8 @@ class Test_Open_FilePicker(object):
     def test_selectFileinSubDir_andChangeDir(self):
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
         index = _folder_names.index("bar")
-        self.window.onCellDoubleClicked(index, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(index)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
         sel_name = _file_names[0]
@@ -201,7 +206,8 @@ class Test_Open_FilePicker(object):
         # history previous, name not there
         assert self.window.ui_Action.isEnabled() is result
         index = _folder_names.index("bar")
-        self.window.onCellDoubleClicked(index, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(index)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         _file_names = [list(name)[0] for name in self.window.file_list_items]
         sel_name = self.window.ui_SelectedName.text()
@@ -211,7 +217,7 @@ class Test_Open_FilePicker(object):
     def test_open_file_on_doubleClick(self):
         _names = [
             list(name)[0]
-            for name in self.window.dir_list_items + self.window.file_list_items
+            for name in self.window.file_list_items
         ]
         index = _names.index("example.csv")
         self.window.onCellDoubleClicked(index, 0)
@@ -225,12 +231,13 @@ class Test_Open_FilePicker(object):
         self.window.ui_SelectedName.setText("example.csv")
         QtWidgets.QApplication.processEvents()
         index = self.window.ui_FileList.selectedIndexes()[0].row()
-        assert index == 3
+        assert index == 0
         assert self.window.ui_Action.isEnabled()
         index = sorted(SUB_DIRS).index(fs.path.join("testdata", "foo"))
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellDoubleClicked(index, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(index)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         self.window.ui_SelectedName.setText("this.txt")
         QtWidgets.QApplication.processEvents()
@@ -243,7 +250,7 @@ class Test_Open_FilePicker(object):
         QtWidgets.QApplication.processEvents()
         time.sleep(0.1)
         index = self.window.ui_FileList.selectedIndexes()[0].row()
-        assert index == 3
+        assert index == 0
         assert self.window.ui_Action.isEnabled()
         self.window.close()
 
@@ -294,7 +301,8 @@ class Test_Save_FilePicker(object):
         index = sorted(SUB_DIRS).index(fs.path.join("testdata", "foo"))
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellDoubleClicked(index, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(index)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         self.window.ui_SelectedName.setText("this.txt")
         QtWidgets.QApplication.processEvents()
@@ -337,7 +345,8 @@ class Test_Save_FilePicker(object):
         index = sorted(SUB_DIRS).index(fs.path.join("testdata", "empty"))
         self.window.ui_FileList.selectRow(index)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellDoubleClicked(index, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(index)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         self.window.make_dir()
         QtWidgets.QApplication.processEvents()
@@ -353,12 +362,14 @@ class Test_Save_FilePicker(object):
     def test_history_makedir(self, mocktext):
         _folder_names = [list(name)[0] for name in self.window.dir_list_items]
         index = _folder_names.index("empty")
-        self.window.onCellDoubleClicked(index, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(index)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         self.window.ui_DirList.setCurrentIndex(1)
         QtWidgets.QApplication.processEvents()
         index = _folder_names.index("bar")
-        self.window.onCellDoubleClicked(index, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(index)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         self.window.ui_DirList.setCurrentIndex(1)
         QtWidgets.QApplication.processEvents()
@@ -431,7 +442,8 @@ class Test_Save_FilePicker_default(object):
     def test_action_in_subdir(self, mockwarning, mockinformation):
         self.window.ui_FileList.selectRow(0)
         QtWidgets.QApplication.processEvents()
-        self.window.onCellDoubleClicked(0, 0)
+        item = self.window.ui_fs_filelist.topLevelItem(0)
+        self.window.onCellDoubleClickedRight(item)
         QtWidgets.QApplication.processEvents()
         self.window.ui_FileList.selectRow(0)
         QtWidgets.QApplication.processEvents()
