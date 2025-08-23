@@ -21,7 +21,6 @@ requirements:
     - pip
     - python <3.11.0
     - setuptools
-    - future
 
   run:
     - python <3.11.0
@@ -31,7 +30,6 @@ requirements:
     - fs
     - fs.webdavfs
     - fs.sshfs
-    - future
 
 test:
   imports:

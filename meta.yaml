@@ -22,7 +22,6 @@ requirements:
     build:
     - python
     - setuptools
-    - future
 
   run:
     - python
@@ -31,7 +30,6 @@ requirements:
     - fs
     - fs.webdavfs
     - fs.sshfs
-    - future
 
 test:
   imports:
