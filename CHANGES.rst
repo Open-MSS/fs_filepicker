@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.3.9
+-------------
+
+- removing future
+
 
 Version 0.3.8
 ~~~~~~~~~~~~~
