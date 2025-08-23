@@ -43,7 +43,7 @@ setup(
     author="Reimar Bauer",
     author_email="rb.proj@gmail.com",
     license="Apache 2.0",
-    url="https://github.com/ReimarBauer/fs_filepicker",
+    url="https://github.com/Open-MSS/fs_filepicker",
     platforms="any",
     packages=find_packages(),
     namespace_packages=[],
@@ -51,7 +51,6 @@ setup(
     zip_safe=False,
     install_requires=[
         "fs==2.4.16",
-        "future==0.18.3",
         "humanfriendly==10.0",
     ],  # we use conda build recipe
     entry_points={
