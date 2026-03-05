@@ -1,3 +1,6 @@
+⚠️⚠️⚠️ This project is no longer maintained
+Thank you for your attention and support but this project is no longer supported and is currently archived.
+
 fs_filepicker
 ~~~~~~~~~~~~~
 
